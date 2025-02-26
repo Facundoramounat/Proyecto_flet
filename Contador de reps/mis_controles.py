@@ -1,4 +1,5 @@
 import flet as ft
+import pandas as pd
 
 class MyBotonR(ft.Container):
     def __init__(self, text: str, page: ft.Page):
@@ -12,6 +13,66 @@ class MyBotonR(ft.Container):
         self.on_click = lambda e: page.go(f"{page.route}/{text.lower()}")
         self.ink = True
         self.border_radius = 15
+
+class Boton_Enviar(ft.Container):
+    def __init__(self, page: ft.Page):
+        super().__init__()
+        self.content = Texto_Secundario("Enviar", 20, "#27C8B2")
+        self.bgcolor = "#23182E"
+        self.border_radius = 20
+        self.width = page.width / 2.7
+        self.height = self.width / 2.5
+        self.alignment = ft.alignment.center
+        self.visible = False
+
+        def validar_contenido(controls, padre: ft.Column):
+            lista_verificacion = []
+
+            for i in controls:
+                if i.visible == True:
+                    for c in i.controls:
+                        if c.value == "":
+                            c.error_text = "Debes rellenar"
+                            lista_verificacion.append(False)
+
+            if len(lista_verificacion) > 0:
+                padre.update()
+                return False
+            else:
+                return True
+
+        def get_data():
+            padre: ft.Column = self.parent
+            rows_column_controls = padre.controls[1].controls
+            campos_completos = validar_contenido(rows_column_controls, padre.controls[1])
+
+            if campos_completos == False:
+                return 
+
+            reps = []
+            kg = []
+
+            for control in rows_column_controls:
+                if control.visible == False:
+                    break
+
+                reps.append(control.controls[0].value)
+                kg.append(control.controls[1].value)
+
+            return reps, kg
+
+        def enviar(e):
+            try:
+                reps, kg = get_data()
+            except TypeError:
+                return
+            
+            data = {"Reps": reps, "Kg": kg}
+
+            print(pd.DataFrame(data, index= range(1, len(reps) + 1)))
+
+        self.on_click = enviar
+
 
 class Texto_Principal(ft.Text):
     def __init__(self, text, size):
@@ -56,39 +117,31 @@ class Input(ft.TextField):
 class Series(Input):
     def __init__(self, page: ft.Page):
         super().__init__("Series", page)
-        self.value = 0
 
-        def agregar(e):
-            lista_Row = []
+        def change_visible(e):
             try:
                 num = int(e.control.value)
+                
+                if num > 6:
+                    num = 6
+                    e.control.value = 6
             except ValueError:
                 return
 
+            padre: ft.Column = self.parent
+            rows_Column = padre.controls[1].controls
+            boton_enviar = padre.controls[-1]
+            boton_enviar.visible = True
+
+            for i in rows_Column:
+                i.visible = False
+
             for i in range(num):
-                lista_Row.append(
-                    ft.Row(
-                        [
-                            Input("Reps", page),
-                            Input("Kg", page)
-                        ]
-                    )
-                )
-        
-            column = ft.Column(lista_Row)
-            control_column = self.parent #Accede a la Columna de la Vista
+                rows_Column[i].visible = True
 
-            if len(control_column.controls) == 1:
-                control_column.controls.append(column)
-                control_column.update()
-            else:
-                control_column.controls.pop()
-                control_column.controls.append(column)
-                control_column.update()
+            padre.update()
 
-
-
-        self.on_change = agregar
+        self.on_change = change_visible
     
 class Selector(ft.Dropdown):
     def __init__(self, label, page: ft.Page):

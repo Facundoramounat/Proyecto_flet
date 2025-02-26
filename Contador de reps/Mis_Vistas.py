@@ -35,7 +35,37 @@ class VS_Registrar_Opciones(ft.View):
                 horizontal_alignment= ft.CrossAxisAlignment.CENTER
             ),
             ft.Column(
-                [mc.Series(page)],
+                [
+                    mc.Series(page),
+                    ft.Column([
+                            ft.Row([
+                                mc.Input("Reps", page),
+                                mc.Input("Kg", page)
+                            ], visible= False),
+                            ft.Row([
+                                mc.Input("Reps", page),
+                                mc.Input("Kg", page)
+                            ], visible= False),
+                            ft.Row([
+                                mc.Input("Reps", page),
+                                mc.Input("Kg", page)
+                            ], visible= False),
+                            ft.Row([
+                                mc.Input("Reps", page),
+                                mc.Input("Kg", page)
+                            ], visible= False),
+                            ft.Row([
+                                mc.Input("Reps", page),
+                                mc.Input("Kg", page)
+                            ], visible= False),
+                            ft.Row([
+                                mc.Input("Reps", page),
+                                mc.Input("Kg", page)
+                            ], visible= False),
+                    ]),
+                    ft.Column(height= 25),
+                    mc.Boton_Enviar(page)
+                ],
                 width= page.width,
                 horizontal_alignment= ft.CrossAxisAlignment.CENTER
             )
