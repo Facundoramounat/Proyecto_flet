@@ -1,5 +1,6 @@
 import flet as ft
 import pandas as pd
+from time import sleep
 
 class MyBotonR(ft.Container):
     def __init__(self, text: str, page: ft.Page):
@@ -9,7 +10,7 @@ class MyBotonR(ft.Container):
         self.bgcolor = "#F7F5F7"
         self.alignment = ft.alignment.center
         self.width = page.width
-        self.height = 116
+        self.height = 108
         self.on_click = lambda e: page.go(f"{page.route}/{text.lower()}")
         self.ink = True
         self.border_radius = 15
@@ -20,8 +21,8 @@ class Boton_Enviar(ft.Container):
         self.content = Texto_Secundario("Enviar", 20, "#27C8B2")
         self.bgcolor = "#23182E"
         self.border_radius = 20
-        self.width = page.width / 2.7
-        self.height = self.width / 2.5
+        self.width = 150
+        self.height = 60
         self.alignment = ft.alignment.center
         self.visible = False
 
@@ -70,9 +71,21 @@ class Boton_Enviar(ft.Container):
             data = {"Reps": reps, "Kg": kg}
 
             print(pd.DataFrame(data, index= range(1, len(reps) + 1)))
+            page.go(page.views[0].route)
 
-        self.on_click = enviar
+        def animation(e):
+            self.scale = 0.7
+            self.update()
 
+            sleep(0.25)
+
+            self.scale = 1
+            self.update()
+        
+        self.scale = ft.transform.Scale(scale=1)
+        self.animate_scale = ft.animation.Animation(600, ft.AnimationCurve.EASE_IN_OUT)
+        self.on_click = animation
+        self.on_animation_end = enviar
 
 class Texto_Principal(ft.Text):
     def __init__(self, text, size):

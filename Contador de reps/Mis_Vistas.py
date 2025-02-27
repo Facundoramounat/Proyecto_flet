@@ -10,7 +10,7 @@ class VP_Registrar(ft.View):
         super().__init__()
         self.route = "/registrar"
         self.controls = [
-            ft.Column([ft.Text("")], height= 30), #Espacio en blanco
+            ft.AppBar(),
             mc.MyBotonR("Biceps", page),
             mc.MyBotonR("Pecho", page),
             mc.MyBotonR("Triceps", page),
