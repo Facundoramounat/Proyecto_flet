@@ -107,17 +107,19 @@ def main(page: ft.Page):
         ]
     )
 
+    #FilePicker
+    file_picker = ft.FilePicker()
+    page.overlay.append(file_picker)
+
     #Configuracion de la pagina
-    page.go("/registrar")
-    page.on_route_change = cambio_ruta
     page.on_view_pop = view_pop
     page.fonts= {
         "Montserrat": "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap",
         "Bebas Neue": "https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
     }
     page.adaptive = True
+    page.go("/registrar")
+    page.on_route_change = cambio_ruta
     page.update()
-
-    
 
 ft.app(main, name="Contador")

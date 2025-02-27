@@ -18,7 +18,7 @@ class MyBotonR(ft.Container):
 class Boton_Enviar(ft.Container):
     def __init__(self, page: ft.Page):
         super().__init__()
-        self.content = Texto_Secundario("Enviar", 20, "#27C8B2")
+        self.content = Texto_Secundario("Guardar", 20, "#27C8B2")
         self.bgcolor = "#23182E"
         self.border_radius = 25
         self.width = 150
@@ -32,7 +32,7 @@ class Boton_Enviar(ft.Container):
             for i in controls:
                 if i.visible == True:
                     for c in i.controls:
-                        if c.value == "":
+                        if c.value == "" or c.value == None:
                             c.error_text = "Debes rellenar"
                             lista_verificacion.append(False)
 
@@ -44,12 +44,19 @@ class Boton_Enviar(ft.Container):
 
         def get_data():
             padre: ft.Column = self.parent
+            view_parent: ft.View = self.parent.parent
+
             rows_column_controls = padre.controls[1].controls
-            campos_completos = validar_contenido(rows_column_controls, padre.controls[1])
+            ejercicios_column = view_parent.controls[1]
+            contenido_a_evaluar = [ejercicios_column] + rows_column_controls
+
+            campos_completos = validar_contenido(contenido_a_evaluar, view_parent)
 
             if campos_completos == False:
                 return 
-
+            
+            ejercicio = ejercicios_column.controls[0].value
+            variacion = ejercicios_column.controls[1].value
             reps = []
             kg = []
 
@@ -60,17 +67,17 @@ class Boton_Enviar(ft.Container):
                 reps.append(control.controls[0].value)
                 kg.append(control.controls[1].value)
 
-            return reps, kg
+            return ejercicio, variacion, reps, kg
 
-        def enviar(e):
+        def guardar(e):
             try:
-                reps, kg = get_data()
+                ejercicio, variacion, reps, kg = get_data()
             except TypeError:
                 return
             
             data = {"Reps": reps, "Kg": kg}
-
-            print(pd.DataFrame(data, index= range(1, len(reps) + 1)))
+            cuadro = pd.DataFrame(data, index= range(1, len(reps) + 1))
+            filePicker: ft.FilePicker = page.overlay[0]
             page.go(page.views[0].route)
 
         def animation(e):
@@ -85,7 +92,7 @@ class Boton_Enviar(ft.Container):
         self.scale = ft.transform.Scale(scale=1)
         self.animate_scale = ft.animation.Animation(500, ft.AnimationCurve.EASE_IN_OUT)
         self.on_click = animation
-        self.on_animation_end = enviar
+        self.on_animation_end = guardar
 
 class Texto_Principal(ft.Text):
     def __init__(self, text, size):
@@ -127,6 +134,12 @@ class Input(ft.TextField):
         self.border_radius = style.border_radius
         self.width = page.width / 2.15
 
+        def sacar_errorText(e):
+            self.error_text = None
+            self.update()
+
+        self.on_change = sacar_errorText
+
 class Series(Input):
     def __init__(self, page: ft.Page):
         super().__init__("Series", page)
@@ -167,13 +180,21 @@ class Selector(ft.Dropdown):
         self.color = style.color
         self.border_radius = style.border_radius
         self.width = page.width / 1.2
-        self.visible = False
+
+        def sacar_errorText(e):
+            self.error_text = None
+            self.update()
+        self.on_change = sacar_errorText
 
 class Selector_Principal(Selector):
     def __init__(self, label, page, diccionario: dict):
         super().__init__(label, page)
         self.visible = True
         self.options = [ft.dropdown.Option(i) for i in diccionario.keys()]
+
+        def sacar_errorText():
+            self.error_text = None
+            self.update()
 
         def cambiar_variaciones(e):
             padre: ft.Column = self.parent
@@ -184,11 +205,8 @@ class Selector_Principal(Selector):
 
             if len(lista_variaciones) == 1:
                 variaciones_selector.value = lista_variaciones[0]
-                
-
-            if variaciones_selector.visible == False:
-                variaciones_selector.visible = True
 
             variaciones_selector.update()
+            sacar_errorText()
 
         self.on_change = cambiar_variaciones
