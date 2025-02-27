@@ -20,7 +20,7 @@ class Boton_Enviar(ft.Container):
         super().__init__()
         self.content = Texto_Secundario("Enviar", 20, "#27C8B2")
         self.bgcolor = "#23182E"
-        self.border_radius = 20
+        self.border_radius = 25
         self.width = 150
         self.height = 60
         self.alignment = ft.alignment.center
@@ -77,13 +77,13 @@ class Boton_Enviar(ft.Container):
             self.scale = 0.7
             self.update()
 
-            sleep(0.25)
+            sleep(0.21)
 
             self.scale = 1
             self.update()
         
         self.scale = ft.transform.Scale(scale=1)
-        self.animate_scale = ft.animation.Animation(600, ft.AnimationCurve.EASE_IN_OUT)
+        self.animate_scale = ft.animation.Animation(500, ft.AnimationCurve.EASE_IN_OUT)
         self.on_click = animation
         self.on_animation_end = enviar
 
