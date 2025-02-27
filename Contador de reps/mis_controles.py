@@ -78,6 +78,7 @@ class Boton_Enviar(ft.Container):
             data = {"Reps": reps, "Kg": kg}
             cuadro = pd.DataFrame(data, index= range(1, len(reps) + 1))
             filePicker: ft.FilePicker = page.overlay[0]
+
             page.go(page.views[0].route)
 
         def animation(e):
