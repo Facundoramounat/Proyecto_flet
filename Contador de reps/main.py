@@ -88,7 +88,7 @@ def main(page: ft.Page):
         if page.route == "/analisis":
             page.views.append(mv.VP_Analizar(navigationBar))
         
-        page.update_async()
+        page.update()
 
     def view_pop(e):
         page.views.pop()
@@ -108,6 +108,10 @@ def main(page: ft.Page):
         ]
     )
 
+    #FilePicker
+    file_picker = ft.FilePicker()
+    page.overlay.append(file_picker)
+
     #Configuracion de la pagina
     page.on_view_pop = view_pop
     page.fonts= {
@@ -117,6 +121,6 @@ def main(page: ft.Page):
     page.adaptive = True
     page.on_route_change = cambio_ruta
     page.go("/registrar")
-    page.update_async()
+    page.update()
 
 ft.app(main, name="Contador")
