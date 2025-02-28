@@ -1,5 +1,4 @@
 import flet as ft
-import pandas as pd
 from time import sleep
 
 class MyBotonR(ft.Container):
@@ -37,7 +36,7 @@ class Boton_Enviar(ft.Container):
                             lista_verificacion.append(False)
 
             if len(lista_verificacion) > 0:
-                padre.update()
+                padre.update_async()
                 return False
             else:
                 return True
@@ -76,19 +75,17 @@ class Boton_Enviar(ft.Container):
                 return
             
             data = {"Reps": reps, "Kg": kg}
-            cuadro = pd.DataFrame(data, index= range(1, len(reps) + 1))
-            filePicker: ft.FilePicker = page.overlay[0]
-
+            #En proceso....
             page.go(page.views[0].route)
 
         def animation(e):
             self.scale = 0.7
-            self.update()
+            self.update_async()
 
             sleep(0.21)
 
             self.scale = 1
-            self.update()
+            self.update_async()
         
         self.scale = ft.transform.Scale(scale=1)
         self.animate_scale = ft.animation.Animation(500, ft.AnimationCurve.EASE_IN_OUT)
@@ -137,7 +134,7 @@ class Input(ft.TextField):
 
         def sacar_errorText(e):
             self.error_text = None
-            self.update()
+            self.update_async()
 
         self.on_change = sacar_errorText
 
@@ -166,7 +163,7 @@ class Series(Input):
             for i in range(num):
                 rows_Column[i].visible = True
 
-            padre.update()
+            padre.update_async()
 
         self.on_change = change_visible
     
@@ -184,7 +181,7 @@ class Selector(ft.Dropdown):
 
         def sacar_errorText(e):
             self.error_text = None
-            self.update()
+            self.update_async()
         self.on_change = sacar_errorText
 
 class Selector_Principal(Selector):
@@ -195,7 +192,7 @@ class Selector_Principal(Selector):
 
         def sacar_errorText():
             self.error_text = None
-            self.update()
+            self.update_async()
 
         def cambiar_variaciones(e):
             padre: ft.Column = self.parent
@@ -207,7 +204,7 @@ class Selector_Principal(Selector):
             if len(lista_variaciones) == 1:
                 variaciones_selector.value = lista_variaciones[0]
 
-            variaciones_selector.update()
+            variaciones_selector.update_async()
             sacar_errorText()
 
         self.on_change = cambiar_variaciones
