@@ -36,7 +36,7 @@ class Boton_Enviar(ft.Container):
                             lista_verificacion.append(False)
 
             if len(lista_verificacion) > 0:
-                padre.update_async()
+                padre.update()
                 return False
             else:
                 return True
@@ -75,17 +75,17 @@ class Boton_Enviar(ft.Container):
                 return
             
             data = {"Reps": reps, "Kg": kg}
-            #En proceso....
+            
             page.go(page.views[0].route)
 
         def animation(e):
             self.scale = 0.7
-            self.update_async()
+            self.update()
 
             sleep(0.21)
 
             self.scale = 1
-            self.update_async()
+            self.update()
         
         self.scale = ft.transform.Scale(scale=1)
         self.animate_scale = ft.animation.Animation(500, ft.AnimationCurve.EASE_IN_OUT)
@@ -134,7 +134,7 @@ class Input(ft.TextField):
 
         def sacar_errorText(e):
             self.error_text = None
-            self.update_async()
+            self.update()
 
         self.on_change = sacar_errorText
 
@@ -163,7 +163,7 @@ class Series(Input):
             for i in range(num):
                 rows_Column[i].visible = True
 
-            padre.update_async()
+            padre.update()
 
         self.on_change = change_visible
     
@@ -181,7 +181,7 @@ class Selector(ft.Dropdown):
 
         def sacar_errorText(e):
             self.error_text = None
-            self.update_async()
+            self.update()
         self.on_change = sacar_errorText
 
 class Selector_Principal(Selector):
@@ -192,7 +192,7 @@ class Selector_Principal(Selector):
 
         def sacar_errorText():
             self.error_text = None
-            self.update_async()
+            self.update()
 
         def cambiar_variaciones(e):
             padre: ft.Column = self.parent
@@ -204,7 +204,7 @@ class Selector_Principal(Selector):
             if len(lista_variaciones) == 1:
                 variaciones_selector.value = lista_variaciones[0]
 
-            variaciones_selector.update_async()
+            variaciones_selector.update()
             sacar_errorText()
 
         self.on_change = cambiar_variaciones
