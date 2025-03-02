@@ -2,6 +2,9 @@ import flet as ft
 import Mis_Vistas as mv
 
 def main(page: ft.Page):
+    page.title = "Ejercicios APP"
+    page.window.maximized = True
+
     #Configuracion de las rutas
     rutas_principales = ["/registrar", "/entrenamiento", "/analisis"]
     rutas_registro = ["/registrar/pecho", "/registrar/espalda", "/registrar/triceps", "/registrar/biceps", "/registrar/piernas", "/registrar/hombros"]
