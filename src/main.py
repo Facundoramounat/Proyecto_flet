@@ -1,7 +1,7 @@
 import flet as ft
 import Mis_Vistas as mv
 
-def main(page: ft.Page):
+async def main(page: ft.Page):
     page.title = "Ejercicios APP"
     page.window.maximized = True
 
