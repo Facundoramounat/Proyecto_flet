@@ -1,6 +1,7 @@
 import flet as ft
 import Mis_Vistas as mv
 import logging
+logging.basicConfig(level=logging.DEBUG)
 
 def main(page: ft.Page):
     page.clean()
@@ -132,6 +133,6 @@ def main(page: ft.Page):
     page.go("/registrar")
     page.debug = True
     page.update()
-    logging.debug("Se inicio la app")
+
 
 ft.app(main, name="Contador")
