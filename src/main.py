@@ -123,8 +123,8 @@ def main(page: ft.Page):
     }
     page.adaptive = True
     page.on_route_change = cambio_ruta
-    page.on_connect = cambio_ruta
     page.go("/registrar")
+    page.debug = True
     page.update()
 
 ft.app(main, name="Contador")
