@@ -1,13 +1,11 @@
 import flet as ft
 import Mis_Vistas as mv
-import logging
-logging.basicConfig(level=logging.DEBUG)
 
 def main(page: ft.Page):
     page.clean()
     page.views.clear()
     page.update()
-    logging.debug("Inciando la App")
+
     #Configuracion de las rutas
     rutas_principales = ["/registrar", "/entrenamiento", "/analisis"]
     rutas_registro = ["/registrar/pecho", "/registrar/espalda", "/registrar/triceps", "/registrar/biceps", "/registrar/piernas", "/registrar/hombros"]
@@ -79,7 +77,6 @@ def main(page: ft.Page):
     
 
     def cambio_ruta(e):
-        logging.debug(f"Cambiando a la ruta: {page.route}")
         page.views.clear()
         
         if page.route == "/registrar" or page.route in rutas_registro:
@@ -94,8 +91,7 @@ def main(page: ft.Page):
 
         if page.route == "/analisis":
             page.views.append(mv.VP_Analizar(navigationBar))
-        
-        logging.debug(f"Vistas actuales después del cambio de ruta: {[v.route for v in page.views]}")
+
         page.update()
 
     def view_pop(e):
@@ -117,21 +113,14 @@ def main(page: ft.Page):
         ]
     )
 
-    #FilePicker
-    file_picker = ft.FilePicker()
-    page.overlay.append(file_picker)
-
     #Configuracion de la pagina
     page.on_view_pop = view_pop
     page.fonts= {
         "Montserrat": "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap",
         "Bebas Neue": "https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
     }
-    page.adaptive = True
     page.on_route_change = cambio_ruta
-    logging.debug(f"Ruta inicial al abrir la app: {page.route}")
     page.go("/registrar")
-    page.debug = True
     page.update()
 
 
