@@ -1,6 +1,5 @@
 import flet as ft
 import Mis_Vistas as mv
-import logging
 
 def main(page: ft.Page):
     page.title = "Ejercicios APP"
@@ -77,7 +76,6 @@ def main(page: ft.Page):
     
 
     def cambio_ruta(e):
-        print("Cambio de ruta")
         page.views.clear()
         
         if page.route == "/registrar" or page.route in rutas_registro:
@@ -125,8 +123,8 @@ def main(page: ft.Page):
     }
     page.adaptive = True
     page.on_route_change = cambio_ruta
+    page.on_connect = cambio_ruta
     page.go("/registrar")
     page.update()
 
 ft.app(main, name="Contador")
-logging.getLogger("flet_core").setLevel(logging.INFO)
