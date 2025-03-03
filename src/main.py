@@ -1,10 +1,12 @@
 import flet as ft
 import Mis_Vistas as mv
+import logging
 
 def main(page: ft.Page):
-    page.title = "Ejercicios APP"
-    page.window.maximized = True
-
+    page.clean()
+    page.views.clear()
+    page.update()
+    logging.debug("Inciando la App")
     #Configuracion de las rutas
     rutas_principales = ["/registrar", "/entrenamiento", "/analisis"]
     rutas_registro = ["/registrar/pecho", "/registrar/espalda", "/registrar/triceps", "/registrar/biceps", "/registrar/piernas", "/registrar/hombros"]
@@ -76,6 +78,7 @@ def main(page: ft.Page):
     
 
     def cambio_ruta(e):
+        logging.debug(f"Cambiando a la ruta: {page.route}")
         page.views.clear()
         
         if page.route == "/registrar" or page.route in rutas_registro:
@@ -91,12 +94,14 @@ def main(page: ft.Page):
         if page.route == "/analisis":
             page.views.append(mv.VP_Analizar(navigationBar))
         
+        logging.debug(f"Vistas actuales después del cambio de ruta: {[v.route for v in page.views]}")
         page.update()
 
     def view_pop(e):
         page.views.pop()
         top_view = page.views[-1]
         page.go(top_view.route)
+        page.update()
 
     #Barra de navegacion
     navigationBar = ft.CupertinoNavigationBar(
@@ -123,8 +128,10 @@ def main(page: ft.Page):
     }
     page.adaptive = True
     page.on_route_change = cambio_ruta
+    logging.debug(f"Ruta inicial al abrir la app: {page.route}")
     page.go("/registrar")
     page.debug = True
     page.update()
+    logging.debug("Se inicio la app")
 
 ft.app(main, name="Contador")
