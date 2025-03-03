@@ -81,6 +81,7 @@ def main(page: ft.Page):
         
         if page.route == "/registrar" or page.route in rutas_registro:
             page.views.append(mv.VP_Registrar(navigationBar, page))
+            page.update()
 
         if page.route in rutas_registro:
             ejercicios = ejercicios_por_ruta[page.route]
