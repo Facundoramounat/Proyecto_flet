@@ -1,5 +1,6 @@
 import flet as ft
 import Mis_Vistas as mv
+import logging
 
 def main(page: ft.Page):
     page.title = "Ejercicios APP"
@@ -76,6 +77,7 @@ def main(page: ft.Page):
     
 
     def cambio_ruta(e):
+        print("Cambio de ruta")
         page.views.clear()
         
         if page.route == "/registrar" or page.route in rutas_registro:
@@ -97,8 +99,6 @@ def main(page: ft.Page):
         page.views.pop()
         top_view = page.views[-1]
         page.go(top_view.route)
-
-    page.add(ft.Text("Todo ok"))
 
     #Barra de navegacion
     navigationBar = ft.CupertinoNavigationBar(
@@ -129,3 +129,4 @@ def main(page: ft.Page):
     page.update()
 
 ft.app(main, name="Contador")
+logging.getLogger("flet_core").setLevel(logging.INFO)
