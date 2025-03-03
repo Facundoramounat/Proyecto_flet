@@ -98,6 +98,8 @@ def main(page: ft.Page):
         top_view = page.views[-1]
         page.go(top_view.route)
 
+    page.add(ft.Text("Todo ok"))
+
     #Barra de navegacion
     navigationBar = ft.CupertinoNavigationBar(
         bgcolor= "#23182E",
