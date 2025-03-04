@@ -78,10 +78,6 @@ def main(page: ft.Page):
         
         if page.route == "/registrar" or page.route in rutas_registro:
             page.views.append(mv.VP_Registrar(navigationBar, page))
-            page.update()
-            page.views[0].controls.append(ft.Column(
-                [ft.Text(i.visible, color="Red") for i in page.views[0].controls]
-            ))
 
         if page.route in rutas_registro:
             ejercicios = ejercicios_por_ruta[page.route]
