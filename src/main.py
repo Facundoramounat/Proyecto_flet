@@ -1,5 +1,6 @@
 import flet as ft
 import Mis_Vistas as mv
+import mis_controles as mc
 import asyncio
 
 def main(page: ft.Page):
@@ -77,6 +78,10 @@ def main(page: ft.Page):
         
         if page.route == "/registrar" or page.route in rutas_registro:
             page.views.append(mv.VP_Registrar(navigationBar, page))
+            page.update()
+            page.views[0].controls.append(ft.Column(
+                [ft.Text(type(i), color="Red") for i in page.views[0].controls]
+            ))
 
         if page.route in rutas_registro:
             ejercicios = ejercicios_por_ruta[page.route]
@@ -88,7 +93,6 @@ def main(page: ft.Page):
         if page.route == "/analisis":
             page.views.append(mv.VP_Analizar(navigationBar))
 
-        await asyncio.sleep(0.05)
         page.update()
 
     def view_pop(e):

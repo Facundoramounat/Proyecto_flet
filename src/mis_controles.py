@@ -4,14 +4,15 @@ import asyncio
 class MyBotonR(ft.Container):
     def __init__(self, text: str, page: ft.Page):
         super().__init__()
-        self.content = ft.Text(text.upper(), size=30) #Texto_Principal(text.upper(), 30)
+        self.content = Texto_Principal(text.upper(), 30)
         self.bgcolor = "#F7F5F7"
         self.alignment = ft.alignment.center
         self.width = page.width
-        self.height = 108
+        self.height = 20 #108
         self.on_click = lambda e: page.go(f"{page.route}/{text.lower()}")
         self.ink = True
         self.border_radius = 15
+        self.visible = True
 
 class Boton_Enviar(ft.Container):
     def __init__(self, page: ft.Page):
