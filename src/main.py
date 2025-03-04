@@ -1,11 +1,7 @@
 import flet as ft
 import Mis_Vistas as mv
 
-def main(page: ft.Page):
-    page.clean()
-    page.views.clear()
-    page.update()
-
+async def main(page: ft.Page):
     #Configuracion de las rutas
     rutas_principales = ["/registrar", "/entrenamiento", "/analisis"]
     rutas_registro = ["/registrar/pecho", "/registrar/espalda", "/registrar/triceps", "/registrar/biceps", "/registrar/piernas", "/registrar/hombros"]
@@ -75,13 +71,11 @@ def main(page: ft.Page):
         "/registrar/piernas": ejercicios_Piernas
     }
     
-
     def cambio_ruta(e):
         page.views.clear()
         
         if page.route == "/registrar" or page.route in rutas_registro:
             page.views.append(mv.VP_Registrar(navigationBar, page))
-            page.update()
 
         if page.route in rutas_registro:
             ejercicios = ejercicios_por_ruta[page.route]
@@ -94,6 +88,8 @@ def main(page: ft.Page):
             page.views.append(mv.VP_Analizar(navigationBar))
 
         page.update()
+        for i in page.views:
+            i.update()
 
     def view_pop(e):
         page.views.pop()
@@ -121,7 +117,7 @@ def main(page: ft.Page):
         "Bebas Neue": "https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
     }
     page.on_route_change = cambio_ruta
-    page.go("/registrar")
+    page.route = "/registrar"
     page.update()
 
 
