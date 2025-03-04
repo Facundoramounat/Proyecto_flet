@@ -80,7 +80,7 @@ def main(page: ft.Page):
             page.views.append(mv.VP_Registrar(navigationBar, page))
             page.update()
             page.views[0].controls.append(ft.Column(
-                [ft.Text(type(i), color="Red") for i in page.views[0].controls]
+                [ft.Text(i.visible, color="Red") for i in page.views[0].controls]
             ))
 
         if page.route in rutas_registro:
