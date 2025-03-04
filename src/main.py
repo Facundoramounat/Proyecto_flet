@@ -1,5 +1,6 @@
 import flet as ft
 import Mis_Vistas as mv
+import mis_controles
 
 async def main(page: ft.Page):
     #Configuracion de las rutas
