@@ -4,8 +4,7 @@ from time import sleep
 class MyBotonR(ft.Container):
     def __init__(self, text: str, page: ft.Page):
         super().__init__()
-        self.page = page
-        self.content = Texto_Principal(text.upper(), 30)
+        self.content = ft.Text(text.upper(), size=30) #Texto_Principal(text.upper(), 30)
         self.bgcolor = "#F7F5F7"
         self.alignment = ft.alignment.center
         self.width = page.width

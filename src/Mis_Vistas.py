@@ -11,7 +11,6 @@ class VP_Registrar(ft.View):
         self.route = "/registrar"
         self.controls = [
             ft.AppBar(),
-            ft.TextButton("Hola"),
             mc.MyBotonR("Biceps", page),
             mc.MyBotonR("Pecho", page),
             mc.MyBotonR("Triceps", page),
