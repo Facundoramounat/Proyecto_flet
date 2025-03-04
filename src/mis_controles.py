@@ -1,5 +1,5 @@
 import flet as ft
-from time import sleep
+import asyncio
 
 class MyBotonR(ft.Container):
     def __init__(self, text: str, page: ft.Page):
@@ -81,7 +81,7 @@ class Boton_Enviar(ft.Container):
             self.scale = 0.7
             self.update()
 
-            sleep(0.21)
+            asyncio.sleep(0.21)
 
             self.scale = 1
             self.update()

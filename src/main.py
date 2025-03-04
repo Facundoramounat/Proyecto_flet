@@ -1,8 +1,8 @@
 import flet as ft
 import Mis_Vistas as mv
-import mis_controles
+import asyncio
 
-async def main(page: ft.Page):
+def main(page: ft.Page):
     #Configuracion de las rutas
     rutas_principales = ["/registrar", "/entrenamiento", "/analisis"]
     rutas_registro = ["/registrar/pecho", "/registrar/espalda", "/registrar/triceps", "/registrar/biceps", "/registrar/piernas", "/registrar/hombros"]
@@ -72,7 +72,7 @@ async def main(page: ft.Page):
         "/registrar/piernas": ejercicios_Piernas
     }
     
-    def cambio_ruta(e):
+    async def cambio_ruta(e):
         page.views.clear()
         
         if page.route == "/registrar" or page.route in rutas_registro:
@@ -88,9 +88,8 @@ async def main(page: ft.Page):
         if page.route == "/analisis":
             page.views.append(mv.VP_Analizar(navigationBar))
 
+        await asyncio.sleep(0.05)
         page.update()
-        for i in page.views:
-            i.update()
 
     def view_pop(e):
         page.views.pop()
