@@ -14,7 +14,7 @@ class VP_Registrar(ft.View):
 
         self.appbar = ft.AppBar(
             leading_width=30,
-            title=ft.Text("Registrar", size=20, color="#27C8B2"),
+            title=mc.Texto_Secundario("Registrar", 20, "#27C8B2"),
             bgcolor="#23182E",
         )
         self.controls = [
@@ -23,9 +23,6 @@ class VP_Registrar(ft.View):
                 content=ft.Column(
                     expand=True,
                     controls=[
-                        # ft.TextButton(
-                        #     "Ir", on_click=lambda e: page.go("/registrar/biceps")
-                        # ),
                         mc.MyBotonR("Biceps", page),
                         mc.MyBotonR("Pecho", page),
                         mc.MyBotonR("Triceps", page),
@@ -39,7 +36,6 @@ class VP_Registrar(ft.View):
         ]
         self.navigation_bar = navegationBar
         self.bgcolor = "#CEC0A3"
-
 
 class VS_Registrar_Opciones(ft.View):
     def __init__(self, navegationBar, page: ft.Page, diccionario):
@@ -126,14 +122,13 @@ class VS_Registrar_Opciones(ft.View):
         ]
         self.bgcolor = "#CEC0A3"
 
-
 class VP_Entrenar(ft.View):
     def __init__(self, navegationBar):
         super().__init__()
         self.route = "/entrenamiento"
         self.appbar = ft.AppBar(
             leading_width=30,
-            title=ft.Text("Entrenamiento", size=20, color="#27C8B2"),
+            title=mc.Texto_Secundario("Entrenamiento", 20, "#27C8B2"),
             bgcolor="#23182E",
         )
         self.controls = [
@@ -149,7 +144,6 @@ class VP_Entrenar(ft.View):
         ]
         self.navigation_bar = navegationBar
 
-
 class VP_Analizar(ft.View):
     def __init__(self, navegationBar):
         super().__init__()
@@ -157,7 +151,7 @@ class VP_Analizar(ft.View):
 
         self.appbar = ft.AppBar(
             leading_width=30,
-            title=ft.Text("Análisis", size=20, color="#27C8B2"),
+            title=mc.Texto_Secundario("Analisis", 20, "#27C8B2"),
             bgcolor="#23182E",
         )
         self.controls = [

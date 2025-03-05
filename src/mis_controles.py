@@ -4,7 +4,7 @@ import asyncio
 class MyBotonR(ft.Container):
     def __init__(self, text: str, page: ft.Page):
         super().__init__()
-        self.content = Texto_Principal(text.upper(), 30)
+        self.content = Texto_Opciones(text.upper(), 30)
         self.bgcolor = "#F7F5F7"
         self.alignment = ft.alignment.center
         self.width = page.width
@@ -28,11 +28,13 @@ class Boton_Enviar(ft.Container):
             lista_verificacion = []
 
             for i in controls:
-                if i.visible == True:
-                    for c in i.controls:
-                        if c.value == "" or c.value == None:
-                            c.error_text = "Debes rellenar"
-                            lista_verificacion.append(False)
+                if i.visible == False:
+                    break
+        
+                for c in i.controls:
+                    if c.value == "" or c.value == None:
+                        c.error_text = "Debes rellenar"
+                        lista_verificacion.append(False)
 
             if len(lista_verificacion) > 0:
                 padre.update()
@@ -42,13 +44,13 @@ class Boton_Enviar(ft.Container):
 
         def get_data():
             padre: ft.Column = self.parent
-            view_parent: ft.View = self.parent.parent
+            column_grandfather: ft.View = self.parent.parent
 
             rows_column_controls = padre.controls[1].controls
-            ejercicios_column = view_parent.controls[1]
+            ejercicios_column = column_grandfather.controls[0]
             contenido_a_evaluar = [ejercicios_column] + rows_column_controls
 
-            campos_completos = validar_contenido(contenido_a_evaluar, view_parent)
+            campos_completos = validar_contenido(contenido_a_evaluar, column_grandfather)
 
             if campos_completos == False:
                 return 
@@ -77,11 +79,11 @@ class Boton_Enviar(ft.Container):
             
             page.go(page.views[0].route)
 
-        def animation(e):
+        async def animation(e):
             self.scale = 0.7
             self.update()
 
-            asyncio.sleep(0.21)
+            await asyncio.sleep(0.21)
 
             self.scale = 1
             self.update()
@@ -91,7 +93,7 @@ class Boton_Enviar(ft.Container):
         self.on_click = animation
         self.on_animation_end = guardar
 
-class Texto_Principal(ft.Text):
+class Texto_Opciones(ft.Text):
     def __init__(self, text, size):
         super().__init__()
         self.value = text
