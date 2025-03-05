@@ -49,7 +49,6 @@ class VS_Registrar_Opciones(ft.View):
         )
         self.controls = [
             ft.SafeArea(
-                expand=True,
                 content=ft.Column(
                     expand=True,
                     controls=[
