@@ -11,7 +11,6 @@ class MyBotonR(ft.Container):
         self.on_click = lambda e: page.go(f"{page.route}/{text.lower()}")
         self.ink = True 
         self.border_radius = 15
-        self.adaptive = True
 
 class Boton_Enviar(ft.Container):
     def __init__(self, page: ft.Page):
@@ -99,7 +98,6 @@ class Texto_Opciones(ft.Text):
         self.value = text
         self.size = size
         self.color = "#D9406B"
-        self.font_family = "Bebas Neue"
     
 class Texto_Secundario(ft.Text):
     def __init__(self, text, size, color= "Black"):
@@ -107,11 +105,10 @@ class Texto_Secundario(ft.Text):
         self.value= text
         self.size= size
         self.color= color
-        self.font_family = "Montserrat"
 
 class Estilo:
     def __init__(self, page):
-        self.label_style = ft.TextStyle(color="White", font_family="Montserrat")
+        self.label_style = ft.TextStyle(color="White", weight= "Bold")
         self.filled = True
         self.fill_color = "#23182E"
         self.color = "#27C8B2"
