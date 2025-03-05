@@ -116,6 +116,7 @@ def main(page: ft.Page):
         "Montserrat": "assets/Montserrat-Regular.ttf"
     }
     page.theme = ft.Theme(font_family= "Montserrat")
+    page.theme_mode = ft.ThemeMode.DARK
     page.on_route_change = cambio_ruta
     page.route = "/registrar"
     page.update()
