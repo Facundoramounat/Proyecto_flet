@@ -1,5 +1,6 @@
 import flet as ft
 import mis_controles as mc
+import sys
 
 # VP = Vista principal
 # VS = Vista secundaria
