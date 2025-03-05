@@ -7,7 +7,6 @@ class MyBotonR(ft.Container):
         self.content = Texto_Opciones(text.upper(), 30)
         self.bgcolor = "#F7F5F7"
         self.alignment = ft.alignment.center
-        self.width = page.width
         self.height = 108
         self.on_click = lambda e: page.go(f"{page.route}/{text.lower()}")
         self.ink = True 
