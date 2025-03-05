@@ -12,6 +12,7 @@ class MyBotonR(ft.Container):
         self.on_click = lambda e: page.go(f"{page.route}/{text.lower()}")
         self.ink = True 
         self.border_radius = 15
+        self.adaptive = True
 
 class Boton_Enviar(ft.Container):
     def __init__(self, page: ft.Page):

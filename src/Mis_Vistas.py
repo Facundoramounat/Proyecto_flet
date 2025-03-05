@@ -4,7 +4,7 @@ import sys
 
 # VP = Vista principal
 # VS = Vista secundaria
-# VS = Vista terciaria
+# VT = Vista terciaria
 
 
 class VP_Registrar(ft.View):
