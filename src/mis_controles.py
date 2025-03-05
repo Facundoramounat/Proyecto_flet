@@ -44,7 +44,7 @@ class Boton_Enviar(ft.Container):
 
         def get_data():
             padre: ft.Column = self.parent
-            column_grandfather: ft.View = self.parent.parent
+            column_grandfather: ft.Column = self.parent.parent
 
             rows_column_controls = padre.controls[1].controls
             ejercicios_column = column_grandfather.controls[0]
