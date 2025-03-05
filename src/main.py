@@ -113,8 +113,8 @@ def main(page: ft.Page):
     #Configuracion de la pagina
     page.on_view_pop = view_pop
     page.fonts= {
-        "Montserrat": "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap",
-        "Bebas Neue": "https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+        "Montserrat": "assets/Montserrat-Bold.ttf",
+        "Bebas Neue": "assets/BebasNeue-Regular.ttf"
     }
     page.on_route_change = cambio_ruta
     page.route = "/registrar"

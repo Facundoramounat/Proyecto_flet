@@ -111,7 +111,7 @@ class Texto_Secundario(ft.Text):
 
 class Estilo:
     def __init__(self, page):
-        self.label_style = ft.TextStyle(color="White", font_family="Montserrat", weight= "Bold")
+        self.label_style = ft.TextStyle(color="White", font_family="Montserrat")
         self.filled = True
         self.fill_color = "#23182E"
         self.color = "#27C8B2"
@@ -131,7 +131,7 @@ class Input(ft.TextField):
         self.text_align = style.text_align
         self.keyboard_type = ft.KeyboardType.NUMBER
         self.border_radius = style.border_radius
-        self.width = page.width / 2.15
+        self.width = 189.15
 
         def sacar_errorText(e):
             self.error_text = None
@@ -178,7 +178,7 @@ class Selector(ft.Dropdown):
         self.fill_color = style.fill_color
         self.color = style.color
         self.border_radius = style.border_radius
-        self.width = page.width / 1.2
+        self.width = 338.89
 
         def sacar_errorText(e):
             self.error_text = None

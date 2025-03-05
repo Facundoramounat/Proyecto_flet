@@ -117,6 +117,7 @@ class VS_Registrar_Opciones(ft.View):
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
                     ],
+                    alignment= ft.alignment.center
                 ),
             )
         ]
