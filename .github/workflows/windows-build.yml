@@ -63,6 +63,7 @@ jobs:
       run: |
         flutter config --no-analytics
         flet build apk --no-rich-output --build-number=$env:BUILD_NUMBER --build-version=$env:BUILD_VERSION
+    
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4.3.4
       with:
