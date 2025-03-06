@@ -42,7 +42,13 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install flet-cli --upgrade
+    
+    - name: Install Poetry
+      run: |
         pip install Poetry
+    
+    - name: Install Project Dependencies
+      run: |
         poetry install
 
     - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
