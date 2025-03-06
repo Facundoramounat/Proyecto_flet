@@ -9,7 +9,7 @@ authors = [
 ]
 dependencies = [
   "flet[all]==0.27.4",
-  "pandas"
+  "Pandas==2.2.2"
 ]
 
 [tool.flet]
