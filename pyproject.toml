@@ -9,7 +9,7 @@ authors = [
 ]
 dependencies = [
   "flet[all]==0.27.4",
-  "pandas==2.2.3"
+  "Pandas==2.2.3"
 ]
 
 [tool.flet]
@@ -32,8 +32,7 @@ path = "src"
 
 [tool.uv]
 dev-dependencies = [
-    "flet[all]==0.27.4",
-    "pandas==2.2.3"
+    "flet[all]==0.27.4"
 ]
 
 [tool.poetry]
