@@ -41,6 +41,7 @@ jobs:
     - name: Export Dependencies
       run: |
         pip install poetry
+        pip install --upgrade poetry
         poetry export --format=requirements.txt --output=requirements.txt --without-hashes
     
     - name: Install Python Dependencies
