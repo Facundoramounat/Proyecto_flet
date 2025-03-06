@@ -1,5 +1,11 @@
 import flet as ft
 import asyncio
+import pandas as pd
+from datetime import date
+import os
+
+def get_file_CSV():
+    return os.path.join(os.getcwd(), "datos.csv")
 
 class MyBotonR(ft.Container):
     def __init__(self, text: str, page: ft.Page):
@@ -54,6 +60,7 @@ class Boton_Enviar(ft.Container):
             if campos_completos == False:
                 return 
             
+            fecha = date.today().strftime('%d/%m/%y')
             ejercicio = ejercicios_column.controls[0].value
             variacion = ejercicios_column.controls[1].value
             reps = []
@@ -66,15 +73,28 @@ class Boton_Enviar(ft.Container):
                 reps.append(control.controls[0].value)
                 kg.append(control.controls[1].value)
 
-            return ejercicio, variacion, reps, kg
+            return fecha, ejercicio, variacion, reps, kg
 
         def guardar(e):
             try:
-                ejercicio, variacion, reps, kg = get_data()
+                fecha, ejercicio, variacion, reps, kg = get_data()
             except TypeError:
                 return
             
-            data = {"Reps": reps, "Kg": kg}
+            data = pd.DataFrame({"Fecha": fecha, 
+                                 "Ejercicio": ejercicio, 
+                                 "Variacion": variacion, 
+                                 "Reps": reps, 
+                                 "Kg": kg})
+            file_path = get_file_CSV()
+
+            try:
+                df = pd.read_csv(file_path)
+            except (FileNotFoundError, pd.errors.EmptyDataError):
+                data.to_csv(file_path, index=False)
+            else:
+                df = pd.concat([data, df], ignore_index=True)
+                df.to_csv(file_path, index=False)
             
             page.go(page.views[0].route)
 
@@ -206,3 +226,16 @@ class Selector_Principal(Selector):
             sacar_errorText()
 
         self.on_change = cambiar_variaciones
+
+class MyDataTable(ft.DataTable):
+    def __init__(self):
+        super().__init__(columns=[ft.DataColumn(ft.Text(""))])
+        try:
+            file = pd.read_csv(get_file_CSV())
+        except (FileNotFoundError, pd.errors.EmptyDataError):
+            self.visible = False
+            return
+
+        self.columns = [ft.DataColumn(ft.Text(i)) for i in file.columns]
+        self.rows= [ft.DataRow([ft.DataCell(ft.Text(a)) for a in file.loc[i].tolist()]) for i in range(file.shape[0])]
+        self.column_spacing = 20

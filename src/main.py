@@ -113,7 +113,7 @@ def main(page: ft.Page):
     #Configuracion de la pagina
     page.on_view_pop = view_pop
     page.fonts= {
-        "Montserrat": "assets/Montserrat-Regular.ttf"
+        "Montserrat": "assets/Montserrat-Medium.ttf"
     }
     page.theme = ft.Theme(font_family= "Montserrat")
     page.theme_mode = ft.ThemeMode.DARK

@@ -1,6 +1,5 @@
 import flet as ft
 import mis_controles as mc
-import sys
 
 # VP = Vista principal
 # VS = Vista secundaria
@@ -160,7 +159,11 @@ class VP_Analizar(ft.View):
                 content=ft.Column(
                     expand=True,
                     controls=[
-                        ft.Column([ft.Text("")], height=30),  # Espacio en blanco
+                        ft.Column(
+                            [mc.MyDataTable()],
+                            height= 300,
+                            scroll= ft.ScrollMode.ALWAYS
+                        )
                     ],
                 ),
             )
