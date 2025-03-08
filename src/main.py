@@ -4,9 +4,13 @@ import mis_controles as mc
 
 def main(page: ft.Page):
     #Configuracion de las rutas
-    rutas_principales = ["/registrar", "/entrenamiento", "/analisis"]
+    nav_Rutas = ["/registrar", "/entrenamiento", "/analisis"]
     rutas_registro = ["/registrar/pecho", "/registrar/espalda", "/registrar/triceps", "/registrar/biceps", "/registrar/piernas", "/registrar/hombros"]
     
+    #Creacion de data.csv
+    if not mc.existe():
+        mc.crear_csv()
+
     #Ejercicios para cada sector del cuerpo
     ejercicios_Biceps = {
         "Curl biceps": ["Supino", "Neutro", "Concentrado", "Rotacion"],
@@ -72,15 +76,18 @@ def main(page: ft.Page):
         "/registrar/piernas": ejercicios_Piernas
     }
     
-    async def cambio_ruta(e):
+    def cambio_ruta(e):
         page.views.clear()
         
-        if page.route == "/registrar" or page.route in rutas_registro:
-            page.views.append(mv.VP_Registrar(navigationBar, page))
+        if page.route in ["/registrar", "/historial"] or page.route in rutas_registro:
+            page.views.append(mv.VP_Registrar(navigationBar))
+
+        if page.route == "/historial":
+            page.views.append(mv.VP_Historial(navigationBar, ejercicios_por_ruta.values()))
 
         if page.route in rutas_registro:
             ejercicios = ejercicios_por_ruta[page.route]
-            page.views.append(mv.VS_Registrar_Opciones(navigationBar, page, ejercicios))
+            page.views.append(mv.VS_Registrar_Opciones(navigationBar, ejercicios))
 
         if page.route == "/entrenamiento":
             page.views.append(mv.VP_Entrenar(navigationBar))
@@ -101,7 +108,7 @@ def main(page: ft.Page):
         bgcolor= "#23182E",
         inactive_color= "#F1F6E5",
         active_color= "#27C8B2",
-        on_change= lambda e: page.go(rutas_principales[e.control.selected_index]),
+        on_change= lambda e: page.go(nav_Rutas[e.control.selected_index]),
         destinations= [
             ft.NavigationBarDestination(icon= ft.Icons.CREATE, label= "Registrar"),
             ft.NavigationBarDestination(icon= ft.Icons.FITNESS_CENTER, label= "Entrenamiento"),
@@ -117,8 +124,7 @@ def main(page: ft.Page):
     page.theme = ft.Theme(font_family= "Montserrat")
     page.theme_mode = ft.ThemeMode.DARK
     page.on_route_change = cambio_ruta
-    page.route = "/registrar"
-    page.update()
+    page.go("/registrar")
 
 
 ft.app(main, name="Contador")

@@ -7,14 +7,16 @@ import mis_controles as mc
 
 
 class VP_Registrar(ft.View):
-    def __init__(self, navegationBar, page: ft.Page):
+    def __init__(self, navegationBar):
         super().__init__()
         self.route = "/registrar"
-
         self.appbar = ft.AppBar(
             leading_width=30,
             title=mc.Texto_Secundario("Registrar", 20, "#27C8B2"),
             bgcolor="#23182E",
+            actions=[
+                ft.IconButton(icon=ft.Icons.HISTORY, on_click=lambda e: self.page.go("/historial"), icon_color="#27C8B2"),
+            ]
         )
         self.controls = [
             ft.SafeArea(
@@ -22,12 +24,12 @@ class VP_Registrar(ft.View):
                 content=ft.Column(
                     expand=True,
                     controls=[
-                        mc.MyBotonR("Biceps", page),
-                        mc.MyBotonR("Pecho", page),
-                        mc.MyBotonR("Triceps", page),
-                        mc.MyBotonR("Espalda", page),
-                        mc.MyBotonR("Hombros", page),
-                        mc.MyBotonR("Piernas", page),
+                        mc.MyBotonR("Biceps"),
+                        mc.MyBotonR("Pecho"),
+                        mc.MyBotonR("Triceps"),
+                        mc.MyBotonR("Espalda"),
+                        mc.MyBotonR("Hombros"),
+                        mc.MyBotonR("Piernas"),
                     ],
                     scroll="auto",
                 ),
@@ -35,88 +37,159 @@ class VP_Registrar(ft.View):
         ]
         self.navigation_bar = navegationBar
         self.bgcolor = "#CEC0A3"
+    
+    def did_mount(self):
+        if not mc.csv_con_contenido():
+            self.appbar.actions[0].visible = False
+            self.appbar.actions[0].update()
+
+    def build(self):
+        for i in self.controls[0].content.controls:
+            i.page = self.page
 
 class VS_Registrar_Opciones(ft.View):
-    def __init__(self, navegationBar, page: ft.Page, diccionario):
+    def __init__(self, navegationBar, diccionario):
         super().__init__()
-        self.route = page.route
         self.navigation_bar = navegationBar
         self.appbar = ft.AppBar(
             leading_width=30,
-            title=mc.Texto_Secundario(page.route[11:].capitalize(), 20, "#27C8B2"),
             bgcolor="#23182E",
         )
         self.controls = [
             ft.SafeArea(
                 content=ft.Column(
-                    expand=True,
                     controls=[
-                        ft.Column(
+                        ft.Row(
                             [
-                                mc.Selector_Principal("Ejercicio", page, diccionario),
-                                mc.Selector("Variacion", page),
-                            ],
-                            width=page.width,
-                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                        ),
-                        ft.Column(
-                            [
-                                mc.Series(page),
                                 ft.Column(
                                     [
-                                        ft.Row(
-                                            [
-                                                mc.Input("Reps", page),
-                                                mc.Input("Kg", page),
-                                            ],
-                                            visible=False,
-                                        ),
-                                        ft.Row(
-                                            [
-                                                mc.Input("Reps", page),
-                                                mc.Input("Kg", page),
-                                            ],
-                                            visible=False,
-                                        ),
-                                        ft.Row(
-                                            [
-                                                mc.Input("Reps", page),
-                                                mc.Input("Kg", page),
-                                            ],
-                                            visible=False,
-                                        ),
-                                        ft.Row(
-                                            [
-                                                mc.Input("Reps", page),
-                                                mc.Input("Kg", page),
-                                            ],
-                                            visible=False,
-                                        ),
-                                        ft.Row(
-                                            [
-                                                mc.Input("Reps", page),
-                                                mc.Input("Kg", page),
-                                            ],
-                                            visible=False,
-                                        ),
-                                        ft.Row(
-                                            [
-                                                mc.Input("Reps", page),
-                                                mc.Input("Kg", page),
-                                            ],
-                                            visible=False,
-                                        ),
-                                    ]
-                                ),
-                                ft.Column(height=25),
-                                mc.Boton_Enviar(page),
+                                        mc.Selector_Principal("Ejercicio", diccionario),
+                                        mc.Selector("Variacion"),
+                                    ],
+                                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                    expand=True
+                                )
                             ],
-                            width=page.width,
-                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                         ),
+                        ft.Row(
+                            [
+                                ft.Column(
+                                    [
+                                        mc.Series(),
+                                        ft.Column(
+                                            [
+                                                ft.Row(
+                                            [
+                                                mc.Input("Reps"),
+                                                mc.Input("Kg"),
+                                            ],
+                                            visible=False,
+                                            alignment= ft.MainAxisAlignment.CENTER
+                                        ),
+                                                ft.Row(
+                                            [
+                                                mc.Input("Reps"),
+                                                mc.Input("Kg"),
+                                            ],
+                                            visible=False,
+                                            alignment= ft.MainAxisAlignment.CENTER
+                                        ),
+                                                ft.Row(
+                                            [
+                                                mc.Input("Reps"),
+                                                mc.Input("Kg"),
+                                            ],
+                                            visible=False,
+                                            alignment= ft.MainAxisAlignment.CENTER
+                                        ),
+                                                ft.Row(
+                                            [
+                                                mc.Input("Reps"),
+                                                mc.Input("Kg"),
+                                            ],
+                                            visible=False,
+                                            alignment= ft.MainAxisAlignment.CENTER
+                                        ),
+                                                ft.Row(
+                                            [
+                                                mc.Input("Reps"),
+                                                mc.Input("Kg"),
+                                            ],
+                                            visible=False,
+                                            alignment= ft.MainAxisAlignment.CENTER
+                                        ),
+                                                ft.Row(
+                                            [
+                                                mc.Input("Reps"),
+                                                mc.Input("Kg"),
+                                            ],
+                                            visible=False,
+                                            alignment= ft.MainAxisAlignment.CENTER
+                                        ),
+                                            ]
+                                        ),
+                                        ft.Column(height=25),
+                                        mc.Boton_Guardar()
+                                    ],
+                                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                                    expand=True
+                                )
+                            ]
+                        )                        
                     ],
-                    alignment= ft.alignment.center
+                    expand=True,
+                    horizontal_alignment= ft.CrossAxisAlignment.CENTER
                 ),
+                expand=True
+            )
+        ]
+        self.bgcolor = "#CEC0A3"
+
+    def build(self):
+        self.route = self.page.route
+        self.appbar.title = mc.Texto_Secundario(self.page.route[11:].capitalize(), 20, "#27C8B2")
+        self.controls[0].content.controls[1].controls[0].controls[-1].page = self.page
+
+class VP_Historial(ft.View):
+    def __init__(self, navegationBar, diccionario):
+        super().__init__()
+        self.route = "/historial"
+        self.appbar = ft.AppBar(
+            leading_width=30,
+            title=mc.Texto_Secundario("Historial", 20, "#27C8B2"),
+            bgcolor="#23182E",
+        )
+        self.navigation_bar = navegationBar
+        self.controls=[
+            ft.SafeArea(
+                expand=True,
+                content=ft.Column(
+                    expand=True,
+                    controls=[
+                        ft.Row([
+                                ft.Column([
+                                        ft.Row([mc.Selector_Filtro("Fecha"), mc.Selector_Filtro("Musculo")], alignment= ft.MainAxisAlignment.CENTER),
+                                        ft.Row([mc.Selector_Filtro("Ejercicio", diccionario), mc.Selector_Filtro("Variacion")], alignment= ft.MainAxisAlignment.CENTER),
+                                        mc.Boton_Filtrar(),
+                                        ft.Column([ft.Text("")], height=30) #Espacio en blanco
+                                    ],
+                                    horizontal_alignment= ft.CrossAxisAlignment.CENTER,
+                                    expand=True,
+                                ),
+                            ]
+                        ),
+                        ft.Row(
+                            [
+                                ft.Column(
+                                    [mc.MyDataTable()],
+                                    height= 300,
+                                    scroll= ft.ScrollMode.ALWAYS,
+                                    expand=True
+                                ),
+                            ]
+                        )
+                    ]
+                )
             )
         ]
         self.bgcolor = "#CEC0A3"
@@ -159,11 +232,6 @@ class VP_Analizar(ft.View):
                 content=ft.Column(
                     expand=True,
                     controls=[
-                        ft.Column(
-                            [mc.MyDataTable()],
-                            height= 300,
-                            scroll= ft.ScrollMode.ALWAYS
-                        )
                     ],
                 ),
             )
