@@ -182,11 +182,13 @@ class VP_Historial(ft.View):
                             [
                                 ft.Column(
                                     [mc.MyDataTable()],
-                                    height= 300,
+                                    height= 445,
                                     scroll= ft.ScrollMode.ALWAYS,
-                                    expand=True
+                                    expand=True,
+                                    horizontal_alignment= ft.CrossAxisAlignment.CENTER
                                 ),
-                            ]
+                            ],
+                            alignment= ft.MainAxisAlignment.CENTER
                         )
                     ]
                 )

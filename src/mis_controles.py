@@ -254,9 +254,8 @@ class MyDataTable(ft.DataTable):
     def __init__(self):
         super().__init__(columns=[ft.DataColumn(ft.Text(""))])
         file = pd.read_csv(get_file_CSV())
+        file = file.drop(["Musculo", "Fecha"], axis=1)
 
-        file = file.drop("Musculo", axis=1)
-        
         #Columnas
         columnas = []
         for i in file.columns:
@@ -270,8 +269,6 @@ class MyDataTable(ft.DataTable):
                 ),
                 heading_row_alignment= ft.MainAxisAlignment.CENTER,
             )
-            if i in ["Reps", "Kg"]:
-                columna.numeric = True
 
             columnas.append(columna)
         self.columns = columnas
@@ -297,10 +294,12 @@ class MyDataTable(ft.DataTable):
         self.rows= self.original_Rows
         self.bgcolor = "#23182E"
         self.heading_row_color = "#27C8B2"
-        self.expand= True
         self.heading_text_style = ft.TextStyle(size=16, color="#D9406B", weight="BOLD")
         self.vertical_lines = ft.BorderSide(2, color= "Black")
-        self.column_spacing = 5
+        self.border_radius = 10
+        self.expand=True
+        self.horizontal_margin = 20
+        self.column_spacing = 30
 
 class Selector_Filtro(Selector):
     def __init__(self, label, diccionarios: list = None):
@@ -344,7 +343,7 @@ class Boton_Filtrar(Boton_Guardar):
         self.on_animation_end = self.filtrar
         self.dic_list = dic_list
 
-    def get_filtros(self, e):
+    def get_filtros(self):
         filtros = {}
 
         for i in range(2):
@@ -354,7 +353,7 @@ class Boton_Filtrar(Boton_Guardar):
         return filtros
 
     def filtrar(self, e):
-        filtros = self.get_filtros
+        filtros: dict = self.get_filtros()
         tabla: MyDataTable = self.parent.parent.parent.controls[1].controls[0].controls[0]
 
         if filtros == {}:
@@ -376,9 +375,26 @@ class Boton_Filtrar(Boton_Guardar):
             else:
                 filtro_final &= condicion 
         
-        new_df = df[filtro_final].drop("Musculo", axis=1)
+        new_df = df[filtro_final].drop(["Musculo", "Fecha"], axis=1)
 
-        tabla.rows = [ft.DataRow([ft.DataCell(ft.Text(a, text_align=ft.TextAlign.CENTER)) for a in new_df.iloc[i].tolist()]) for i in range(new_df.shape[0])]
+        rows = []
+        for i in range(new_df.shape[0]):
+            celdas = []
+
+            for a in new_df.iloc[i].tolist():
+                celda = ft.DataCell(
+                    content=ft.Row(
+                        [ft.Text(value=a, text_align= ft.TextAlign.CENTER, expand=True)],
+                        vertical_alignment= ft.CrossAxisAlignment.CENTER,
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        expand=True
+                    )
+                )
+                celdas.append(celda)
+            
+            rows.append(ft.DataRow(celdas))
+
+        tabla.rows = rows
         tabla.update()
 
     async def animation(self, e):

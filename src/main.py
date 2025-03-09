@@ -32,7 +32,7 @@ def main(page: ft.Page):
         "Patada de burro": ["Mancuernas"],
         "Triceps con mancuerna": ["Mancuernas y unilateral"],
         "Triceps con disco": ["Disco"],
-        "Triceps trasnuca en polea": ["Polea"]
+        "Triceps trasnuca": ["Polea"]
     }
     ejercicios_Espalda = {
         "Dominadas": ["Supino", "Prono cerrado", "Prono abierto"],
