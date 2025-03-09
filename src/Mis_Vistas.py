@@ -12,7 +12,7 @@ class VP_Registrar(ft.View):
         self.route = "/registrar"
         self.appbar = ft.AppBar(
             leading_width=30,
-            title=mc.Texto_Secundario("Registrar", 20, "#27C8B2"),
+            title=mc.MyTexto("Registrar", 20, "#27C8B2"),
             bgcolor="#23182E",
             actions=[
                 ft.IconButton(icon=ft.Icons.HISTORY, on_click=lambda e: self.page.go("/historial"), icon_color="#27C8B2"),
@@ -36,7 +36,6 @@ class VP_Registrar(ft.View):
             )
         ]
         self.navigation_bar = navegationBar
-        self.bgcolor = "#CEC0A3"
     
     def did_mount(self):
         if not mc.csv_con_contenido():
@@ -143,11 +142,10 @@ class VS_Registrar_Opciones(ft.View):
                 expand=True
             )
         ]
-        self.bgcolor = "#CEC0A3"
 
     def build(self):
         self.route = self.page.route
-        self.appbar.title = mc.Texto_Secundario(self.page.route[11:].capitalize(), 20, "#27C8B2")
+        self.appbar.title = mc.MyTexto(self.page.route[11:].capitalize(), 20, "#27C8B2")
         self.controls[0].content.controls[1].controls[0].controls[-1].page = self.page
 
 class VP_Historial(ft.View):
@@ -156,7 +154,7 @@ class VP_Historial(ft.View):
         self.route = "/historial"
         self.appbar = ft.AppBar(
             leading_width=30,
-            title=mc.Texto_Secundario("Historial", 20, "#27C8B2"),
+            title=mc.MyTexto("Historial", 20, "#27C8B2"),
             bgcolor="#23182E",
         )
         self.navigation_bar = navegationBar
@@ -194,7 +192,6 @@ class VP_Historial(ft.View):
                 )
             )
         ]
-        self.bgcolor = "#CEC0A3"
 
 class VP_Entrenar(ft.View):
     def __init__(self, navegationBar):
@@ -202,7 +199,7 @@ class VP_Entrenar(ft.View):
         self.route = "/entrenamiento"
         self.appbar = ft.AppBar(
             leading_width=30,
-            title=mc.Texto_Secundario("Entrenamiento", 20, "#27C8B2"),
+            title=mc.MyTexto("Entrenamiento", 20, "#27C8B2"),
             bgcolor="#23182E",
         )
         self.controls = [
@@ -225,7 +222,7 @@ class VP_Analizar(ft.View):
 
         self.appbar = ft.AppBar(
             leading_width=30,
-            title=mc.Texto_Secundario("Analisis", 20, "#27C8B2"),
+            title=mc.MyTexto("Analisis", 20, "#27C8B2"),
             bgcolor="#23182E",
         )
         self.controls = [

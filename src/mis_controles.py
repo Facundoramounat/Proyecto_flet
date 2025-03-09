@@ -4,11 +4,11 @@ import pandas as pd
 from datetime import date
 import os
 
-def get_file_CSV():
+def get_CSV_path():
     return os.path.join(os.getcwd(), "datos.csv")
 
 def csv_con_contenido():
-    df = pd.read_csv(get_file_CSV())
+    df = pd.read_csv(get_CSV_path())
     
     if df.empty:
         return False
@@ -17,16 +17,16 @@ def csv_con_contenido():
 
 def crear_csv():
     df = pd.DataFrame()
-    df.to_csv(get_file_CSV())
+    df.to_csv(get_CSV_path())
 
 def existe():
-    return os.path.exists(get_file_CSV())
+    return os.path.exists(get_CSV_path())
 
 class MyBotonR(ft.Container):
     def __init__(self, text: str):
         super().__init__()
-        self.content = Texto_Opciones(text.upper(), 30)
-        self.bgcolor = "#F7F5F7"
+        self.content = MyTexto(text.upper(), 30, "#27C8B2")
+        self.bgcolor = "#23182E"
         self.alignment = ft.alignment.center
         self.height = 108
         self.ink = True 
@@ -36,7 +36,7 @@ class MyBotonR(ft.Container):
 class Boton_Guardar(ft.Container):
     def __init__(self):
         super().__init__()
-        self.content = Texto_Secundario("Guardar", 20, "#27C8B2")
+        self.content = MyTexto("Guardar", 20, "#27C8B2")
         self.bgcolor = "#23182E"
         self.border_radius = 25
         self.width = 150
@@ -112,7 +112,7 @@ class Boton_Guardar(ft.Container):
                              "Reps": reps, 
                              "Kg": kg,
                              "Musculo": musculo})
-        file_path = get_file_CSV()
+        file_path = get_CSV_path()
 
         if not csv_con_contenido():
             data.to_csv(file_path, index=False)
@@ -132,15 +132,8 @@ class Boton_Guardar(ft.Container):
 
         self.scale = 1
         self.update()
-        
-class Texto_Opciones(ft.Text):
-    def __init__(self, text, size):
-        super().__init__()
-        self.value = text
-        self.size = size
-        self.color = "#D9406B"
-    
-class Texto_Secundario(ft.Text):
+            
+class MyTexto(ft.Text):
     def __init__(self, text, size, color= "Black"):
         super().__init__()
         self.value= text
@@ -253,7 +246,7 @@ class Selector_Principal(Selector):
 class MyDataTable(ft.DataTable):
     def __init__(self):
         super().__init__(columns=[ft.DataColumn(ft.Text(""))])
-        file = pd.read_csv(get_file_CSV())
+        file = pd.read_csv(get_CSV_path())
         file = file.drop(["Musculo", "Fecha"], axis=1)
 
         #Columnas
@@ -306,7 +299,7 @@ class Selector_Filtro(Selector):
         super().__init__(label)
         self.width = 180
         self.dics = diccionarios
-        file = pd.read_csv(get_file_CSV())
+        file = pd.read_csv(get_CSV_path())
         self.enable_filter = True
 
         if label != "Variacion":
@@ -337,7 +330,7 @@ class Selector_Filtro(Selector):
 class Boton_Filtrar(Boton_Guardar):
     def __init__(self, dic_list = None):
         super().__init__()
-        self.content = Texto_Secundario("Filtrar", 20, "#27C8B2")
+        self.content = MyTexto("Filtrar", 20, "#27C8B2")
         self.visible = True
         self.on_click = self.animation
         self.on_animation_end = self.filtrar
@@ -361,7 +354,7 @@ class Boton_Filtrar(Boton_Guardar):
             tabla.update()
             return
         
-        df = pd.read_csv(get_file_CSV())
+        df = pd.read_csv(get_CSV_path())
         condiciones = []
 
         for filtro, valor in filtros.items():
