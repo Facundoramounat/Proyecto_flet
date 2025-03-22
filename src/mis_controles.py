@@ -1,11 +1,17 @@
 import flet as ft
+
 import asyncio
 import pandas as pd
-from datetime import date
+import datetime as dt
+from locale import setlocale, LC_TIME
+import calendar
 import os
 
 def get_CSV_path():
     return os.path.join(os.getcwd(), "datos.csv")
+
+def get_Dataframe():
+    return pd.read_csv(get_CSV_path())
 
 def csv_con_contenido():
     df = pd.read_csv(get_CSV_path())
@@ -22,16 +28,82 @@ def crear_csv():
 def existe():
     return os.path.exists(get_CSV_path())
 
+def get_diccionario() -> dict:
+    ejercicios_Biceps = {
+        "Curl biceps": ["Supino", "Neutro", "Concentrado", "Rotacion"],
+        "Biceps con barra": ["Barra W", "Barra Z", "Barra romana"],
+        "Biceps en polea": ["Unilateral", "Soga"]
+    }
+    ejercicios_Pecho = {
+        "Press plano": ["Barra", "Maquina", "Mancuernas"],
+        "Press inclinado": ["Mancuernas", "Maquina"],
+        "Press declinado": ["Mancuernas", "Maquina"],
+        "Apertura": ["Mancuernas", "Maquina", "Polea"],
+        "Flexiones": ["Rodilla apoyadas", "Tradicionales"],
+        "Pull over": ["Mancuernas"],
+        "Press en polea": ["Polea"]
+    }
+    ejercicios_Triceps = {
+        "Triceps en polea": ["Soga", "Agarre fijo", "Unilateral"],
+        "Fondos de triceps": ["Estructura", "Banco"],
+        "Patada de burro": ["Mancuernas"],
+        "Triceps con mancuerna": ["Mancuernas y unilateral"],
+        "Triceps con disco": ["Disco"],
+        "Triceps trasnuca": ["Polea"]
+    }
+    ejercicios_Espalda = {
+        "Dominadas": ["Supino", "Prono cerrado", "Prono abierto"],
+        "Dorsalera": ["Supino", "Prono cerrado", "Prono abierto", "Neutro", "Neutro abierto"],
+        "Remo T": ["Neutro", "Abierto"],
+        "Remo": ["Maquina", "Mancuernas", "Polea"],
+        "Traccion en anillos": ["Anillos"],
+        "Posteriores": ["Maquina", "Mancuernas", "Polea"],
+        "Pullover": ["Agarre fijo", "Soga"],
+        "Press": ["Polea"]
+    }
+    ejercicios_Hombros = {
+        "Press de hombros": ["Maquina", "Mancuernas", "Mancuernas neutro"],
+        "Vuelos": ["Laterales", "Lateral en polea", "Frontales"],
+        "Remo al menton": ["Barra"],
+        "Press Arnold": ["Mancuernas"],
+        "Posteriores": ["Maquina", "Mancuernas", "Polea"]
+    }
+    ejercicios_Piernas = {
+        "Sentadilla": ["Barra", "Disco", "Mancuernas"],
+        "Sentadilla sumo": ["Mancuerna", "Barra"],
+        "Peso muerto": ["Barra", "Mancuernas"],
+        "Puente": ["Barra", "Disco"],
+        "Estocadas": ["Barra", "Mancuernas"],
+        "Cajon": ["Saltos", "Subidas"],
+        "Maquina Hack": ["Cuadriceps", "Gluteos"],
+        "Maquinas": ["Prensa", "Cuadriceps", "Izquiotibiales", "Gluteos"],
+        "Bulgaras": ["Tradicionales", "Mancuernas"],
+        "Banco de hiperextensiones": ["Banco"],
+        "Patada de gluteos": ["Polea"],
+        "Aductores": ["Maquina", "Polea"],
+        "Abductores": ["Maquina", "Polea"],
+    }
+
+    ejercicios_por_musculo = {
+        "Biceps": ejercicios_Biceps,
+        "Pecho": ejercicios_Pecho,
+        "Triceps": ejercicios_Triceps,
+        "Espalda": ejercicios_Espalda,
+        "Hombros": ejercicios_Hombros,
+        "Piernas": ejercicios_Piernas
+    }
+    return ejercicios_por_musculo
+
 class MyBotonR(ft.Container):
     def __init__(self, text: str):
         super().__init__()
         self.content = MyTexto(text.upper(), 30, "#27C8B2")
         self.bgcolor = "#23182E"
         self.alignment = ft.alignment.center
-        self.height = 108
         self.ink = True 
         self.border_radius = 15
         self.on_click = lambda e: self.page.go(f"{self.page.route}/{text.lower()}")
+        self.expand = True
 
 class Boton_Guardar(ft.Container):
     def __init__(self):
@@ -84,7 +156,7 @@ class Boton_Guardar(ft.Container):
         if campos_completos == False:
             return 
         
-        fecha = date.today().strftime('%d/%m/%y')
+        fecha = dt.date.today().strftime("%d/%m/%y")
         ejercicio = ejercicios_column.controls[0].value
         variacion = ejercicios_column.controls[1].value
         reps = []
@@ -117,7 +189,7 @@ class Boton_Guardar(ft.Container):
         if not csv_con_contenido():
             data.to_csv(file_path, index=False)
         else:
-            df = pd.read_csv(file_path)
+            df = get_Dataframe()
 
             df = pd.concat([data, df], ignore_index=True)
             df.to_csv(file_path, index=False)
@@ -200,7 +272,7 @@ class Series(Input):
         self.on_change = change_visible
     
 class Selector(ft.Dropdown):
-    def __init__(self, label):
+    def __init__(self, label, analisis: bool = False):
         super().__init__()
         style = Estilo()
         self.label = label
@@ -209,51 +281,79 @@ class Selector(ft.Dropdown):
         self.fill_color = style.fill_color
         self.color = style.color
         self.border_radius = style.border_radius
-        self.width = 350
+        self.analisis = analisis
 
-        def sacar_errorText(e):
-            self.error_text = None
-            self.update()
-        self.on_change = sacar_errorText
-    
-    def build(self):
-        return super().build()
+        if analisis:
+            self.width = 180
+        else:       
+            self.width = 350
+
+    def did_mount(self):
+        if self.analisis:
+            self.on_change = self.cambiar_datos_grafico
+
+    def cambiar_datos_grafico(self, e):
+        lista_fechas : Fechas_analisis_especifico = self.parent.parent.parent.controls[1].controls[0]
+        lista_fechas.set_datos()
 
 class Selector_Principal(Selector):
-    def __init__(self, label, diccionario: dict):
-        super().__init__(label)
-        self.options = [ft.dropdown.Option(i) for i in diccionario.keys()]
+    def __init__(self, label, analisis: bool = False):
+        super().__init__(label, analisis)
+        self.on_change = self.cambiar_variaciones
+        self.analisis = analisis
+    
+    def did_mount(self):
+        pass
+    
+    def build(self):
+        if self.analisis:
+            musculo = self.page.route[10:].capitalize()
+        else:
+            musculo = self.page.route[11:].capitalize()
+        
+        self.ejercicios = get_diccionario()[musculo]
+        self.options = [ft.dropdown.Option(i) for i in self.ejercicios.keys()]
 
-        def sacar_errorText():
-            self.error_text = None
-            self.update()
-
-        def cambiar_variaciones(e):
-            padre: ft.Column = self.parent
+    def cambiar_variaciones(self, e):
+        padre: ft.Column = self.parent
+        
+        if self.analisis:
+            variaciones_selector: Selector = padre.parent.controls[1].controls[0]
+        else:
             variaciones_selector: Selector = padre.controls[1]   #Controles de la columna
-            lista_variaciones = diccionario[e.control.value]
-            
-            variaciones_selector.options = [ft.dropdown.Option(i) for i in lista_variaciones]
+        
+        lista_variaciones = self.ejercicios[e.control.value]
+        variaciones_selector.options = [ft.dropdown.Option(i) for i in lista_variaciones]
 
-            if len(lista_variaciones) == 1:
-                variaciones_selector.value = lista_variaciones[0]
+        variaciones_selector.value = lista_variaciones[0]
+        
+        variaciones_selector.update()
 
-            variaciones_selector.update()
-            sacar_errorText()
-
-        self.on_change = cambiar_variaciones
-
+        if self.analisis:
+            self.cambiar_datos_grafico(None)
+        
 class MyDataTable(ft.DataTable):
     def __init__(self):
         super().__init__(columns=[ft.DataColumn(ft.Text(""))])
-        file = pd.read_csv(get_CSV_path())
-        file = file.drop(["Musculo", "Fecha"], axis=1)
+        self.filtrar_tabla(get_Dataframe())
+
+        self.bgcolor = "#23182E"
+        self.heading_row_color = "#27C8B2"
+        self.heading_text_style = ft.TextStyle(size=16, color="#D9406B", weight="BOLD")
+        self.vertical_lines = ft.BorderSide(2, color= "Black")
+        self.border_radius = 10
+        self.expand=True
+        self.horizontal_margin = 20
+        self.column_spacing = 30
+
+    def filtrar_tabla(self, data):
+        file = data.drop(["Musculo", "Fecha"], axis=1)
 
         #Columnas
         columnas = []
         for i in file.columns:
             columna = ft.DataColumn(
-                ft.Row(
+                label= ft.Row(
                     [
                         ft.Text(i, text_align=ft.TextAlign.CENTER, expand=True),
                     ],
@@ -283,49 +383,79 @@ class MyDataTable(ft.DataTable):
                 celdas.append(celda)
             
             self.original_Rows.append(ft.DataRow(celdas))
-        
+
         self.rows= self.original_Rows
-        self.bgcolor = "#23182E"
-        self.heading_row_color = "#27C8B2"
-        self.heading_text_style = ft.TextStyle(size=16, color="#D9406B", weight="BOLD")
-        self.vertical_lines = ft.BorderSide(2, color= "Black")
-        self.border_radius = 10
-        self.expand=True
-        self.horizontal_margin = 20
-        self.column_spacing = 30
+        self.data = data
 
 class Selector_Filtro(Selector):
-    def __init__(self, label, diccionarios: list = None):
+    def __init__(self, label):
         super().__init__(label)
         self.width = 180
-        self.dics = diccionarios
-        file = pd.read_csv(get_CSV_path())
+        self.file = get_Dataframe()
         self.enable_filter = True
 
-        if label != "Variacion":
-            try:
-                df_filtered = file[label].unique().tolist()
-            except KeyError:
-                self.options = [ft.dropdown.Option(i) for i in ["Vacio", "Biceps", "Pecho", "Triceps", "Espalda", "Hombros", "Piernas"]]
-            else:
-                df_filtered = ["Vacio"] + df_filtered
-                self.options = [ft.dropdown.Option(i) for i in df_filtered]        
+        self.dic = get_diccionario()
+        self.dic_values = self.dic.values()
 
-        if label == "Ejercicio":
-            self.on_change = self.cambiar_variaciones
+        try:
+            df_filtered = self.file[label].unique().tolist()
+        except KeyError:
+            self.options = [ft.dropdown.Option(i) for i in [" "] + self.dic.keys()]
+        else:
+            df_filtered = [" "] + df_filtered
+            self.options = [ft.dropdown.Option(i) for i in df_filtered]
         
-    def cambiar_variaciones(self, e):
-        if e.control.value == "Vacio":
-            return
+        self.original_options = self.options    
+        self.on_change = self.setear_tabla
+    
+    def setear_tabla(self, e):
+        tabla: MyDataTable = self.parent.parent.parent.parent.controls[1].controls[0].controls[0]
+        condiciones = self.get_condiciones()
+        df_filtered = self.file.copy()
 
-        for i in self.dics:
-            if e.control.value in i.keys():
-                self.dict = i
-                break
+        for i in condiciones:
+            df_filtered = df_filtered[i]
 
-        variaciones: Selector_Filtro = self.parent.controls[1]
-        variaciones.options = [ft.dropdown.Option(i) for i in ["Vacio"] + self.dict[e.control.value]]
-        variaciones.update()
+        tabla.filtrar_tabla(df_filtered)
+        tabla.update()
+        self.setear_filtros(tabla)
+
+    def setear_filtros(self, tabla):
+        for i in self.selectores_filtros:
+            if i == self:
+                continue
+
+            label = i.label
+            df_filtered = [" "] + tabla.data[label].unique().tolist()
+            options = [ft.dropdown.Option(i) for i in df_filtered]
+            
+            i.options = options
+            i.update()
+            
+    def get_condiciones(self):
+        df = self.file
+        filtros = self.get_filtros()
+        condiciones = []
+        
+        for i in filtros.keys():
+            condicion = df[i] == filtros[i]
+            condiciones.append(condicion)
+        
+        return condiciones
+
+    def get_filtros(self):
+        controles_columna_padre = self.parent.parent.controls
+        self.selectores_filtros = controles_columna_padre[0].controls + controles_columna_padre[1].controls
+        filtros = {}
+
+        for i in self.selectores_filtros:
+            if i.value != None and i.value != " ":
+                if i == self:
+                    filtros[self.label] = self.value
+                    continue
+                filtros[i.label] = i.value
+        
+        return filtros
 
 class Boton_Filtrar(Boton_Guardar):
     def __init__(self, dic_list = None):
@@ -341,7 +471,7 @@ class Boton_Filtrar(Boton_Guardar):
 
         for i in range(2):
             for a in self.parent.controls[i].controls:
-                if a.value != None and a.value != "Vacio":
+                if a.value != None and a.value != " ":
                     filtros[a.label] = a.value
         return filtros
 
@@ -354,7 +484,7 @@ class Boton_Filtrar(Boton_Guardar):
             tabla.update()
             return
         
-        df = pd.read_csv(get_CSV_path())
+        df = get_Dataframe()
         condiciones = []
 
         for filtro, valor in filtros.items():
@@ -398,3 +528,636 @@ class Boton_Filtrar(Boton_Guardar):
 
         self.scale = 1
         self.update()
+
+class Grafico_General_Pie(ft.PieChart):
+    def __init__(self):
+        super().__init__()
+        self.iconos = {"Biceps": r"\images\biceps.png",
+                        "Pecho": r"\images\pecho.png",
+                        "Triceps": r"\images\triceps.png",
+                        "Espalda": r"\images\espalda.png",
+                        "Hombros": r"\images\hombro.png",
+                        "Piernas": r"\images\pierna.png"}
+        self.colors = {
+            "Biceps": "#27C8B2",
+            "Pecho": "#CEC0A3",
+            "Triceps": "#D9406B",
+            "Espalda": "#9966CC",
+            "Hombros": "#F08080",
+            "Piernas": "#E1AD01"
+        }
+        self.porcentaje = False
+
+    def set_to_porcentaje(self):
+        self.porcentaje = True
+        values = [i.title for i in self.sections]
+        total_values = sum(values)
+
+        for i in self.sections:
+            new_value = i.title * 100 / total_values
+            new_title = f"{round(new_value, 0)}%"
+            i.title = new_title
+        
+        self.update()
+    
+    def set_to_numero(self):
+        self.porcentaje = False
+        for i in range(len(self.sections)):
+            self.sections[i].title = self.data["Value"][i]
+        
+        self.update()
+
+    def set_sections(self, data):
+        self.data = data
+        secciones = []
+        text_style = ft.TextStyle(
+            color="White",
+            weight="Bold",
+            size= 18
+        )
+
+        for i in range(len(data["Musculo"])):
+            badge = ft.Container(
+                ft.Image(
+                    src= self.iconos[data["Musculo"][i]],
+                    width= 50,
+                    height=50,
+                    scale= 0.8
+                ),
+                bgcolor= "White",
+                border_radius=25
+            )
+            parte = ft.PieChartSection(
+                value= data["Value"][i],
+                color= self.colors[data["Musculo"][i]],
+                title= data["Value"][i],
+                title_style= text_style,
+                title_position= 0.6,
+                badge= badge,
+                badge_position= 0 if len(data["Musculo"]) > 1 else -0.9,
+                radius= 80
+            )
+            secciones.append(parte)
+        self.sections = secciones
+        
+class Selector_Tipo_De_Periodo(ft.CupertinoSlidingSegmentedButton):
+    def __init__(self, periodos: list):
+        super().__init__([])
+        
+        controls = []
+        for i in periodos:
+            control = ft.Container(
+                ft.Text(i, size=18, expand=True, color="White", weight="Bold"),
+                alignment= ft.alignment.center,
+                height=40,
+                width= 80
+            )
+            controls.append(control)
+        self.controls = controls
+
+        self.padding=ft.padding.symmetric()
+        self.thumb_color= "#27C8B2"
+        self.selected_index = 0
+        self.expand = True
+        self.bgcolor = "#23182E"
+    
+    def did_mount(self):
+        self.on_change= self.actualizar_controladores
+    
+    def actualizar_controladores(self, e):
+        lista_fechas: Lista_Fechas = self.parent.parent.controls[1].controls[0]
+        lista_fechas.cambiar_periodo()
+        
+class Lista_Fechas(ft.Row):
+    def __init__(self):
+        super().__init__()
+        self.scroll = ft.ScrollMode.HIDDEN
+        self.data: pd.DataFrame = get_Dataframe()
+        self.spacing = 20
+        self.height = 30
+        self.width = 172
+
+    def did_mount(self):
+        self.tipo_periodo: Selector_Tipo_De_Periodo = self.parent.parent.controls[0].controls[0]
+        self.selector_categorias: Selector_Categoria = self.parent.parent.controls[3].controls[0].controls[0]
+        self.cambiar_periodo(inicio=True)
+
+    def cambiar_periodo(self, inicio = False):
+        self.controls = self.get_controls()
+        self.controls[-1].content.color = "#27C8B2"
+        self.scroll_to(offset=-1)
+        self.update()
+
+        if not inicio:
+            self.selector_categorias.set_data(None)
+        
+    def get_controls(self):
+        tipo = self.tipo_periodo.selected_index
+        if tipo == 0:
+            fechas = self.get_days()
+        elif tipo == 1:
+            fechas = self.get_Weeks()
+        else:
+            fechas = self.get_Months()
+        
+        texts = [self.get_text_styled(i) for i in fechas.keys()]
+        controls = [self.get_container(i, a) for i, a in zip(texts, fechas.values())]
+        self.fechas = controls[-1].data
+
+        return controls
+
+    def get_days(self):
+        fechas = self.data["Fecha"].sort_index(ascending=False).unique().tolist()
+        days = {}
+        for i in fechas:
+            nombre = i[:5]
+            days[nombre] = [i]
+
+        return days
+    
+    def get_Weeks(self):
+        all_fechas: list = self.data["Fecha"].sort_index(ascending=False).unique().tolist()
+        fechas_semana = {}
+        for i in all_fechas:
+            i = dt.datetime.strptime(i, "%d/%m/%y")
+
+            dia_semana = i.weekday()
+            lunes = i - dt.timedelta(days=dia_semana)
+
+            fechas = []
+            for a in range(7):
+                dia = lunes + dt.timedelta(days=a)
+                fechas.append(dia.strftime("%d/%m/%y"))
+
+            key = f"{fechas[0][:5]}-{fechas[-1][:5]}"
+            fechas_semana[key] = fechas
+            
+            all_fechas = list(filter(lambda x: x not in fechas_semana, all_fechas))
+
+        return fechas_semana
+
+    def get_meses(self, df):
+        fechas: list = df["Fecha"].unique().tolist()
+        fechas.reverse()
+        meses = [int(i[3:5]) for i in fechas]
+        return meses
+
+    def get_Months(self):
+        meses= self.get_meses(self.data)
+        año = dt.datetime.now().year
+
+        fechas_por_mes = {}
+        setlocale(LC_TIME, 'es_ES.UTF-8')
+
+        for mes in meses:
+            nombre_mes = calendar.month_name[mes]
+            dias_mes = calendar.monthrange(año, mes)[1]
+            fechas_mes = []
+
+            for dia in range(1, dias_mes + 1):
+                fecha = dt.date(day=dia, month=mes, year=año).strftime("%d/%m/%y")
+                fechas_mes.append(fecha)
+            
+            fechas_por_mes[nombre_mes.capitalize()] = fechas_mes
+        
+        return fechas_por_mes
+
+    def get_text_styled(self, text):
+        return ft.Text(
+            value= text,
+            size= 15
+        )
+
+    def get_container(self, control, fechas):
+        return ft.Container(
+            content= control,
+            on_click= self.cambiar_datos,
+            alignment=ft.alignment.center,
+            height=40,
+            data = fechas
+        )
+
+    def cambiar_datos(self, e):
+        self.cambiar_color(e)
+        self.fechas = e.control.data
+        self.selector_categorias.set_data(None)
+
+    def cambiar_color(self, e):
+        e.control.content.color = "#27C8B2"
+
+        for i in self.controls:
+            text_color = i.content.color
+
+            if text_color != "White" and i != e.control:
+                i.content.color = "White"
+        self.update()
+
+class Selector_Tipo_Dato(Selector):
+    def __init__(self, options: list):
+        super().__init__("")
+        self.width = 180
+        self.scale = 0.9
+        self.options = [ft.dropdown.Option(text=i) for i in options]
+        self.value = self.options[0].text
+        self.on_change= self.cambiar_tipo_dato
+
+    def did_mount(self):
+        self.grafico: Grafico_General_Pie = self.get_grafico()
+        
+    def get_grafico(self):
+        return self.parent.parent.parent.controls[2]
+
+    def cambiar_tipo_dato(self, e):
+        value= self.value
+        
+        if value == "Numero":
+            self.grafico.set_to_numero()
+        else:
+            self.grafico.set_to_porcentaje()
+
+class Selector_Categoria(Selector_Tipo_Dato):
+    def __init__(self, options: list):
+        super().__init__(options)
+        self.on_change= self.set_data
+    
+    def did_mount(self):
+        self.grafico = self.get_grafico()
+        self.selector_fecha = self.get_selector()
+        self.set_data(None)
+
+    def get_selector(self):
+        return self.parent.parent.parent.controls[1].controls[0]
+
+    def set_data(self, e):
+        value = self.value
+        self.df = get_Dataframe()
+
+        if value == "Entrenamientos":
+            data = self.get_data_Entrenamientos()
+        elif value == "Series":
+            data = self.get_data_Series()
+        else:
+            data = self.get_data_Reps()
+
+        self.grafico.set_sections(data)
+
+        if self.grafico.porcentaje:
+            self.grafico.set_to_porcentaje()
+        else:
+            self.grafico.set_to_numero()
+
+    def get_df(self):
+        #Filtra el dataframe por fecha
+        fechas = self.selector_fecha.fechas
+        df = self.df[self.df["Fecha"].isin(fechas)]
+
+        return df
+
+    def get_data_Entrenamientos(self):
+        df= self.get_df()
+
+        new_data = {"Musculo": [], "Value": []}
+
+        for i in df["Fecha"].unique().tolist():
+            musculos_entrenados = df[df["Fecha"] == i]["Musculo"].unique().tolist()
+            for a in musculos_entrenados:
+                filtered_df: pd.DataFrame = df[df["Musculo"] == a]
+                ejercicios_hechos = filtered_df["Ejercicio"].unique()
+
+                value = 0
+                for b in ejercicios_hechos:
+                    ejercicios: pd.DataFrame = filtered_df[filtered_df["Ejercicio"] == b]
+                    num = len(ejercicios["Variacion"].value_counts().values)
+                    value += num
+                
+                lista_musculos: list = new_data["Musculo"]
+                if a in lista_musculos:
+                    ind = lista_musculos.index(a)
+                    new_data["Value"][ind] += value
+                else:
+                    new_data["Musculo"].append(a)
+                    new_data["Value"].append(value)
+        
+        return new_data
+    
+    def get_data_Series(self):
+        df = self.get_df()
+        
+        new_data = {"Musculo": [], "Value": []}
+        
+        for i in df["Fecha"].unique().tolist():
+            musculos_entrenados = df[df["Fecha"] == i]["Musculo"].unique().tolist()
+            for a in musculos_entrenados:
+                filtered_df = df[(df["Musculo"] == a) & (df["Fecha"] == i)]
+                series = len(filtered_df["Ejercicio"])
+
+                lista_musculos: list = new_data["Musculo"]
+                if a in lista_musculos:
+                    ind = lista_musculos.index(a)
+                    new_data["Value"][ind] += series
+                else:
+                    new_data["Musculo"].append(a)
+                    new_data["Value"].append(series)
+
+        return new_data
+
+    def get_data_Reps(self):
+        df= self.get_df()
+        new_data = {"Musculo": [], "Value": []}
+        promedios_dias = {}
+
+        for i in df["Fecha"].unique().tolist():
+            musculos_entrenados = df[df["Fecha"] == i]["Musculo"].unique().tolist()
+            
+            for a in musculos_entrenados:
+                ejercicios_hechos = df[df["Musculo"] == a]["Ejercicio"].unique()
+                promedios = []
+
+                for b in ejercicios_hechos:
+                    filtered_df = df[df["Ejercicio"] == b]
+                    variaciones = filtered_df["Variacion"].value_counts().keys()
+
+                    for c in variaciones:
+                        series = filtered_df[filtered_df["Variacion"] == c]
+                        promedio_reps = series["Reps"].mean()
+                        promedios.append(promedio_reps)
+
+                value = self.promedio(promedios)
+
+                lista: list = promedios_dias.keys()
+                if a in lista:
+                    promedios_dias[a].append(value)
+                else:
+                    promedios_dias[a] = [value]
+        
+        general_value = [self.promedio(i) for i in promedios_dias.values()]
+        
+        new_data["Musculo"] = list(promedios_dias.keys())
+        new_data["Value"] = general_value
+
+        return new_data
+
+    def promedio(self, lista):
+        promedio = round(sum(lista)/len(lista), 1)
+
+        if promedio.is_integer():
+            promedio = int(promedio)
+        return promedio
+    
+class Opciones(ft.PopupMenuButton):
+    def __init__(self):
+        super().__init__()
+        musculos = self.get_musculos()
+        items = ["General", None] + musculos
+
+        self.items = [ft.PopupMenuItem(content=self.get_text(i), on_click=self.cambiar_ruta) for i in items]
+        self.icon = ft.Icons.LIST
+        self.icon_size = 28
+        self.icon_color = "#27C8B2"
+        self.bgcolor = "#23182E"
+
+    def did_mount(self):
+        self.cambiar_color()
+        
+    def get_musculos(self) -> list:
+        df = get_Dataframe()
+        return df["Musculo"].unique().tolist()
+    
+    def get_text(self, text):
+        if text == None:
+            return text
+        
+        return ft.Text(
+            value= text,
+            text_align= ft.TextAlign.CENTER,
+            weight= "Bold",
+            color="White",
+            size= 15
+        )
+
+    def cambiar_ruta(self, e):
+        self.page.go(f"/analisis/{e.control.content.value.lower()}")
+    
+    def cambiar_color(self):
+        values = []
+        for i in self.items:
+            if i.content == None:
+                values.append(i.content)
+                continue
+
+            values.append(i.content.value)
+        
+        ind = values.index(self.page.route[10:].capitalize())
+        self.items[ind].content.color = "#27C8B2"
+        self.items[ind].content.update()
+
+class Fechas_analisis_especifico(Lista_Fechas):
+    def __init__(self):
+        super().__init__()
+        self.visible = False
+        self.grafico = ""
+        self.width = 168
+    
+    def did_mount(self):
+        pass
+    
+    def get_Months(self, df: pd.DataFrame):
+        meses= self.get_meses(df)
+        fechas = df["Fecha"].unique().tolist()
+        setlocale(LC_TIME, 'es_ES.UTF-8')
+
+        meses_dict = {}
+        for i in meses:
+            mes = calendar.month_name[i].capitalize()
+            dias = []
+            for a in fechas:
+                if int(a[3:5]) == int(i):
+                    dias.append(a)
+            
+            meses_dict[mes] = dias
+        
+        return meses_dict
+
+    def set_datos(self):
+        meses_y_fechas = self.get_Months(self.get_df_Filtered()) #Las keys son los meses y los values son las fechas
+        
+        if self.grafico == "":
+            self.grafico: Grafico_BarChart = self.parent.parent.controls[2]
+
+        if meses_y_fechas == {}:
+            self.set_visible(False)
+            self.agregar_mensaje(True)
+            return
+        elif self.visible == False:
+            self.set_visible(True)
+            self.agregar_mensaje(False)
+            
+
+        texts = [self.get_text_styled(i) for i in meses_y_fechas.keys()]
+        controls = [self.get_container(i, a) for i, a in zip(texts, meses_y_fechas.values())]
+        
+        self.controls = controls
+        self.controls[-1].content.color = "#27C8B2"
+        self.scroll_to(offset=-1)
+        self.update()
+        self.grafico.modificar_datos(self.controls[-1].data)
+    
+    def get_ejercicio(self):
+        ejercicio = self.parent.parent.controls[0].controls[0].controls[0].value
+        variacion = self.parent.parent.controls[0].controls[1].controls[0].value
+
+        return ejercicio, variacion
+
+    def get_df_Filtered(self):
+        ejercicio, variacion = self.get_ejercicio()
+        df = get_Dataframe()
+
+        condicion_1 = df["Ejercicio"] == ejercicio
+        condicion_2 = df["Variacion"] == variacion
+        df_filtered = df[condicion_1 & condicion_2]
+
+        return df_filtered
+
+    def agregar_mensaje(self, visible: bool):
+        self.parent.parent.controls[-1].visible = visible
+        self.parent.parent.controls[-1].update()
+
+    def cambiar_datos(self, e):
+        self.cambiar_color(e)
+        self.grafico.modificar_datos(e.control.data)
+
+    def set_visible(self, visible: bool):
+        self.visible = visible
+        self.grafico.visible = visible
+        self.parent.controls[1].visible = visible
+        
+        self.update()
+        self.grafico.update()
+        self.parent.controls[1].update()
+
+class Grafico_BarChart(ft.BarChart):
+    def __init__(self):
+        super().__init__()
+        self.horizontal_grid_lines = ft.ChartGridLines(
+            color=ft.Colors.GREY_300, width=1, dash_pattern=[3, 3]
+        )
+        self.tooltip_bgcolor = ft.Colors.with_opacity(0.5, ft.Colors.GREY_300)
+        self.border = ft.border.all(1, ft.Colors.GREY_400)
+        self.bottom_axis = ft.ChartAxis(
+            title= ft.Text(
+                value= "DIA",
+                text_align= ft.TextAlign.CENTER,
+                style= ft.TextStyle(
+                    size= 20,
+                    letter_spacing= 10
+                )
+            ),
+            title_size= 30
+        )
+        self.left_axis = ft.ChartAxis(
+            title=ft.Text(
+                text_align= ft.TextAlign.CENTER,
+                style= ft.TextStyle(
+                    size= 20,
+                    letter_spacing= 10
+                )
+            ),
+            title_size= 25,
+            labels_size= 40,
+        )
+        self.visible = False
+        self.bgcolor = "#23182E"
+
+    def did_mount(self):
+        self.fechas: Fechas_analisis_especifico = self.parent.controls[1].controls[0]
+
+    def modificar_datos(self, fechas):        
+        df = self.fechas.get_df_Filtered()
+        df = df[df["Fecha"].isin(fechas)]
+        
+        groups, labels, left_title, max_y= self.get_BarGroups_y_Labels(df)
+        
+        self.bar_groups = groups
+        self.bottom_axis.labels = labels
+        self.left_axis.title.value = left_title
+
+        intervals = {
+            (0, 25): 2.5,
+            (25, 50): 5,
+            (50, 75): 7.5,
+            (75, 100): 10,
+            (100, 125): 12.5,
+            (125, 150): 15,
+            (150, 175): 17.5,
+            (175, 200): 20,
+            (200, 225): 22.5,
+            (225, 250): 25,
+            (250, 275): 27.5,
+            (275, 300): 30,
+            (300, 325): 32.5,
+            (325, 350): 35,
+            (350, 375): 37.5,
+            (375, 400): 40,
+            (400, 425): 42.5,
+            (425, 450): 45,
+            (450, 475): 47.5,
+            (475, 500): 50
+        }
+
+        for (min_y, max_range_y), interval in intervals.items():
+            if min_y < max_y <= max_range_y:
+                self.left_axis.labels_interval = interval
+                self.horizontal_grid_lines.interval = interval
+                break
+
+        self.update()
+
+    def get_BarGroups_y_Labels(self, df: pd.DataFrame):
+        bars = []
+        horizontal_Labels = []
+        fechas: list = df["Fecha"].unique().tolist()
+        fechas.reverse()
+        
+        left_title = "PESO"
+
+        for i in fechas:
+            pos = fechas.index(i)
+            df_filtered = df[df["Fecha"] == i]
+            
+            bars.append(ft.BarChartGroup(
+                x= pos,
+                bar_rods= self.get_bars(df_filtered)
+            ))
+            horizontal_Labels.append(ft.ChartAxisLabel(
+                value= pos,
+                label= ft.Container(ft.Text(i[:2]))
+            ))
+        
+        max_y = 0
+        for i in bars:
+            bar: ft.BarChartRod = i.bar_rods[0]
+            if bar.to_y > max_y:
+                max_y = bar.to_y
+
+        return bars, horizontal_Labels, left_title, max_y
+    
+    def get_bars(self, df: pd.DataFrame):
+        media_kg = df["Kg"].mean()
+            
+        return [ft.BarChartRod(
+            from_y=0,
+            to_y=media_kg,
+            color="#D9406B",
+            border_radius= 0,
+            width= 15
+        )]
+
+class Selector_Peso_Reps(Selector_Tipo_Dato):
+    def __init__(self, options: list):
+        super().__init__(options)
+        self.visible = False
+        self.on_change = None
+    
+    def did_mount(self):
+        pass
+    
