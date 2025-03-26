@@ -9,8 +9,13 @@ authors = [
 ]
 dependencies = [
   "flet",
-  "pandas"
+  "pandas",
+  "pyjnius"
 ]
+
+[tool.flet.android.permission] # --android-permissions
+"android.permission.READ_EXTERNAL_STORAGE" = true
+"android.permission.WRITE_EXTERNAL_STORAGE" = true
 
 [tool.flet]
 # org name in reverse domain name notation, e.g. "com.mycompany".

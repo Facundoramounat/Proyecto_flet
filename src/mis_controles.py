@@ -9,7 +9,9 @@ import os
 from jnius import autoclass
 
 def get_CSV_path():
-    return os.path.join(os.getcwd(), "datos.csv")
+    Environment = autoclass('android.os.Environment')
+    Documents = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+    return os.path.join(Documents.getAbsolutePath(), "datos.csv")
 
 def get_Dataframe():
     return pd.read_csv(get_CSV_path())
