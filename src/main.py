@@ -53,7 +53,7 @@ def main(page: ft.Page):
             ft.NavigationBarDestination(icon= ft.Icons.ANALYTICS, label= "Analisis"),
         ]
     )
-
+    
     #Configuracion de la pagina
     page.navigation_bar = navigationBar
     page.on_view_pop = view_pop

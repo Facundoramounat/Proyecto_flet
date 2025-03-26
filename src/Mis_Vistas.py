@@ -15,7 +15,7 @@ class VP_Registrar(ft.View):
             title=mc.MyTexto("Registrar", 20, "#27C8B2"),
             bgcolor="#23182E",
             actions=[
-                ft.IconButton(icon=ft.Icons.HISTORY, on_click=lambda e: self.page.go("/historial"), icon_color="#27C8B2"),
+                ft.IconButton(icon=ft.Icons.HISTORY, on_click=lambda e: self.page.go("/historial"), icon_color="#27C8B2")
             ]
         )
         self.controls = [
@@ -126,7 +126,7 @@ class VS_Registrar_Opciones(ft.View):
                                             ]
                                         ),
                                         ft.Column(height=25),
-                                        mc.Boton_Guardar()
+                                        mc.Boton_Guardar(text= "Guardar")
                                     ],
                                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                                     expand=True
@@ -307,13 +307,20 @@ class VS_Analizar_Musculos(ft.View):
                         ft.Row(
                             [
                                 mc.Fechas_analisis_especifico(),
-                                mc.Selector_Peso_Reps(options=["Peso", "Repeticiones"])
+                                ft.Column(
+                                    [mc.Selector_Peso_Reps(options=["Peso", "Reps"])], 
+                                    horizontal_alignment=ft.CrossAxisAlignment.END,
+                                    alignment= ft.MainAxisAlignment.END,
+                                    expand=True
+                                )
                             ], 
-                            vertical_alignment= ft.CrossAxisAlignment.END,
+                            vertical_alignment= ft.CrossAxisAlignment.CENTER,
                             alignment= ft.MainAxisAlignment.CENTER,
                             height= 70
                         ),
                         mc.Grafico_BarChart(),
+                        ft.Column(height=20),  #Espacio en blanco
+                        mc.Informacion_Detallada(),
                         ft.Row([ft.Text("No hay datos")], visible=False , alignment=ft.MainAxisAlignment.CENTER),
                     ]
                 )

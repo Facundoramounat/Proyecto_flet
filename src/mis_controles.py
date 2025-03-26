@@ -6,6 +6,7 @@ import datetime as dt
 from locale import setlocale, LC_TIME
 import calendar
 import os
+from jnius import autoclass
 
 def get_CSV_path():
     return os.path.join(os.getcwd(), "datos.csv")
@@ -106,9 +107,9 @@ class MyBotonR(ft.Container):
         self.expand = True
 
 class Boton_Guardar(ft.Container):
-    def __init__(self):
+    def __init__(self, text):
         super().__init__()
-        self.content = MyTexto("Guardar", 20, "#27C8B2")
+        self.content = MyTexto(text, 20, "#27C8B2")
         self.bgcolor = "#23182E"
         self.border_radius = 25
         self.width = 150
@@ -196,6 +197,10 @@ class Boton_Guardar(ft.Container):
         
         self.page.go(self.page.views[0].route)
 
+    def set_visible(self, visible: bool):
+        self.visible = visible
+        self.update()
+
     async def animation(self, e):
         self.scale = 0.7
         self.update()
@@ -235,41 +240,115 @@ class Input(ft.TextField):
         self.keyboard_type = ft.KeyboardType.NUMBER
         self.border_radius = style.border_radius
         self.width = 180
-
-        def sacar_errorText(e):
-            self.error_text = None
-            self.update()
-
-        self.on_change = sacar_errorText
+    
+    def setear_hint_text(self, text):
+        self.hint_text = text
+        self.update()
 
 class Series(Input):
     def __init__(self):
         super().__init__("Series")
+        self.visible = False
+        self.on_change = self.modificar_inputs
 
-        def change_visible(e):
-            try:
-                num = int(e.control.value)
+    def modificar_inputs(self, e):
+        num = self.verificar_numero()
+        if type(num) != int:
+            return
+
+        self.rows_Column: ft.Column = self.parent.controls[1].controls
+        boton_Guardar: Boton_Guardar = self.parent.controls[-1]
+        data = self.get_datos()
+        self.ocultar_todas_Rows()
+
+        for i in range(num):
+            row: ft.Row = self.rows_Column[i]
+
+            if data == None:
+                texts = [None, None]
+                self.agregar_hints_texts(row= row, texts=texts)
+            else:
+                try:
+                    texts = [data["Reps"][i], data["Kg"][i]]
+                    self.agregar_hints_texts(row= row, texts=texts)
+                except IndexError:
+                    pass
                 
-                if num > 6:
-                    num = 6
-                    e.control.value = 6
-            except ValueError:
-                return
+            row.visible = True
+            boton_Guardar.visible = True
+            row.update()
+            boton_Guardar.update()
 
-            padre: ft.Column = self.parent
-            rows_Column = padre.controls[1].controls
-            boton_enviar = padre.controls[-1]
-            boton_enviar.visible = True
+    def get_datos(self) -> dict:
+        df = self.get_df_filtered()
+        data = {
+            "Series": [],
+            "Reps": [],
+            "Kg": []
+        }
+        
+        if type(df) != pd.DataFrame:
+            return 
 
-            for i in rows_Column:
-                i.visible = False
+        series = len(df["Reps"])
+        for i in range(series):
+            data["Series"].append(i+1)
+            data["Reps"].append(df["Reps"][i])
+            data["Kg"].append(df["Kg"][i])
+        
+        return data
+        
+    def get_df_filtered(self):
+        df = get_Dataframe()
 
-            for i in range(num):
-                rows_Column[i].visible = True
+        ejercicio: Selector_Principal = self.parent.parent.parent.controls[0].controls[0].controls[0]
+        variacion: Selector = self.parent.parent.parent.controls[0].controls[0].controls[1]
 
-            padre.update()
+        condiciones = [
+            df["Ejercicio"] == ejercicio.value,
+            df["Variacion"] == variacion.value
+        ]
 
-        self.on_change = change_visible
+        df_filtered = df[condiciones[0] & condiciones[1]]
+        if df_filtered.empty:
+            return
+
+        fecha = df_filtered["Fecha"].unique().tolist()[0]
+        df_filtered = df[df["Fecha"] == fecha]
+        df_filtered = df_filtered[["Reps", "Kg"]]
+        
+        return df_filtered
+
+    def agregar_hints_texts(self, row: ft.Row, texts: list):        
+        for i, a in zip(row.controls, texts):
+            i.setear_hint_text(text= a)
+
+    def verificar_numero(self):
+        try:
+            num = int(self.value)
+                
+            if num > 6:
+                num = 6
+                self.value = 6
+            
+            return num
+        except ValueError:
+            return
+    
+    def ocultar_todas_Rows(self):
+        for i in self.rows_Column:
+            i.visible = False
+            i.update()
+
+    def set_visible(self, visible: bool):
+        self.visible = visible
+
+        try:
+            self.setear_hint_text(text=self.get_datos()["Series"][-1])
+        except TypeError:
+            self.setear_hint_text(text=None)
+        
+        self.modificar_inputs(None)
     
 class Selector(ft.Dropdown):
     def __init__(self, label, analisis: bool = False):
@@ -287,10 +366,16 @@ class Selector(ft.Dropdown):
             self.width = 180
         else:       
             self.width = 350
+            self.on_change = self.agregar_series
 
     def did_mount(self):
         if self.analisis:
             self.on_change = self.cambiar_datos_grafico
+
+    def agregar_series(self, e):
+        series: Series = self.parent.parent.parent.controls[1].controls[0].controls[0]
+        series.set_visible(True)
+        series.update()
 
     def cambiar_datos_grafico(self, e):
         lista_fechas : Fechas_analisis_especifico = self.parent.parent.parent.controls[1].controls[0]
@@ -331,7 +416,9 @@ class Selector_Principal(Selector):
 
         if self.analisis:
             self.cambiar_datos_grafico(None)
-        
+        else:
+            variaciones_selector.agregar_series(None)
+
 class MyDataTable(ft.DataTable):
     def __init__(self):
         super().__init__(columns=[ft.DataColumn(ft.Text(""))])
@@ -456,78 +543,6 @@ class Selector_Filtro(Selector):
                 filtros[i.label] = i.value
         
         return filtros
-
-class Boton_Filtrar(Boton_Guardar):
-    def __init__(self, dic_list = None):
-        super().__init__()
-        self.content = MyTexto("Filtrar", 20, "#27C8B2")
-        self.visible = True
-        self.on_click = self.animation
-        self.on_animation_end = self.filtrar
-        self.dic_list = dic_list
-
-    def get_filtros(self):
-        filtros = {}
-
-        for i in range(2):
-            for a in self.parent.controls[i].controls:
-                if a.value != None and a.value != " ":
-                    filtros[a.label] = a.value
-        return filtros
-
-    def filtrar(self, e):
-        filtros: dict = self.get_filtros()
-        tabla: MyDataTable = self.parent.parent.parent.controls[1].controls[0].controls[0]
-
-        if filtros == {}:
-            tabla.rows = tabla.original_Rows
-            tabla.update()
-            return
-        
-        df = get_Dataframe()
-        condiciones = []
-
-        for filtro, valor in filtros.items():
-            condiciones.append(df[filtro] == valor)
-        
-        filtro_final = None
-
-        for condicion in condiciones:
-            if filtro_final is None:
-                filtro_final = condicion
-            else:
-                filtro_final &= condicion 
-        
-        new_df = df[filtro_final].drop(["Musculo", "Fecha"], axis=1)
-
-        rows = []
-        for i in range(new_df.shape[0]):
-            celdas = []
-
-            for a in new_df.iloc[i].tolist():
-                celda = ft.DataCell(
-                    content=ft.Row(
-                        [ft.Text(value=a, text_align= ft.TextAlign.CENTER, expand=True)],
-                        vertical_alignment= ft.CrossAxisAlignment.CENTER,
-                        alignment=ft.MainAxisAlignment.CENTER,
-                        expand=True
-                    )
-                )
-                celdas.append(celda)
-            
-            rows.append(ft.DataRow(celdas))
-
-        tabla.rows = rows
-        tabla.update()
-
-    async def animation(self, e):
-        self.scale = 0.7
-        self.update()
-
-        await asyncio.sleep(0.21)
-
-        self.scale = 1
-        self.update()
 
 class Grafico_General_Pie(ft.PieChart):
     def __init__(self):
@@ -956,7 +971,11 @@ class Fechas_analisis_especifico(Lista_Fechas):
         super().__init__()
         self.visible = False
         self.grafico = ""
+        self.selector_peso_reps = ""
+        self.informacion_detallada = ""
         self.width = 168
+        self.fechas_actuales = None
+        self.fechas_mes_anterior = None
     
     def did_mount(self):
         pass
@@ -978,30 +997,46 @@ class Fechas_analisis_especifico(Lista_Fechas):
         
         return meses_dict
 
-    def set_datos(self):
-        meses_y_fechas = self.get_Months(self.get_df_Filtered()) #Las keys son los meses y los values son las fechas
-        
-        if self.grafico == "":
+    def verificar_informacion(self, datos):
+        if "" in [self.grafico, self.selector_peso_reps, self.informacion_detallada]:
             self.grafico: Grafico_BarChart = self.parent.parent.controls[2]
+            self.selector_peso_reps: Selector_Peso_Reps = self.parent.controls[1].controls[0]
+            self.informacion_detallada: Informacion_Detallada = self.parent.parent.controls[4]
 
-        if meses_y_fechas == {}:
+        if datos == {}:
             self.set_visible(False)
             self.agregar_mensaje(True)
-            return
+            return None
         elif self.visible == False:
             self.set_visible(True)
             self.agregar_mensaje(False)
-            
+            return True
+
+    def set_datos(self):
+        meses_y_fechas = self.get_Months(self.get_df_Filtered()) #Las keys son los meses y los values son las fechas
+        
+        if self.verificar_informacion(meses_y_fechas) == None:
+            return
 
         texts = [self.get_text_styled(i) for i in meses_y_fechas.keys()]
         controls = [self.get_container(i, a) for i, a in zip(texts, meses_y_fechas.values())]
-        
+        tipo = self.parent.controls[1].controls[0].value
+
         self.controls = controls
         self.controls[-1].content.color = "#27C8B2"
         self.scroll_to(offset=-1)
         self.update()
-        self.grafico.modificar_datos(self.controls[-1].data)
-    
+
+        self.cambiar_fechas_actuales(self.controls[-1].data)
+        
+        try:
+            self.cambiar_fechas_mes_anterior(self.controls[-2].data)
+        except IndexError:
+            self.cambiar_fechas_mes_anterior(self.controls[-1].data)
+
+        self.grafico.modificar_datos(tipo=tipo)
+        self.informacion_detallada.modificar_datos()
+
     def get_ejercicio(self):
         ejercicio = self.parent.parent.controls[0].controls[0].controls[0].value
         variacion = self.parent.parent.controls[0].controls[1].controls[0].value
@@ -1024,16 +1059,31 @@ class Fechas_analisis_especifico(Lista_Fechas):
 
     def cambiar_datos(self, e):
         self.cambiar_color(e)
-        self.grafico.modificar_datos(e.control.data)
+        tipo = self.parent.controls[1].controls[0].value
+        self.cambiar_fechas_actuales(e.control.data)
+        
+        ind = self.controls.index(e.control) - 1
+        if ind < 0:
+            ind = 0
+        
+        self.cambiar_fechas_mes_anterior(self.controls[ind].data)
 
+        self.grafico.modificar_datos(tipo=tipo)
+        self.informacion_detallada.modificar_datos()
+        
     def set_visible(self, visible: bool):
         self.visible = visible
-        self.grafico.visible = visible
-        self.parent.controls[1].visible = visible
-        
         self.update()
-        self.grafico.update()
-        self.parent.controls[1].update()
+
+        self.grafico.set_visible(visible)
+        self.selector_peso_reps.set_visible(visible)
+        self.informacion_detallada.set_visible(visible)
+
+    def cambiar_fechas_actuales(self, fechas):
+        self.fechas_actuales = fechas
+
+    def cambiar_fechas_mes_anterior(self, fechas):
+        self.fechas_mes_anterior = fechas
 
 class Grafico_BarChart(ft.BarChart):
     def __init__(self):
@@ -1071,11 +1121,13 @@ class Grafico_BarChart(ft.BarChart):
     def did_mount(self):
         self.fechas: Fechas_analisis_especifico = self.parent.controls[1].controls[0]
 
-    def modificar_datos(self, fechas):        
+    def modificar_datos(self, tipo: str):        
+        fechas = self.fechas.fechas_actuales
+
         df = self.fechas.get_df_Filtered()
         df = df[df["Fecha"].isin(fechas)]
         
-        groups, labels, left_title, max_y= self.get_BarGroups_y_Labels(df)
+        groups, labels, left_title, max_y= self.get_BarGroups_y_Labels(df, tipo)
         
         self.bar_groups = groups
         self.bottom_axis.labels = labels
@@ -1112,13 +1164,13 @@ class Grafico_BarChart(ft.BarChart):
 
         self.update()
 
-    def get_BarGroups_y_Labels(self, df: pd.DataFrame):
+    def get_BarGroups_y_Labels(self, df: pd.DataFrame, tipo: str):
         bars = []
         horizontal_Labels = []
         fechas: list = df["Fecha"].unique().tolist()
         fechas.reverse()
         
-        left_title = "PESO"
+        left_title = tipo.upper()
 
         for i in fechas:
             pos = fechas.index(i)
@@ -1126,7 +1178,7 @@ class Grafico_BarChart(ft.BarChart):
             
             bars.append(ft.BarChartGroup(
                 x= pos,
-                bar_rods= self.get_bars(df_filtered)
+                bar_rods= self.get_bars(df_filtered, tipo)
             ))
             horizontal_Labels.append(ft.ChartAxisLabel(
                 value= pos,
@@ -1141,23 +1193,172 @@ class Grafico_BarChart(ft.BarChart):
 
         return bars, horizontal_Labels, left_title, max_y
     
-    def get_bars(self, df: pd.DataFrame):
-        media_kg = df["Kg"].mean()
+    def get_bars(self, df: pd.DataFrame, tipo: str):
+        if tipo == "Peso":
+            data = df["Kg"].mean()
+        else:
+            data = df["Reps"].mean()
             
         return [ft.BarChartRod(
             from_y=0,
-            to_y=media_kg,
+            to_y=data,
             color="#D9406B",
             border_radius= 0,
             width= 15
         )]
 
+    def set_visible(self, visible):
+        self.visible = visible
+        self.update()
+
 class Selector_Peso_Reps(Selector_Tipo_Dato):
     def __init__(self, options: list):
         super().__init__(options)
         self.visible = False
-        self.on_change = None
+        self.on_change = self.setear_datos
     
     def did_mount(self):
         pass
+
+    def setear_datos(self, e):
+        fechas = self.parent.parent.controls[0].fechas_actuales
+        grafico: Grafico_BarChart = self.get_grafico()
+        tipo = self.value
+
+        grafico.modificar_datos(fechas= fechas, tipo= tipo)
     
+    def set_visible(self, visible):
+        self.visible = visible
+        self.update()
+
+class Informacion_Detallada(ft.Column):
+    def __init__(self):
+        super().__init__()
+        self.expand = True
+        self.titulos = ["PR:", "Peso respecto al mes anterior:", "Series hechas usualmente:", "Media peso levantado (Mes):", "Media series hechas (Mes):"]
+        self.controls = [
+            ft.Row(
+                controls= [
+                    ft.Column(
+                        expand=True, 
+                        controls=[
+                            ft.Text(
+                                value= i,
+                                size= 16,
+                                weight= "Bold"
+                            )
+                        ]
+                    ),
+                    ft.Column(
+                        controls=[
+                            ft.Text(
+                                value= "",
+                                size= 16,
+                                color= "#27C8B2"
+                            )
+                        ], 
+                        horizontal_alignment=ft.CrossAxisAlignment.END
+                    )
+                ],
+                height= 35
+            ) for i in self.titulos
+        ]
+        self.visible = False
+
+    def did_mount(self):
+        self.fae: Fechas_analisis_especifico = self.parent.controls[1].controls[0]
+
+    def modificar_datos(self):
+        funciones = [
+            self.get_PR,
+            self.get_Peso_Respecto_Mes_Anterior,
+            self.get_Series_Hechas_Usualmente,
+            self.get_Media_Peso_Levantado,
+            self.get_Media_Series_Hechas
+        ]
+
+        for control, funcion in zip(self.controls, funciones):
+            text: ft.Text = control.controls[1].controls[0]
+            text.value = funcion()
+
+        texto: ft.Text = self.controls[1].controls[1].controls[0]
+        
+        if "-" in texto.value:
+            texto.color = "Red"
+        else:
+            texto.color = "Green"
+
+        self.update()
+
+    def get_df_filtered(self):
+        df: pd.DataFrame = self.fae.get_df_Filtered()   #Devuelve el DataFrame con los ejercicios pero con todas las fechas
+        
+        return df[df["Fecha"].isin(self.fae.fechas_actuales)]
+
+    def get_PR(self):
+        df = self.get_df_filtered()
+        pr = df["Kg"].max()
+        pr = int(pr) if pr.is_integer() else pr
+
+        return pr
+
+    def get_Peso_Respecto_Mes_Anterior(self):
+        df_con_todas_las_fechas = self.fae.get_df_Filtered()
+
+        df_mes_actual: pd.DataFrame = df_con_todas_las_fechas[df_con_todas_las_fechas["Fecha"].isin(self.fae.fechas_actuales)]
+        df_mes_anterior: pd.DataFrame = df_con_todas_las_fechas[df_con_todas_las_fechas["Fecha"].isin(self.fae.fechas_mes_anterior)]
+
+        media_mes_actual = df_mes_actual["Kg"].mean()
+        media_mes_anterior = df_mes_anterior["Kg"].mean()
+
+        texto = f"{self.calcular_porcentaje(media_mes_anterior, media_mes_actual)}%"
+        return texto
+
+    def calcular_porcentaje(self, valor_inicial: float, valor_final: float):
+        diferencia = valor_final - valor_inicial
+        porcentaje = (diferencia / valor_inicial) * 100
+        porcentaje = int(porcentaje) if porcentaje.is_integer() else round(porcentaje, 2)
+
+        return porcentaje
+
+    def get_Series_Hechas_Usualmente(self):
+        df = self.get_df_filtered()
+        fechas = df["Fecha"].unique().tolist()
+        conteo = {}
+
+        for i in fechas:
+            num = len(df[df["Fecha"] == i])
+
+            if num in conteo.keys():
+                conteo[num] += 1
+            else:
+                conteo[num] = 1
+
+        mayor = max(conteo.values())
+        for i in conteo.keys():
+            if conteo[i] == mayor:
+                return i
+
+    def get_Media_Peso_Levantado(self):
+        df = self.get_df_filtered()
+        media = df["Kg"].mean()
+        media = int(media) if media.is_integer() else round(media, 2)
+
+        return media
+
+    def get_Media_Series_Hechas(self):
+        df = self.get_df_filtered()
+        fechas = df["Fecha"].unique().tolist()
+        series = []
+
+        for i in fechas:
+            num_series = len(df[df["Fecha"] == i])
+            series.append(num_series)
+        
+        media = sum(series) / len(series)
+        media = int(media) if media.is_integer() else round(media, 2)
+        return media
+
+    def set_visible(self, visible):
+        self.visible = visible
+        self.update()
