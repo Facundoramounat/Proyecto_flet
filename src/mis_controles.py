@@ -3,15 +3,14 @@ import flet as ft
 import asyncio
 import pandas as pd
 import datetime as dt
-from locale import setlocale, LC_TIME
 import calendar
 import os
-from jnius import autoclass
 
 def get_CSV_path():
-    Environment = autoclass('android.os.Environment')
-    Documents = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-    return os.path.join(Documents.getAbsolutePath(), "datos.csv")
+    app_data_path = os.getenv("FLET_APP_STORAGE_DATA")
+    file_path = os.path.join(app_data_path, "datos.csv")
+
+    return file_path
 
 def get_Dataframe():
     return pd.read_csv(get_CSV_path())
@@ -244,7 +243,7 @@ class Input(ft.TextField):
         self.width = 180
     
     def setear_hint_text(self, text):
-        self.hint_text = text
+        self.hint_text = text      
         self.update()
 
 class Series(Input):
@@ -288,7 +287,7 @@ class Series(Input):
             "Reps": [],
             "Kg": []
         }
-        
+
         if type(df) != pd.DataFrame:
             return 
 
@@ -297,11 +296,14 @@ class Series(Input):
             data["Series"].append(i+1)
             data["Reps"].append(df["Reps"][i])
             data["Kg"].append(df["Kg"][i])
-        
+
         return data
         
     def get_df_filtered(self):
         df = get_Dataframe()
+
+        if df.empty:
+            return
 
         ejercicio: Selector_Principal = self.parent.parent.parent.controls[0].controls[0].controls[0]
         variacion: Selector = self.parent.parent.parent.controls[0].controls[0].controls[1]
@@ -314,11 +316,11 @@ class Series(Input):
         df_filtered = df[condiciones[0] & condiciones[1]]
         if df_filtered.empty:
             return
-
-        fecha = df_filtered["Fecha"].unique().tolist()[0]
-        df_filtered = df[df["Fecha"] == fecha]
-        df_filtered = df_filtered[["Reps", "Kg"]]
         
+        fecha = df_filtered["Fecha"].unique().tolist()[0]
+        df_filtered = df_filtered[df_filtered["Fecha"] == fecha]
+        df_filtered = df_filtered[["Reps", "Kg"]].reset_index(drop=True)
+
         return df_filtered
 
     def agregar_hints_texts(self, row: ft.Row, texts: list):        
@@ -332,6 +334,7 @@ class Series(Input):
             if num > 6:
                 num = 6
                 self.value = 6
+                self.update()
             
             return num
         except ValueError:
@@ -349,7 +352,7 @@ class Series(Input):
             self.setear_hint_text(text=self.get_datos()["Series"][-1])
         except TypeError:
             self.setear_hint_text(text=None)
-        
+
         self.modificar_inputs(None)
     
 class Selector(ft.Dropdown):
@@ -366,18 +369,14 @@ class Selector(ft.Dropdown):
 
         if analisis:
             self.width = 180
-        else:       
+            self.on_change = self.cambiar_datos_grafico
+        else:
             self.width = 350
             self.on_change = self.agregar_series
-
-    def did_mount(self):
-        if self.analisis:
-            self.on_change = self.cambiar_datos_grafico
 
     def agregar_series(self, e):
         series: Series = self.parent.parent.parent.controls[1].controls[0].controls[0]
         series.set_visible(True)
-        series.update()
 
     def cambiar_datos_grafico(self, e):
         lista_fechas : Fechas_analisis_especifico = self.parent.parent.parent.controls[1].controls[0]
@@ -388,9 +387,6 @@ class Selector_Principal(Selector):
         super().__init__(label, analisis)
         self.on_change = self.cambiar_variaciones
         self.analisis = analisis
-    
-    def did_mount(self):
-        pass
     
     def build(self):
         if self.analisis:
@@ -419,7 +415,7 @@ class Selector_Principal(Selector):
         if self.analisis:
             self.cambiar_datos_grafico(None)
         else:
-            variaciones_selector.agregar_series(None)
+            variaciones_selector.agregar_series(e=None)
 
 class MyDataTable(ft.DataTable):
     def __init__(self):
@@ -457,7 +453,12 @@ class MyDataTable(ft.DataTable):
 
         #Filas
         self.original_Rows = []
-        for i in range(file.shape[0]):
+        repeticiones = file.shape[0]
+        
+        if repeticiones > 50:
+            repeticiones = 50
+
+        for i in range(repeticiones):
             celdas = []
 
             for a in file.iloc[i].tolist():
@@ -680,7 +681,7 @@ class Lista_Fechas(ft.Row):
         texts = [self.get_text_styled(i) for i in fechas.keys()]
         controls = [self.get_container(i, a) for i, a in zip(texts, fechas.values())]
         self.fechas = controls[-1].data
-
+        
         return controls
 
     def get_days(self):
@@ -708,7 +709,7 @@ class Lista_Fechas(ft.Row):
 
             key = f"{fechas[0][:5]}-{fechas[-1][:5]}"
             fechas_semana[key] = fechas
-            
+
             all_fechas = list(filter(lambda x: x not in fechas_semana, all_fechas))
 
         return fechas_semana
@@ -717,17 +718,32 @@ class Lista_Fechas(ft.Row):
         fechas: list = df["Fecha"].unique().tolist()
         fechas.reverse()
         meses = [int(i[3:5]) for i in fechas]
+
         return meses
 
     def get_Months(self):
         meses= self.get_meses(self.data)
+        nombre_meses = {
+            'January': 'Enero',
+            'February': 'Febrero',
+            'March': 'Marzo',
+            'April': 'Abril',
+            'May': 'Mayo',
+            'June': 'Junio',
+            'July': 'Julio',
+            'August': 'Agosto',
+            'September': 'Septiembre',
+            'October': 'Octubre',
+            'November': 'Noviembre',
+            'December': 'Diciembre'
+        }
         año = dt.datetime.now().year
 
         fechas_por_mes = {}
-        setlocale(LC_TIME, 'es_ES.UTF-8')
 
         for mes in meses:
             nombre_mes = calendar.month_name[mes]
+            nombre_mes = nombre_meses[nombre_mes]
             dias_mes = calendar.monthrange(año, mes)[1]
             fechas_mes = []
 
@@ -984,19 +1000,33 @@ class Fechas_analisis_especifico(Lista_Fechas):
     
     def get_Months(self, df: pd.DataFrame):
         meses= self.get_meses(df)
+        nombre_meses = {
+            'January': 'Enero',
+            'February': 'Febrero',
+            'March': 'Marzo',
+            'April': 'Abril',
+            'May': 'Mayo',
+            'June': 'Junio',
+            'July': 'Julio',
+            'August': 'Agosto',
+            'September': 'Septiembre',
+            'October': 'Octubre',
+            'November': 'Noviembre',
+            'December': 'Diciembre'
+        }
         fechas = df["Fecha"].unique().tolist()
-        setlocale(LC_TIME, 'es_ES.UTF-8')
 
         meses_dict = {}
         for i in meses:
             mes = calendar.month_name[i].capitalize()
+            mes = nombre_meses[mes]
             dias = []
             for a in fechas:
                 if int(a[3:5]) == int(i):
                     dias.append(a)
             
             meses_dict[mes] = dias
-        
+
         return meses_dict
 
     def verificar_informacion(self, datos):
@@ -1016,7 +1046,7 @@ class Fechas_analisis_especifico(Lista_Fechas):
 
     def set_datos(self):
         meses_y_fechas = self.get_Months(self.get_df_Filtered()) #Las keys son los meses y los values son las fechas
-        
+
         if self.verificar_informacion(meses_y_fechas) == None:
             return
 
@@ -1042,7 +1072,7 @@ class Fechas_analisis_especifico(Lista_Fechas):
     def get_ejercicio(self):
         ejercicio = self.parent.parent.controls[0].controls[0].controls[0].value
         variacion = self.parent.parent.controls[0].controls[1].controls[0].value
-
+        
         return ejercicio, variacion
 
     def get_df_Filtered(self):
@@ -1223,11 +1253,10 @@ class Selector_Peso_Reps(Selector_Tipo_Dato):
         pass
 
     def setear_datos(self, e):
-        fechas = self.parent.parent.controls[0].fechas_actuales
         grafico: Grafico_BarChart = self.get_grafico()
         tipo = self.value
 
-        grafico.modificar_datos(fechas= fechas, tipo= tipo)
+        grafico.modificar_datos(tipo= tipo)
     
     def set_visible(self, visible):
         self.visible = visible
@@ -1287,6 +1316,8 @@ class Informacion_Detallada(ft.Column):
         
         if "-" in texto.value:
             texto.color = "Red"
+        elif texto.value == "0%":
+            texto.color = "#27C8B2"
         else:
             texto.color = "Green"
 
@@ -1364,3 +1395,13 @@ class Informacion_Detallada(ft.Column):
     def set_visible(self, visible):
         self.visible = visible
         self.update()
+
+class Setear_datos(ft.IconButton):
+    def __init__(self):
+        super().__init__()
+        self.icon = ft.Icons.UPLOAD
+        self.on_click = self.agregar
+
+    def agregar(self, e):
+        df = pd.read_csv(r"src\assets\test.csv")
+        df.to_csv(get_CSV_path(), index=False)

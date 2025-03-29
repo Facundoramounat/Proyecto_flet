@@ -1,0 +1,601 @@
+Fecha,Ejercicio,Variacion,Reps,Kg,Musculo
+02/05/25,Remo al menton,Barra,12,25.0,Hombros
+02/05/25,Remo al menton,Barra,8,25.0,Hombros
+02/05/25,Vuelos,Frontales,6,27.5,Hombros
+02/05/25,Vuelos,Frontales,4,27.5,Hombros
+02/05/25,Vuelos,Laterales,6,22.5,Hombros
+02/05/25,Vuelos,Laterales,4,22.5,Hombros
+02/05/25,Vuelos,Laterales,5,20.5,Hombros
+02/05/25,Triceps con disco,Disco,8,17.5,Triceps
+02/05/25,Triceps con disco,Disco,6,17.5,Triceps
+02/05/25,Triceps con disco,Disco,4,17.5,Triceps
+02/05/25,Fondos de triceps,Estructura,8,12.5,Triceps
+02/05/25,Fondos de triceps,Estructura,5,12.5,Triceps
+02/05/25,Press en polea,Polea,8,47.5,Pecho
+02/05/25,Press en polea,Polea,6,47.5,Pecho
+02/05/25,Flexiones,Tradicionales,5,12.5,Pecho
+02/05/25,Flexiones,Tradicionales,4,12.5,Pecho
+02/05/25,Apertura,Maquina,9,82.5,Pecho
+02/05/25,Apertura,Maquina,7,82.5,Pecho
+02/05/25,Apertura,Maquina,5,82.5,Pecho
+01/05/25,Biceps en polea,Soga,6,37.5,Biceps
+01/05/25,Biceps en polea,Soga,4,37.5,Biceps
+01/05/25,Biceps en polea,Soga,5,32.5,Biceps
+01/05/25,Curl biceps,Rotacion,4,27.5,Biceps
+01/05/25,Curl biceps,Rotacion,6,25.0,Biceps
+01/05/25,Curl biceps,Rotacion,5,25.0,Biceps
+01/05/25,Curl biceps,Concentrado,8,22.5,Biceps
+01/05/25,Curl biceps,Concentrado,6,22.5,Biceps
+01/05/25,Curl biceps,Concentrado,6,22.5,Biceps
+01/05/25,Remo T,Neutro,5,67.5,Espalda
+01/05/25,Remo T,Neutro,3,67.5,Espalda
+01/05/25,Remo T,Neutro,6,65.0,Espalda
+01/05/25,Remo,Maquina,12,37.5,Espalda
+01/05/25,Remo,Maquina,9,37.5,Espalda
+01/05/25,Remo,Maquina,7,37.5,Espalda
+01/05/25,Dorsalera,Prono abierto,6,85.0,Espalda
+01/05/25,Dorsalera,Prono abierto,4,85.0,Espalda
+01/05/25,Dorsalera,Prono abierto,6,82.5,Espalda
+30/04/25,Aductores,Polea,8,27.5,Piernas
+30/04/25,Aductores,Polea,6,27.5,Piernas
+30/04/25,Aductores,Polea,5,27.5,Piernas
+30/04/25,Abductores,Maquina,7,42.5,Piernas
+30/04/25,Abductores,Maquina,5,42.5,Piernas
+30/04/25,Abductores,Maquina,6,37.5,Piernas
+30/04/25,Maquinas,Izquiotibiales,6,37.5,Piernas
+30/04/25,Maquinas,Izquiotibiales,4,37.5,Piernas
+30/04/25,Maquinas,Izquiotibiales,6,32.5,Piernas
+30/04/25,Maquinas,Cuadriceps,10,72.5,Piernas
+30/04/25,Maquinas,Cuadriceps,8,72.5,Piernas
+30/04/25,Maquinas,Cuadriceps,7,72.5,Piernas
+30/04/25,Maquinas,Prensa,8,92.5,Piernas
+30/04/25,Maquinas,Prensa,6,92.5,Piernas
+30/04/25,Maquinas,Prensa,4,92.5,Piernas
+30/04/25,Sentadilla,Barra,8,37.5,Piernas
+30/04/25,Sentadilla,Barra,6,37.5,Piernas
+30/04/25,Sentadilla,Barra,4,37.5,Piernas
+29/04/25,Posteriores,Maquina,8,57.5,Hombros
+29/04/25,Posteriores,Maquina,6,57.5,Hombros
+29/04/25,Posteriores,Maquina,4,57.5,Hombros
+29/04/25,Vuelos,Lateral en polea,6,27.5,Hombros
+29/04/25,Vuelos,Lateral en polea,4,27.5,Hombros
+29/04/25,Vuelos,Lateral en polea,5,22.5,Hombros
+29/04/25,Press de hombros,Maquina,10,27.5,Hombros
+29/04/25,Press de hombros,Maquina,8,27.5,Hombros
+29/04/25,Press de hombros,Maquina,6,27.5,Hombros
+29/04/25,Triceps en polea,Unilateral,8,37.5,Triceps
+29/04/25,Triceps en polea,Unilateral,6,37.5,Triceps
+29/04/25,Triceps en polea,Unilateral,4,37.5,Triceps
+29/04/25,Fondos de triceps,Estructura,6,12.5,Triceps
+29/04/25,Fondos de triceps,Estructura,4,12.5,Triceps
+29/04/25,Fondos de triceps,Estructura,4,12.5,Triceps
+29/04/25,Triceps con mancuerna,Mancuernas y unilateral,8,22.5,Triceps
+29/04/25,Triceps con mancuerna,Mancuernas y unilateral,6,22.5,Triceps
+29/04/25,Triceps con mancuerna,Mancuernas y unilateral,4,22.5,Triceps
+29/04/25,Press declinado,Maquina,6,42.5,Pecho
+29/04/25,Press declinado,Maquina,4,42.5,Pecho
+29/04/25,Press declinado,Maquina,6,40.0,Pecho
+29/04/25,Press inclinado,Maquina,8,42.5,Pecho
+29/04/25,Press inclinado,Maquina,6,42.5,Pecho
+29/04/25,Press inclinado,Maquina,4,42.5,Pecho
+29/04/25,Press plano,Barra,12,27.5,Pecho
+29/04/25,Press plano,Barra,8,30.0,Pecho
+29/04/25,Press plano,Barra,6,30.0,Pecho
+28/04/25,Remo T,Neutro,10,62.5,Espalda
+28/04/25,Remo T,Neutro,9,62.5,Espalda
+28/04/25,Remo T,Neutro,8,62.5,Espalda
+28/04/25,Remo,Maquina,8,37.5,Espalda
+28/04/25,Remo,Maquina,7,37.5,Espalda
+28/04/25,Remo,Maquina,5,37.5,Espalda
+28/04/25,Dorsalera,Prono abierto,8,82.5,Espalda
+28/04/25,Dorsalera,Prono abierto,6,82.5,Espalda
+28/04/25,Dorsalera,Prono abierto,4,82.5,Espalda
+28/04/25,Biceps en polea,Unilateral,8,37.5,Biceps
+28/04/25,Biceps en polea,Unilateral,6,37.5,Biceps
+28/04/25,Biceps en polea,Unilateral,4,37.5,Biceps
+28/04/25,Biceps con barra,Barra Z,12,20.0,Biceps
+28/04/25,Biceps con barra,Barra Z,11,20.0,Biceps
+28/04/25,Biceps con barra,Barra Z,7,22.5,Biceps
+28/04/25,Curl biceps,Supino,8,27.5,Biceps
+28/04/25,Curl biceps,Supino,6,27.5,Biceps
+28/04/25,Curl biceps,Supino,4,27.5,Biceps
+25/04/25,Remo al menton,Barra,12,22.5,Hombros
+25/04/25,Remo al menton,Barra,8,22.5,Hombros
+25/04/25,Vuelos,Frontales,6,25.0,Hombros
+25/04/25,Vuelos,Frontales,4,25.0,Hombros
+25/04/25,Vuelos,Laterales,6,20.0,Hombros
+25/04/25,Vuelos,Laterales,4,20.0,Hombros
+25/04/25,Vuelos,Laterales,5,18.0,Hombros
+25/04/25,Triceps con disco,Disco,8,15.0,Triceps
+25/04/25,Triceps con disco,Disco,6,15.0,Triceps
+25/04/25,Triceps con disco,Disco,4,15.0,Triceps
+25/04/25,Fondos de triceps,Estructura,8,10.0,Triceps
+25/04/25,Fondos de triceps,Estructura,5,10.0,Triceps
+25/04/25,Press en polea,Polea,8,45.0,Pecho
+25/04/25,Press en polea,Polea,6,45.0,Pecho
+25/04/25,Flexiones,Tradicionales,5,10.0,Pecho
+25/04/25,Flexiones,Tradicionales,4,10.0,Pecho
+25/04/25,Apertura,Maquina,9,80.0,Pecho
+25/04/25,Apertura,Maquina,7,80.0,Pecho
+25/04/25,Apertura,Maquina,5,80.0,Pecho
+24/04/25,Biceps en polea,Soga,6,35.0,Biceps
+24/04/25,Biceps en polea,Soga,4,35.0,Biceps
+24/04/25,Biceps en polea,Soga,5,30.0,Biceps
+24/04/25,Curl biceps,Rotacion,4,25.0,Biceps
+24/04/25,Curl biceps,Rotacion,6,22.5,Biceps
+24/04/25,Curl biceps,Rotacion,5,22.5,Biceps
+24/04/25,Curl biceps,Concentrado,8,20.0,Biceps
+24/04/25,Curl biceps,Concentrado,6,20.0,Biceps
+24/04/25,Curl biceps,Concentrado,6,20.0,Biceps
+24/04/25,Remo T,Neutro,5,65.0,Espalda
+24/04/25,Remo T,Neutro,3,65.0,Espalda
+24/04/25,Remo T,Neutro,6,62.5,Espalda
+24/04/25,Remo,Maquina,12,35.0,Espalda
+24/04/25,Remo,Maquina,9,35.0,Espalda
+24/04/25,Remo,Maquina,7,35.0,Espalda
+24/04/25,Dorsalera,Prono abierto,6,82.5,Espalda
+24/04/25,Dorsalera,Prono abierto,4,82.5,Espalda
+24/04/25,Dorsalera,Prono abierto,6,80.0,Espalda
+23/04/25,Aductores,Polea,8,25.0,Piernas
+23/04/25,Aductores,Polea,6,25.0,Piernas
+23/04/25,Aductores,Polea,5,25.0,Piernas
+23/04/25,Abductores,Maquina,7,40.0,Piernas
+23/04/25,Abductores,Maquina,5,40.0,Piernas
+23/04/25,Abductores,Maquina,6,35.0,Piernas
+23/04/25,Maquinas,Izquiotibiales,6,35.0,Piernas
+23/04/25,Maquinas,Izquiotibiales,4,35.0,Piernas
+23/04/25,Maquinas,Izquiotibiales,6,30.0,Piernas
+23/04/25,Maquinas,Cuadriceps,10,70.0,Piernas
+23/04/25,Maquinas,Cuadriceps,8,70.0,Piernas
+23/04/25,Maquinas,Cuadriceps,7,70.0,Piernas
+23/04/25,Maquinas,Prensa,8,90.0,Piernas
+23/04/25,Maquinas,Prensa,6,90.0,Piernas
+23/04/25,Maquinas,Prensa,4,90.0,Piernas
+23/04/25,Sentadilla,Barra,8,35.0,Piernas
+23/04/25,Sentadilla,Barra,6,35.0,Piernas
+23/04/25,Sentadilla,Barra,4,35.0,Piernas
+22/04/25,Posteriores,Maquina,8,55.0,Hombros
+22/04/25,Posteriores,Maquina,6,55.0,Hombros
+22/04/25,Posteriores,Maquina,4,55.0,Hombros
+22/04/25,Vuelos,Lateral en polea,6,25.0,Hombros
+22/04/25,Vuelos,Lateral en polea,4,25.0,Hombros
+22/04/25,Vuelos,Lateral en polea,5,20.0,Hombros
+22/04/25,Press de hombros,Maquina,10,25.0,Hombros
+22/04/25,Press de hombros,Maquina,8,25.0,Hombros
+22/04/25,Press de hombros,Maquina,6,25.0,Hombros
+22/04/25,Triceps en polea,Unilateral,8,35.0,Triceps
+22/04/25,Triceps en polea,Unilateral,6,35.0,Triceps
+22/04/25,Triceps en polea,Unilateral,4,35.0,Triceps
+22/04/25,Fondos de triceps,Estructura,6,10.0,Triceps
+22/04/25,Fondos de triceps,Estructura,4,10.0,Triceps
+22/04/25,Fondos de triceps,Estructura,4,10.0,Triceps
+22/04/25,Triceps con mancuerna,Mancuernas y unilateral,8,20.0,Triceps
+22/04/25,Triceps con mancuerna,Mancuernas y unilateral,6,20.0,Triceps
+22/04/25,Triceps con mancuerna,Mancuernas y unilateral,4,20.0,Triceps
+22/04/25,Press declinado,Maquina,6,40.0,Pecho
+22/04/25,Press declinado,Maquina,4,40.0,Pecho
+22/04/25,Press declinado,Maquina,6,37.5,Pecho
+22/04/25,Press inclinado,Maquina,8,40.0,Pecho
+22/04/25,Press inclinado,Maquina,6,40.0,Pecho
+22/04/25,Press inclinado,Maquina,4,40.0,Pecho
+22/04/25,Press plano,Barra,12,25.0,Pecho
+22/04/25,Press plano,Barra,8,27.5,Pecho
+22/04/25,Press plano,Barra,6,27.5,Pecho
+21/04/25,Remo T,Neutro,10,60.0,Espalda
+21/04/25,Remo T,Neutro,9,60.0,Espalda
+21/04/25,Remo T,Neutro,8,60.0,Espalda
+21/04/25,Remo,Maquina,8,35.0,Espalda
+21/04/25,Remo,Maquina,7,35.0,Espalda
+21/04/25,Remo,Maquina,5,35.0,Espalda
+21/04/25,Dorsalera,Prono abierto,8,80.0,Espalda
+21/04/25,Dorsalera,Prono abierto,6,80.0,Espalda
+21/04/25,Dorsalera,Prono abierto,4,80.0,Espalda
+21/04/25,Biceps en polea,Unilateral,8,35.0,Biceps
+21/04/25,Biceps en polea,Unilateral,6,35.0,Biceps
+21/04/25,Biceps en polea,Unilateral,4,35.0,Biceps
+21/04/25,Biceps con barra,Barra Z,12,17.5,Biceps
+21/04/25,Biceps con barra,Barra Z,11,17.5,Biceps
+21/04/25,Biceps con barra,Barra Z,7,20.0,Biceps
+21/04/25,Curl biceps,Supino,8,25.0,Biceps
+21/04/25,Curl biceps,Supino,6,25.0,Biceps
+21/04/25,Curl biceps,Supino,4,25.0,Biceps
+18/04/25,Remo al menton,Barra,12,20.0,Hombros
+18/04/25,Remo al menton,Barra,8,20.0,Hombros
+18/04/25,Vuelos,Frontales,6,22.5,Hombros
+18/04/25,Vuelos,Frontales,4,22.5,Hombros
+18/04/25,Vuelos,Laterales,6,17.5,Hombros
+18/04/25,Vuelos,Laterales,4,17.5,Hombros
+18/04/25,Vuelos,Laterales,5,15.5,Hombros
+18/04/25,Triceps con disco,Disco,8,12.5,Triceps
+18/04/25,Triceps con disco,Disco,6,12.5,Triceps
+18/04/25,Triceps con disco,Disco,4,12.5,Triceps
+18/04/25,Fondos de triceps,Estructura,8,7.5,Triceps
+18/04/25,Fondos de triceps,Estructura,5,7.5,Triceps
+18/04/25,Press en polea,Polea,8,42.5,Pecho
+18/04/25,Press en polea,Polea,6,42.5,Pecho
+18/04/25,Flexiones,Tradicionales,5,7.5,Pecho
+18/04/25,Flexiones,Tradicionales,4,7.5,Pecho
+18/04/25,Apertura,Maquina,9,77.5,Pecho
+18/04/25,Apertura,Maquina,7,77.5,Pecho
+18/04/25,Apertura,Maquina,5,77.5,Pecho
+17/04/25,Biceps en polea,Soga,6,32.5,Biceps
+17/04/25,Biceps en polea,Soga,4,32.5,Biceps
+17/04/25,Biceps en polea,Soga,5,27.5,Biceps
+17/04/25,Curl biceps,Rotacion,4,22.5,Biceps
+17/04/25,Curl biceps,Rotacion,6,20.0,Biceps
+17/04/25,Curl biceps,Rotacion,5,20.0,Biceps
+17/04/25,Curl biceps,Concentrado,8,17.5,Biceps
+17/04/25,Curl biceps,Concentrado,6,17.5,Biceps
+17/04/25,Curl biceps,Concentrado,6,17.5,Biceps
+17/04/25,Remo T,Neutro,5,62.5,Espalda
+17/04/25,Remo T,Neutro,3,62.5,Espalda
+17/04/25,Remo T,Neutro,6,60.0,Espalda
+17/04/25,Remo,Maquina,12,32.5,Espalda
+17/04/25,Remo,Maquina,9,32.5,Espalda
+17/04/25,Remo,Maquina,7,32.5,Espalda
+17/04/25,Dorsalera,Prono abierto,6,80.0,Espalda
+17/04/25,Dorsalera,Prono abierto,4,80.0,Espalda
+17/04/25,Dorsalera,Prono abierto,6,77.5,Espalda
+16/04/25,Aductores,Polea,8,22.5,Piernas
+16/04/25,Aductores,Polea,6,22.5,Piernas
+16/04/25,Aductores,Polea,5,22.5,Piernas
+16/04/25,Abductores,Maquina,7,37.5,Piernas
+16/04/25,Abductores,Maquina,5,37.5,Piernas
+16/04/25,Abductores,Maquina,6,32.5,Piernas
+16/04/25,Maquinas,Izquiotibiales,6,32.5,Piernas
+16/04/25,Maquinas,Izquiotibiales,4,32.5,Piernas
+16/04/25,Maquinas,Izquiotibiales,6,27.5,Piernas
+16/04/25,Maquinas,Cuadriceps,10,67.5,Piernas
+16/04/25,Maquinas,Cuadriceps,8,67.5,Piernas
+16/04/25,Maquinas,Cuadriceps,7,67.5,Piernas
+16/04/25,Maquinas,Prensa,8,87.5,Piernas
+16/04/25,Maquinas,Prensa,6,87.5,Piernas
+16/04/25,Maquinas,Prensa,4,87.5,Piernas
+16/04/25,Sentadilla,Barra,8,32.5,Piernas
+16/04/25,Sentadilla,Barra,6,32.5,Piernas
+16/04/25,Sentadilla,Barra,4,32.5,Piernas
+15/04/25,Posteriores,Maquina,8,52.5,Hombros
+15/04/25,Posteriores,Maquina,6,52.5,Hombros
+15/04/25,Posteriores,Maquina,4,52.5,Hombros
+15/04/25,Vuelos,Lateral en polea,6,22.5,Hombros
+15/04/25,Vuelos,Lateral en polea,4,22.5,Hombros
+15/04/25,Vuelos,Lateral en polea,5,17.5,Hombros
+15/04/25,Press de hombros,Maquina,10,22.5,Hombros
+15/04/25,Press de hombros,Maquina,8,22.5,Hombros
+15/04/25,Press de hombros,Maquina,6,22.5,Hombros
+15/04/25,Triceps en polea,Unilateral,8,32.5,Triceps
+15/04/25,Triceps en polea,Unilateral,6,32.5,Triceps
+15/04/25,Triceps en polea,Unilateral,4,32.5,Triceps
+15/04/25,Fondos de triceps,Estructura,6,7.5,Triceps
+15/04/25,Fondos de triceps,Estructura,4,7.5,Triceps
+15/04/25,Fondos de triceps,Estructura,4,7.5,Triceps
+15/04/25,Triceps con mancuerna,Mancuernas y unilateral,8,17.5,Triceps
+15/04/25,Triceps con mancuerna,Mancuernas y unilateral,6,17.5,Triceps
+15/04/25,Triceps con mancuerna,Mancuernas y unilateral,4,17.5,Triceps
+15/04/25,Press declinado,Maquina,6,37.5,Pecho
+15/04/25,Press declinado,Maquina,4,37.5,Pecho
+15/04/25,Press declinado,Maquina,6,35.0,Pecho
+15/04/25,Press inclinado,Maquina,8,37.5,Pecho
+15/04/25,Press inclinado,Maquina,6,37.5,Pecho
+15/04/25,Press inclinado,Maquina,4,37.5,Pecho
+15/04/25,Press plano,Barra,12,22.5,Pecho
+15/04/25,Press plano,Barra,8,25.0,Pecho
+15/04/25,Press plano,Barra,6,25.0,Pecho
+14/04/25,Remo T,Neutro,10,57.5,Espalda
+14/04/25,Remo T,Neutro,9,57.5,Espalda
+14/04/25,Remo T,Neutro,8,57.5,Espalda
+14/04/25,Remo,Maquina,8,32.5,Espalda
+14/04/25,Remo,Maquina,7,32.5,Espalda
+14/04/25,Remo,Maquina,5,32.5,Espalda
+14/04/25,Dorsalera,Prono abierto,8,77.5,Espalda
+14/04/25,Dorsalera,Prono abierto,6,77.5,Espalda
+14/04/25,Dorsalera,Prono abierto,4,77.5,Espalda
+14/04/25,Biceps en polea,Unilateral,8,32.5,Biceps
+14/04/25,Biceps en polea,Unilateral,6,32.5,Biceps
+14/04/25,Biceps en polea,Unilateral,4,32.5,Biceps
+14/04/25,Biceps con barra,Barra Z,12,15.0,Biceps
+14/04/25,Biceps con barra,Barra Z,11,15.0,Biceps
+14/04/25,Biceps con barra,Barra Z,7,17.5,Biceps
+14/04/25,Curl biceps,Supino,8,22.5,Biceps
+14/04/25,Curl biceps,Supino,6,22.5,Biceps
+14/04/25,Curl biceps,Supino,4,22.5,Biceps
+11/04/25,Remo al menton,Barra,12,17.5,Hombros
+11/04/25,Remo al menton,Barra,8,17.5,Hombros
+11/04/25,Vuelos,Frontales,6,20.0,Hombros
+11/04/25,Vuelos,Frontales,4,20.0,Hombros
+11/04/25,Vuelos,Laterales,6,15.0,Hombros
+11/04/25,Vuelos,Laterales,4,15.0,Hombros
+11/04/25,Vuelos,Laterales,5,13.0,Hombros
+11/04/25,Triceps con disco,Disco,8,10.0,Triceps
+11/04/25,Triceps con disco,Disco,6,10.0,Triceps
+11/04/25,Triceps con disco,Disco,4,10.0,Triceps
+11/04/25,Fondos de triceps,Estructura,8,5.0,Triceps
+11/04/25,Fondos de triceps,Estructura,5,5.0,Triceps
+11/04/25,Press en polea,Polea,8,40.0,Pecho
+11/04/25,Press en polea,Polea,6,40.0,Pecho
+11/04/25,Flexiones,Tradicionales,5,5.0,Pecho
+11/04/25,Flexiones,Tradicionales,4,5.0,Pecho
+11/04/25,Apertura,Maquina,9,75.0,Pecho
+11/04/25,Apertura,Maquina,7,75.0,Pecho
+11/04/25,Apertura,Maquina,5,75.0,Pecho
+10/04/25,Biceps en polea,Soga,6,30.0,Biceps
+10/04/25,Biceps en polea,Soga,4,30.0,Biceps
+10/04/25,Biceps en polea,Soga,5,25.0,Biceps
+10/04/25,Curl biceps,Rotacion,4,20.0,Biceps
+10/04/25,Curl biceps,Rotacion,6,17.5,Biceps
+10/04/25,Curl biceps,Rotacion,5,17.5,Biceps
+10/04/25,Curl biceps,Concentrado,8,15.0,Biceps
+10/04/25,Curl biceps,Concentrado,6,15.0,Biceps
+10/04/25,Curl biceps,Concentrado,6,15.0,Biceps
+10/04/25,Remo T,Neutro,5,60.0,Espalda
+10/04/25,Remo T,Neutro,3,60.0,Espalda
+10/04/25,Remo T,Neutro,6,57.5,Espalda
+10/04/25,Remo,Maquina,12,30.0,Espalda
+10/04/25,Remo,Maquina,9,30.0,Espalda
+10/04/25,Remo,Maquina,7,30.0,Espalda
+10/04/25,Dorsalera,Prono abierto,6,77.5,Espalda
+10/04/25,Dorsalera,Prono abierto,4,77.5,Espalda
+10/04/25,Dorsalera,Prono abierto,6,75.0,Espalda
+09/04/25,Aductores,Polea,8,20.0,Piernas
+09/04/25,Aductores,Polea,6,20.0,Piernas
+09/04/25,Aductores,Polea,5,20.0,Piernas
+09/04/25,Abductores,Maquina,7,35.0,Piernas
+09/04/25,Abductores,Maquina,5,35.0,Piernas
+09/04/25,Abductores,Maquina,6,30.0,Piernas
+09/04/25,Maquinas,Izquiotibiales,6,30.0,Piernas
+09/04/25,Maquinas,Izquiotibiales,4,30.0,Piernas
+09/04/25,Maquinas,Izquiotibiales,6,25.0,Piernas
+09/04/25,Maquinas,Cuadriceps,10,65.0,Piernas
+09/04/25,Maquinas,Cuadriceps,8,65.0,Piernas
+09/04/25,Maquinas,Cuadriceps,7,65.0,Piernas
+09/04/25,Maquinas,Prensa,8,85.0,Piernas
+09/04/25,Maquinas,Prensa,6,85.0,Piernas
+09/04/25,Maquinas,Prensa,4,85.0,Piernas
+09/04/25,Sentadilla,Barra,8,30.0,Piernas
+09/04/25,Sentadilla,Barra,6,30.0,Piernas
+09/04/25,Sentadilla,Barra,4,30.0,Piernas
+08/04/25,Posteriores,Maquina,8,50.0,Hombros
+08/04/25,Posteriores,Maquina,6,50.0,Hombros
+08/04/25,Posteriores,Maquina,4,50.0,Hombros
+08/04/25,Vuelos,Lateral en polea,6,20.0,Hombros
+08/04/25,Vuelos,Lateral en polea,4,20.0,Hombros
+08/04/25,Vuelos,Lateral en polea,5,15.0,Hombros
+08/04/25,Press de hombros,Maquina,10,20.0,Hombros
+08/04/25,Press de hombros,Maquina,8,20.0,Hombros
+08/04/25,Press de hombros,Maquina,6,20.0,Hombros
+08/04/25,Triceps en polea,Unilateral,8,30.0,Triceps
+08/04/25,Triceps en polea,Unilateral,6,30.0,Triceps
+08/04/25,Triceps en polea,Unilateral,4,30.0,Triceps
+08/04/25,Fondos de triceps,Estructura,6,5.0,Triceps
+08/04/25,Fondos de triceps,Estructura,4,5.0,Triceps
+08/04/25,Fondos de triceps,Estructura,4,5.0,Triceps
+08/04/25,Triceps con mancuerna,Mancuernas y unilateral,8,15.0,Triceps
+08/04/25,Triceps con mancuerna,Mancuernas y unilateral,6,15.0,Triceps
+08/04/25,Triceps con mancuerna,Mancuernas y unilateral,4,15.0,Triceps
+08/04/25,Press declinado,Maquina,6,35.0,Pecho
+08/04/25,Press declinado,Maquina,4,35.0,Pecho
+08/04/25,Press declinado,Maquina,6,32.5,Pecho
+08/04/25,Press inclinado,Maquina,8,35.0,Pecho
+08/04/25,Press inclinado,Maquina,6,35.0,Pecho
+08/04/25,Press inclinado,Maquina,4,35.0,Pecho
+08/04/25,Press plano,Barra,12,20.0,Pecho
+08/04/25,Press plano,Barra,8,22.5,Pecho
+08/04/25,Press plano,Barra,6,22.5,Pecho
+07/04/25,Remo T,Neutro,10,55.0,Espalda
+07/04/25,Remo T,Neutro,9,55.0,Espalda
+07/04/25,Remo T,Neutro,8,55.0,Espalda
+07/04/25,Remo,Maquina,8,30.0,Espalda
+07/04/25,Remo,Maquina,7,30.0,Espalda
+07/04/25,Remo,Maquina,5,30.0,Espalda
+07/04/25,Dorsalera,Prono abierto,8,75.0,Espalda
+07/04/25,Dorsalera,Prono abierto,6,75.0,Espalda
+07/04/25,Dorsalera,Prono abierto,4,75.0,Espalda
+07/04/25,Biceps en polea,Unilateral,8,30.0,Biceps
+07/04/25,Biceps en polea,Unilateral,6,30.0,Biceps
+07/04/25,Biceps en polea,Unilateral,4,30.0,Biceps
+07/04/25,Biceps con barra,Barra Z,12,12.5,Biceps
+07/04/25,Biceps con barra,Barra Z,11,12.5,Biceps
+07/04/25,Biceps con barra,Barra Z,7,15.0,Biceps
+07/04/25,Curl biceps,Supino,8,20.0,Biceps
+07/04/25,Curl biceps,Supino,6,20.0,Biceps
+07/04/25,Curl biceps,Supino,4,20.0,Biceps
+04/04/25,Remo al menton,Barra,12,15.0,Hombros
+04/04/25,Remo al menton,Barra,8,15.0,Hombros
+04/04/25,Vuelos,Frontales,6,17.5,Hombros
+04/04/25,Vuelos,Frontales,4,17.5,Hombros
+04/04/25,Vuelos,Laterales,6,12.5,Hombros
+04/04/25,Vuelos,Laterales,4,12.5,Hombros
+04/04/25,Vuelos,Laterales,5,10.5,Hombros
+04/04/25,Triceps con disco,Disco,8,7.5,Triceps
+04/04/25,Triceps con disco,Disco,6,7.5,Triceps
+04/04/25,Triceps con disco,Disco,4,7.5,Triceps
+04/04/25,Fondos de triceps,Estructura,8,2.5,Triceps
+04/04/25,Fondos de triceps,Estructura,5,2.5,Triceps
+04/04/25,Press en polea,Polea,8,37.5,Pecho
+04/04/25,Press en polea,Polea,6,37.5,Pecho
+04/04/25,Flexiones,Tradicionales,5,2.5,Pecho
+04/04/25,Flexiones,Tradicionales,4,2.5,Pecho
+04/04/25,Apertura,Maquina,9,72.5,Pecho
+04/04/25,Apertura,Maquina,7,72.5,Pecho
+04/04/25,Apertura,Maquina,5,72.5,Pecho
+03/04/25,Biceps en polea,Soga,6,27.5,Biceps
+03/04/25,Biceps en polea,Soga,4,27.5,Biceps
+03/04/25,Biceps en polea,Soga,5,22.5,Biceps
+03/04/25,Curl biceps,Rotacion,4,17.5,Biceps
+03/04/25,Curl biceps,Rotacion,6,15.0,Biceps
+03/04/25,Curl biceps,Rotacion,5,15.0,Biceps
+03/04/25,Curl biceps,Concentrado,8,12.5,Biceps
+03/04/25,Curl biceps,Concentrado,6,12.5,Biceps
+03/04/25,Curl biceps,Concentrado,6,12.5,Biceps
+03/04/25,Remo T,Neutro,5,57.5,Espalda
+03/04/25,Remo T,Neutro,3,57.5,Espalda
+03/04/25,Remo T,Neutro,6,55.0,Espalda
+03/04/25,Remo,Maquina,12,27.5,Espalda
+03/04/25,Remo,Maquina,9,27.5,Espalda
+03/04/25,Remo,Maquina,7,27.5,Espalda
+03/04/25,Dorsalera,Prono abierto,6,75.0,Espalda
+03/04/25,Dorsalera,Prono abierto,4,75.0,Espalda
+03/04/25,Dorsalera,Prono abierto,6,72.5,Espalda
+02/04/25,Aductores,Polea,8,17.5,Piernas
+02/04/25,Aductores,Polea,6,17.5,Piernas
+02/04/25,Aductores,Polea,5,17.5,Piernas
+02/04/25,Abductores,Maquina,7,32.5,Piernas
+02/04/25,Abductores,Maquina,5,32.5,Piernas
+02/04/25,Abductores,Maquina,6,27.5,Piernas
+02/04/25,Maquinas,Izquiotibiales,6,27.5,Piernas
+02/04/25,Maquinas,Izquiotibiales,4,27.5,Piernas
+02/04/25,Maquinas,Izquiotibiales,6,22.5,Piernas
+02/04/25,Maquinas,Cuadriceps,10,62.5,Piernas
+02/04/25,Maquinas,Cuadriceps,8,62.5,Piernas
+02/04/25,Maquinas,Cuadriceps,7,62.5,Piernas
+02/04/25,Maquinas,Prensa,8,82.5,Piernas
+02/04/25,Maquinas,Prensa,6,82.5,Piernas
+02/04/25,Maquinas,Prensa,4,82.5,Piernas
+02/04/25,Sentadilla,Barra,8,27.5,Piernas
+02/04/25,Sentadilla,Barra,6,27.5,Piernas
+02/04/25,Sentadilla,Barra,4,27.5,Piernas
+01/04/25,Posteriores,Maquina,8,47.5,Hombros
+01/04/25,Posteriores,Maquina,6,47.5,Hombros
+01/04/25,Posteriores,Maquina,4,47.5,Hombros
+01/04/25,Vuelos,Lateral en polea,6,17.5,Hombros
+01/04/25,Vuelos,Lateral en polea,4,17.5,Hombros
+01/04/25,Vuelos,Lateral en polea,5,12.5,Hombros
+01/04/25,Press de hombros,Maquina,10,17.5,Hombros
+01/04/25,Press de hombros,Maquina,8,17.5,Hombros
+01/04/25,Press de hombros,Maquina,6,17.5,Hombros
+01/04/25,Triceps en polea,Unilateral,8,27.5,Triceps
+01/04/25,Triceps en polea,Unilateral,6,27.5,Triceps
+01/04/25,Triceps en polea,Unilateral,4,27.5,Triceps
+01/04/25,Fondos de triceps,Estructura,6,2.5,Triceps
+01/04/25,Fondos de triceps,Estructura,4,2.5,Triceps
+01/04/25,Fondos de triceps,Estructura,4,2.5,Triceps
+01/04/25,Triceps con mancuerna,Mancuernas y unilateral,8,12.5,Triceps
+01/04/25,Triceps con mancuerna,Mancuernas y unilateral,6,12.5,Triceps
+01/04/25,Triceps con mancuerna,Mancuernas y unilateral,4,12.5,Triceps
+01/04/25,Press declinado,Maquina,6,32.5,Pecho
+01/04/25,Press declinado,Maquina,4,32.5,Pecho
+01/04/25,Press declinado,Maquina,6,30.0,Pecho
+01/04/25,Press inclinado,Maquina,8,32.5,Pecho
+01/04/25,Press inclinado,Maquina,6,32.5,Pecho
+01/04/25,Press inclinado,Maquina,4,32.5,Pecho
+01/04/25,Press plano,Barra,12,17.5,Pecho
+01/04/25,Press plano,Barra,8,20.0,Pecho
+01/04/25,Press plano,Barra,6,20.0,Pecho
+31/03/25,Remo T,Neutro,10,52.5,Espalda
+31/03/25,Remo T,Neutro,9,52.5,Espalda
+31/03/25,Remo T,Neutro,8,52.5,Espalda
+31/03/25,Remo,Maquina,8,27.5,Espalda
+31/03/25,Remo,Maquina,7,27.5,Espalda
+31/03/25,Remo,Maquina,5,27.5,Espalda
+31/03/25,Dorsalera,Prono abierto,8,72.5,Espalda
+31/03/25,Dorsalera,Prono abierto,6,72.5,Espalda
+31/03/25,Dorsalera,Prono abierto,4,72.5,Espalda
+31/03/25,Biceps en polea,Unilateral,8,27.5,Biceps
+31/03/25,Biceps en polea,Unilateral,6,27.5,Biceps
+31/03/25,Biceps en polea,Unilateral,4,27.5,Biceps
+31/03/25,Biceps con barra,Barra Z,12,10.0,Biceps
+31/03/25,Biceps con barra,Barra Z,11,10.0,Biceps
+31/03/25,Biceps con barra,Barra Z,7,12.5,Biceps
+31/03/25,Curl biceps,Supino,8,17.5,Biceps
+31/03/25,Curl biceps,Supino,6,17.5,Biceps
+31/03/25,Curl biceps,Supino,4,17.5,Biceps
+28/03/25,Remo al menton,Barra,12,12.5,Hombros
+28/03/25,Remo al menton,Barra,8,12.5,Hombros
+28/03/25,Vuelos,Frontales,6,15.0,Hombros
+28/03/25,Vuelos,Frontales,4,15.0,Hombros
+28/03/25,Vuelos,Laterales,6,10.0,Hombros
+28/03/25,Vuelos,Laterales,4,10.0,Hombros
+28/03/25,Vuelos,Laterales,5,8.0,Hombros
+28/03/25,Triceps con disco,Disco,8,5.0,Triceps
+28/03/25,Triceps con disco,Disco,6,5.0,Triceps
+28/03/25,Triceps con disco,Disco,4,5.0,Triceps
+28/03/25,Fondos de triceps,Estructura,8,0.0,Triceps
+28/03/25,Fondos de triceps,Estructura,5,0.0,Triceps
+28/03/25,Press en polea,Polea,8,35.0,Pecho
+28/03/25,Press en polea,Polea,6,35.0,Pecho
+28/03/25,Flexiones,Tradicionales,5,0.0,Pecho
+28/03/25,Flexiones,Tradicionales,4,0.0,Pecho
+28/03/25,Apertura,Maquina,9,70.0,Pecho
+28/03/25,Apertura,Maquina,7,70.0,Pecho
+28/03/25,Apertura,Maquina,5,70.0,Pecho
+27/03/25,Biceps en polea,Soga,6,25.0,Biceps
+27/03/25,Biceps en polea,Soga,4,25.0,Biceps
+27/03/25,Biceps en polea,Soga,5,20.0,Biceps
+27/03/25,Curl biceps,Rotacion,4,15.0,Biceps
+27/03/25,Curl biceps,Rotacion,6,12.5,Biceps
+27/03/25,Curl biceps,Rotacion,5,12.5,Biceps
+27/03/25,Curl biceps,Concentrado,8,10.0,Biceps
+27/03/25,Curl biceps,Concentrado,6,10.0,Biceps
+27/03/25,Curl biceps,Concentrado,6,10.0,Biceps
+27/03/25,Remo T,Neutro,5,55.0,Espalda
+27/03/25,Remo T,Neutro,3,55.0,Espalda
+27/03/25,Remo T,Neutro,6,52.5,Espalda
+27/03/25,Remo,Maquina,12,25.0,Espalda
+27/03/25,Remo,Maquina,9,25.0,Espalda
+27/03/25,Remo,Maquina,7,25.0,Espalda
+27/03/25,Dorsalera,Prono abierto,6,72.5,Espalda
+27/03/25,Dorsalera,Prono abierto,4,72.5,Espalda
+27/03/25,Dorsalera,Prono abierto,6,70.0,Espalda
+26/03/25,Aductores,Polea,8,15.0,Piernas
+26/03/25,Aductores,Polea,6,15.0,Piernas
+26/03/25,Aductores,Polea,5,15.0,Piernas
+26/03/25,Abductores,Maquina,7,30.0,Piernas
+26/03/25,Abductores,Maquina,5,30.0,Piernas
+26/03/25,Abductores,Maquina,6,25.0,Piernas
+26/03/25,Maquinas,Izquiotibiales,6,25.0,Piernas
+26/03/25,Maquinas,Izquiotibiales,4,25.0,Piernas
+26/03/25,Maquinas,Izquiotibiales,6,20.0,Piernas
+26/03/25,Maquinas,Cuadriceps,10,60.0,Piernas
+26/03/25,Maquinas,Cuadriceps,8,60.0,Piernas
+26/03/25,Maquinas,Cuadriceps,7,60.0,Piernas
+26/03/25,Maquinas,Prensa,8,80.0,Piernas
+26/03/25,Maquinas,Prensa,6,80.0,Piernas
+26/03/25,Maquinas,Prensa,4,80.0,Piernas
+26/03/25,Sentadilla,Barra,8,25.0,Piernas
+26/03/25,Sentadilla,Barra,6,25.0,Piernas
+26/03/25,Sentadilla,Barra,4,25.0,Piernas
+25/03/25,Posteriores,Maquina,8,45.0,Hombros
+25/03/25,Posteriores,Maquina,6,45.0,Hombros
+25/03/25,Posteriores,Maquina,4,45.0,Hombros
+25/03/25,Vuelos,Lateral en polea,6,15.0,Hombros
+25/03/25,Vuelos,Lateral en polea,4,15.0,Hombros
+25/03/25,Vuelos,Lateral en polea,5,10.0,Hombros
+25/03/25,Press de hombros,Maquina,10,15.0,Hombros
+25/03/25,Press de hombros,Maquina,8,15.0,Hombros
+25/03/25,Press de hombros,Maquina,6,15.0,Hombros
+25/03/25,Triceps en polea,Unilateral,8,25.0,Triceps
+25/03/25,Triceps en polea,Unilateral,6,25.0,Triceps
+25/03/25,Triceps en polea,Unilateral,4,25.0,Triceps
+25/03/25,Fondos de triceps,Estructura,6,0.0,Triceps
+25/03/25,Fondos de triceps,Estructura,4,0.0,Triceps
+25/03/25,Fondos de triceps,Estructura,4,0.0,Triceps
+25/03/25,Triceps con mancuerna,Mancuernas y unilateral,8,10.0,Triceps
+25/03/25,Triceps con mancuerna,Mancuernas y unilateral,6,10.0,Triceps
+25/03/25,Triceps con mancuerna,Mancuernas y unilateral,4,10.0,Triceps
+25/03/25,Press declinado,Maquina,6,30.0,Pecho
+25/03/25,Press declinado,Maquina,4,30.0,Pecho
+25/03/25,Press declinado,Maquina,6,27.5,Pecho
+25/03/25,Press inclinado,Maquina,8,30.0,Pecho
+25/03/25,Press inclinado,Maquina,6,30.0,Pecho
+25/03/25,Press inclinado,Maquina,4,30.0,Pecho
+25/03/25,Press plano,Barra,12,15.0,Pecho
+25/03/25,Press plano,Barra,8,17.5,Pecho
+25/03/25,Press plano,Barra,6,17.5,Pecho
+24/03/25,Remo T,Neutro,10,50.0,Espalda
+24/03/25,Remo T,Neutro,9,50.0,Espalda
+24/03/25,Remo T,Neutro,8,50.0,Espalda
+24/03/25,Remo,Maquina,8,25.0,Espalda
+24/03/25,Remo,Maquina,7,25.0,Espalda
+24/03/25,Remo,Maquina,5,25.0,Espalda
+24/03/25,Dorsalera,Prono abierto,8,70.0,Espalda
+24/03/25,Dorsalera,Prono abierto,6,70.0,Espalda
+24/03/25,Dorsalera,Prono abierto,4,70.0,Espalda
+24/03/25,Biceps en polea,Unilateral,8,25.0,Biceps
+24/03/25,Biceps en polea,Unilateral,6,25.0,Biceps
+24/03/25,Biceps en polea,Unilateral,4,25.0,Biceps
+24/03/25,Biceps con barra,Barra Z,12,7.5,Biceps
+24/03/25,Biceps con barra,Barra Z,11,7.5,Biceps
+24/03/25,Biceps con barra,Barra Z,7,10.0,Biceps
+24/03/25,Curl biceps,Supino,8,15.0,Biceps
+24/03/25,Curl biceps,Supino,6,15.0,Biceps
+24/03/25,Curl biceps,Supino,4,15.0,Biceps

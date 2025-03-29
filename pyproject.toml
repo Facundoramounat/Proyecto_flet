@@ -9,8 +9,7 @@ authors = [
 ]
 dependencies = [
   "flet",
-  "pandas",
-  "pyjnius"
+  "pandas"
 ]
 
 [tool.flet.android.permission] # --android-permissions

@@ -15,7 +15,7 @@ class VP_Registrar(ft.View):
             title=mc.MyTexto("Registrar", 20, "#27C8B2"),
             bgcolor="#23182E",
             actions=[
-                ft.IconButton(icon=ft.Icons.HISTORY, on_click=lambda e: self.page.go("/historial"), icon_color="#27C8B2")
+                ft.IconButton(icon=ft.Icons.HISTORY, on_click=lambda e: self.page.go("/historial"), icon_color="#27C8B2"),
             ]
         )
         self.controls = [
@@ -140,7 +140,7 @@ class VS_Registrar_Opciones(ft.View):
                 expand=True
             )
         ]
-
+        self.scroll = ft.ScrollMode.HIDDEN
     def build(self):
         self.route = self.page.route
         self.navigation_bar = self.page.navigation_bar
