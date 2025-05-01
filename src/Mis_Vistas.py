@@ -16,6 +16,7 @@ class VP_Registrar(ft.View):
             bgcolor="#23182E",
             actions=[
                 ft.IconButton(icon=ft.Icons.HISTORY, on_click=lambda e: self.page.go("/historial"), icon_color="#27C8B2"),
+                ft.IconButton(icon=ft.Icons.ADD, on_click=lambda e: self.page.go("/formulario"), icon_color="#27C8B2"),
             ]
         )
         self.controls = [
@@ -36,7 +37,7 @@ class VP_Registrar(ft.View):
         ]
     
     def did_mount(self):
-        if not mc.csv_con_contenido():
+        if not mc.csv_Datos_con_contenido():
             self.appbar.actions[0].visible = False
             self.appbar.actions[0].update()
 
@@ -60,8 +61,8 @@ class VS_Registrar_Opciones(ft.View):
                             [
                                 ft.Column(
                                     [
-                                        mc.Selector_Principal("Ejercicio"),
-                                        mc.Selector("Variacion"),
+                                        mc.Selector_Ejercicio("Ejercicio"),
+                                        mc.Selector_Variaciones("Variacion"),
                                     ],
                                     horizontal_alignment=ft.CrossAxisAlignment.CENTER,
                                     expand=True
@@ -77,48 +78,48 @@ class VS_Registrar_Opciones(ft.View):
                                             [
                                                 ft.Row(
                                             [
-                                                mc.Input("Reps"),
-                                                mc.Input("Kg"),
+                                                mc.MyInput("Reps"),
+                                                mc.MyInput("Kg"),
                                             ],
                                             visible=False,
                                             alignment= ft.MainAxisAlignment.CENTER
                                         ),
                                                 ft.Row(
                                             [
-                                                mc.Input("Reps"),
-                                                mc.Input("Kg"),
+                                                mc.MyInput("Reps"),
+                                                mc.MyInput("Kg"),
                                             ],
                                             visible=False,
                                             alignment= ft.MainAxisAlignment.CENTER
                                         ),
                                                 ft.Row(
                                             [
-                                                mc.Input("Reps"),
-                                                mc.Input("Kg"),
+                                                mc.MyInput("Reps"),
+                                                mc.MyInput("Kg"),
                                             ],
                                             visible=False,
                                             alignment= ft.MainAxisAlignment.CENTER
                                         ),
                                                 ft.Row(
                                             [
-                                                mc.Input("Reps"),
-                                                mc.Input("Kg"),
+                                                mc.MyInput("Reps"),
+                                                mc.MyInput("Kg"),
                                             ],
                                             visible=False,
                                             alignment= ft.MainAxisAlignment.CENTER
                                         ),
                                                 ft.Row(
                                             [
-                                                mc.Input("Reps"),
-                                                mc.Input("Kg"),
+                                                mc.MyInput("Reps"),
+                                                mc.MyInput("Kg"),
                                             ],
                                             visible=False,
                                             alignment= ft.MainAxisAlignment.CENTER
                                         ),
                                                 ft.Row(
                                             [
-                                                mc.Input("Reps"),
-                                                mc.Input("Kg"),
+                                                mc.MyInput("Reps"),
+                                                mc.MyInput("Kg"),
                                             ],
                                             visible=False,
                                             alignment= ft.MainAxisAlignment.CENTER
@@ -150,7 +151,64 @@ class VS_Registrar_Opciones(ft.View):
 
         rows_colunm.controls[1].controls[0].controls[-1].page = self.page
         rows_colunm.controls[0].controls[0].controls[0].page = self.page
-    
+
+class VP_Formulario_Ejercicio(ft.View):         #Formulario para agregar un ejercicio personalizado
+    def __init__(self):
+        super().__init__()
+        self.route = "/formulario"
+        self.appbar = ft.AppBar(
+            leading_width=30,
+            title=mc.MyTexto("Añadir nuevo ejercicio", 20, "#27C8B2"),
+            bgcolor="#23182E",
+        )
+        self.controls =[
+            ft.SafeArea(
+                expand= True,
+                content= ft.Column(
+                    expand=True,
+                    controls=[
+                        ft.Row(
+                            alignment= ft.MainAxisAlignment.CENTER,
+                            controls=[
+                                ft.Column(
+                                height= 60,
+                                alignment= ft.MainAxisAlignment.CENTER,
+                                controls= [
+                                    mc.MyTexto("Personaliza tu ejercicio", 25, "#F7F5F7")
+                                ]
+                            )
+                            ]
+                        ),
+                        ft.Row(
+                            expand= True,
+                            alignment= ft.MainAxisAlignment.CENTER,
+                            controls= [
+                                ft.Column(
+                                    controls= [
+                                        mc.MyInput("Nombre del ejercicio", text= True, width= 300),
+                                        mc.Selector_Musculo(),
+                                        mc.Tabla_Musculos_Checks(),
+                                        mc.Input_Variacion(),
+                                        ft.Text(
+                                            width= 400,
+                                            text_align= ft.TextAlign.CENTER,
+                                            value= "Aclaraciones:\n1- Si el ejercicio existe, se añadira una variacion\n 2-Los musculos estan divididos en grupos musculares, no se carga el musculo individual",
+                                        ),
+                                        mc.Boton_Guardar_Nuevo_Ejercicio()
+                                    ],
+                                    horizontal_alignment= ft.CrossAxisAlignment.CENTER,
+                                    expand= True,
+                                )
+                            ]
+                        )
+                    ]
+                )
+            )
+        ]
+
+    def build(self):
+        self.navigation_bar = self.page.navigation_bar    
+
 class VP_Historial(ft.View):
     def __init__(self):
         super().__init__()
@@ -226,7 +284,7 @@ class VP_Analizar(ft.View):
         super().__init__()
         self.route = "/analisis/general"
 
-        df = mc.get_Dataframe()
+        df = mc.df_datos
         if df.empty:
             self.controls = [
                 ft.SafeArea(
@@ -300,8 +358,8 @@ class VS_Analizar_Musculos(ft.View):
                     controls= [
                         ft.Row(
                             [
-                                ft.Column([mc.Selector_Principal("Ejercicio", analisis=True)], expand=True),
-                                ft.Column([mc.Selector("Variacion", analisis=True)], expand=True, horizontal_alignment=ft.CrossAxisAlignment.END)
+                                ft.Column([mc.Selector_Ejercicio("Ejercicio", analisis=True)], expand=True),
+                                ft.Column([mc.Selector_Variaciones("Variacion", analisis=True)], expand=True, horizontal_alignment=ft.CrossAxisAlignment.END)
                             ]
                         ),
                         ft.Row(

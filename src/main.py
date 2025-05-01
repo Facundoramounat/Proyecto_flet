@@ -8,15 +8,21 @@ def main(page: ft.Page):
     rutas_registro_registrar = ["/registrar/pecho", "/registrar/espalda", "/registrar/triceps", "/registrar/biceps", "/registrar/piernas", "/registrar/hombros"]
     rutas_registro_analizar = [i.replace("registrar", "analisis") for i in rutas_registro_registrar]
    
-    #Creacion de data.csv
-    if not mc.existe():
-        mc.crear_csv()
+    #Creacion de csvs
+    if not mc.existe_Datos_Csv():
+        mc.crear_Datos_Csv()
     
+    if not mc.existe_ejercicios_perso_Csv():
+        mc.crear_ejercicios_perso_Csv()
+
     def cambio_ruta(e):
         page.views.clear()
         
-        if page.route in ["/registrar", "/historial"] or page.route in rutas_registro_registrar:
+        if page.route in ["/registrar", "/historial", "/formulario"] or page.route in rutas_registro_registrar:
             page.views.append(mv.VP_Registrar())
+
+        if page.route == "/formulario":
+            page.views.append(mv.VP_Formulario_Ejercicio())
 
         if page.route == "/historial":
             page.views.append(mv.VP_Historial())

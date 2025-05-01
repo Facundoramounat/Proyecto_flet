@@ -5,88 +5,61 @@ import pandas as pd
 import datetime as dt
 import calendar
 import os
+from threading import Thread
 
-def get_CSV_path():
-    app_data_path = os.getenv("FLET_APP_STORAGE_DATA")
-    file_path = os.path.join(app_data_path, "datos.csv")
-
-    return file_path
-
-def get_Dataframe():
-    return pd.read_csv(get_CSV_path())
-
-def csv_con_contenido():
-    df = pd.read_csv(get_CSV_path())
-    
-    if df.empty:
-        return False
-        
-    return True
-
-def crear_csv():
-    df = pd.DataFrame()
-    df.to_csv(get_CSV_path())
-
-def existe():
-    return os.path.exists(get_CSV_path())
-
-def get_diccionario() -> dict:
-    ejercicios_Biceps = {
-        "Curl biceps": ["Supino", "Neutro", "Concentrado", "Rotacion"],
-        "Biceps con barra": ["Barra W", "Barra Z", "Barra romana"],
-        "Biceps en polea": ["Unilateral", "Soga"]
-    }
-    ejercicios_Pecho = {
-        "Press plano": ["Barra", "Maquina", "Mancuernas"],
-        "Press inclinado": ["Mancuernas", "Maquina"],
-        "Press declinado": ["Mancuernas", "Maquina"],
-        "Apertura": ["Mancuernas", "Maquina", "Polea"],
-        "Flexiones": ["Rodilla apoyadas", "Tradicionales"],
-        "Pull over": ["Mancuernas"],
-        "Press en polea": ["Polea"]
-    }
-    ejercicios_Triceps = {
-        "Triceps en polea": ["Soga", "Agarre fijo", "Unilateral"],
-        "Fondos de triceps": ["Estructura", "Banco"],
-        "Patada de burro": ["Mancuernas"],
-        "Triceps con mancuerna": ["Mancuernas y unilateral"],
-        "Triceps con disco": ["Disco"],
-        "Triceps trasnuca": ["Polea"]
-    }
-    ejercicios_Espalda = {
-        "Dominadas": ["Supino", "Prono cerrado", "Prono abierto"],
-        "Dorsalera": ["Supino", "Prono cerrado", "Prono abierto", "Neutro", "Neutro abierto"],
-        "Remo T": ["Neutro", "Abierto"],
-        "Remo": ["Maquina", "Mancuernas", "Polea"],
-        "Traccion en anillos": ["Anillos"],
-        "Posteriores": ["Maquina", "Mancuernas", "Polea"],
-        "Pullover": ["Agarre fijo", "Soga"],
-        "Press": ["Polea"]
-    }
-    ejercicios_Hombros = {
-        "Press de hombros": ["Maquina", "Mancuernas", "Mancuernas neutro"],
-        "Vuelos": ["Laterales", "Lateral en polea", "Frontales"],
-        "Remo al menton": ["Barra"],
-        "Press Arnold": ["Mancuernas"],
-        "Posteriores": ["Maquina", "Mancuernas", "Polea"]
-    }
-    ejercicios_Piernas = {
-        "Sentadilla": ["Barra", "Disco", "Mancuernas"],
-        "Sentadilla sumo": ["Mancuerna", "Barra"],
-        "Peso muerto": ["Barra", "Mancuernas"],
-        "Puente": ["Barra", "Disco"],
-        "Estocadas": ["Barra", "Mancuernas"],
-        "Cajon": ["Saltos", "Subidas"],
-        "Maquina Hack": ["Cuadriceps", "Gluteos"],
-        "Maquinas": ["Prensa", "Cuadriceps", "Izquiotibiales", "Gluteos"],
-        "Bulgaras": ["Tradicionales", "Mancuernas"],
-        "Banco de hiperextensiones": ["Banco"],
-        "Patada de gluteos": ["Polea"],
-        "Aductores": ["Maquina", "Polea"],
-        "Abductores": ["Maquina", "Polea"],
-    }
-
-    ejercicios_por_musculo = {
+ejercicios_Biceps = {
+    "Curl biceps": ["Supino", "Neutro", "Concentrado", "Rotacion"],
+    "Biceps con barra": ["Barra W", "Barra Z", "Barra romana"],
+    "Biceps en polea": ["Unilateral", "Soga"]
+}
+ejercicios_Pecho = {
+    "Press plano": ["Barra", "Maquina", "Mancuernas"],
+    "Press inclinado": ["Mancuernas", "Maquina"],
+    "Press declinado": ["Mancuernas", "Maquina"],
+    "Apertura": ["Mancuernas", "Maquina", "Polea"],
+    "Flexiones": ["Rodilla apoyadas", "Tradicionales"],
+    "Pull over": ["Mancuernas"],
+    "Press en polea": ["Polea"]
+}
+ejercicios_Triceps = {
+    "Triceps en polea": ["Soga", "Agarre fijo", "Unilateral"],
+    "Fondos de triceps": ["Estructura", "Banco"],
+    "Patada de burro": ["Mancuernas"],
+    "Triceps trasnuca": ["Polea", "Disco", "Mancuernas", "Barra", "Mancuernas y unilateral"]
+}
+ejercicios_Espalda = {
+    "Dominadas": ["Supino", "Prono cerrado", "Prono abierto"],
+    "Dorsalera": ["Supino", "Prono cerrado", "Prono abierto", "Neutro", "Neutro abierto"],
+    "Remo T": ["Neutro", "Abierto"],
+    "Remo": ["Maquina", "Mancuernas", "Polea"],
+    "Traccion en anillos": ["Anillos"],
+    "Posteriores": ["Maquina", "Mancuernas", "Polea"],
+    "Pullover": ["Agarre fijo", "Soga"],
+    "Press": ["Polea"]
+}
+ejercicios_Hombros = {
+    "Press de hombros": ["Maquina", "Mancuernas", "Mancuernas neutro"],
+    "Vuelos": ["Laterales", "Lateral en polea", "Frontales"],
+    "Remo al menton": ["Barra"],
+    "Press Arnold": ["Mancuernas"],
+    "Posteriores": ["Maquina", "Mancuernas", "Polea"]
+}
+ejercicios_Piernas = {
+    "Sentadilla": ["Barra", "Disco", "Mancuernas"],
+    "Sentadilla sumo": ["Mancuerna", "Barra"],
+    "Peso muerto": ["Barra", "Mancuernas"],
+    "Puente": ["Barra", "Disco"],
+    "Estocadas": ["Barra", "Mancuernas"],
+    "Cajon": ["Saltos", "Subidas"],
+    "Maquina Hack": ["Cuadriceps", "Gluteos"],
+    "Maquinas": ["Prensa", "Cuadriceps", "Izquiotibiales", "Gluteos"],
+    "Bulgaras": ["Tradicionales", "Mancuernas"],
+    "Banco de hiperextensiones": ["Banco"],
+    "Patada de gluteos": ["Polea"],
+    "Aductores": ["Maquina", "Polea"],
+    "Abductores": ["Maquina", "Polea"],
+}
+ejercicios_por_musculo = {
         "Biceps": ejercicios_Biceps,
         "Pecho": ejercicios_Pecho,
         "Triceps": ejercicios_Triceps,
@@ -94,6 +67,111 @@ def get_diccionario() -> dict:
         "Hombros": ejercicios_Hombros,
         "Piernas": ejercicios_Piernas
     }
+
+def get_Datos_CSV_path():
+    app_data_path = os.getenv("FLET_APP_STORAGE_DATA")
+    file_path = os.path.join(app_data_path, "datos.csv")
+
+    return file_path
+
+def get_ejercicios_perso_path():
+    app_data_path = os.getenv("FLET_APP_STORAGE_DATA")
+    file_path = os.path.join(app_data_path, "ejercicios_personalizados.csv")
+
+    return file_path
+
+def cargar_csvs():
+    def cargar_datos():
+        global df_datos, df_Ejer_Perso
+        df_datos = pd.read_csv(get_Datos_CSV_path())
+        df_Ejer_Perso = pd.read_csv(get_ejercicios_perso_path())
+    
+    thread = Thread(target=cargar_datos)
+    thread.start()
+
+df_datos = None
+df_Ejer_Perso = None
+cargar_csvs()
+
+def set_df_datos(df: pd.DataFrame, reemplazar: bool = False):
+    global df_datos
+    file_path = get_Datos_CSV_path()
+
+    if reemplazar:
+        df_datos = df
+        df_datos.to_csv(file_path, index=False)
+        return
+    
+    df_datos = pd.concat([df, df_datos], ignore_index=True)
+    df_datos.to_csv(file_path, index=False)
+    return
+
+def set_df_ejercicios_perso(df: pd.DataFrame, reemplazar: bool = False):
+    global df_Ejer_Perso
+    file_path = get_ejercicios_perso_path()
+
+    if reemplazar:
+        df_Ejer_Perso = df
+        df_Ejer_Perso.to_csv(file_path, index=False)
+        return
+    
+    df_Ejer_Perso = pd.concat([df, df_Ejer_Perso], ignore_index=True)
+    df_Ejer_Perso.to_csv(file_path, index=False)
+    return
+
+def csv_Datos_con_contenido():    
+    if df_datos.empty:
+        return False
+        
+    return True
+
+def csv_ejercicios_perso_con_contenido():
+    if df_Ejer_Perso.empty:
+        return False
+        
+    return True
+
+def crear_Datos_Csv():
+    df = pd.DataFrame()
+    df.to_csv(get_Datos_CSV_path())
+
+def crear_ejercicios_perso_Csv():
+    df = pd.DataFrame()
+    df.to_csv(get_ejercicios_perso_path())
+
+def existe_Datos_Csv():
+    return os.path.exists(get_Datos_CSV_path())
+
+def existe_ejercicios_perso_Csv():
+    return os.path.exists(get_ejercicios_perso_path())
+
+def get_diccionario() -> dict:
+    df: pd.DataFrame = df_Ejer_Perso.copy()
+    
+    if df.empty:
+        return ejercicios_por_musculo
+    
+    grouped = df.groupby('Musculo').agg({'Nombre': list, 'Variacion': list}).reset_index()
+
+    for _, row in grouped.iterrows():
+        musculos = row['Musculo'].split(',')
+        nombre = row['Nombre']
+        variaciones_list = row['Variacion']
+        
+        for musculo in musculos:
+            musculo = musculo.strip()
+            
+            if musculo in ejercicios_por_musculo:
+                for i in range(len(nombre)):
+                    ejercicio_nombre = nombre[i]
+                    variaciones = variaciones_list[i].split(',')
+                    variaciones = [v.strip() for v in variaciones]
+                    
+                    if ejercicio_nombre not in ejercicios_por_musculo[musculo]:
+                        ejercicios_por_musculo[musculo][ejercicio_nombre] = variaciones
+                    else:
+                        ejercicios_por_musculo[musculo][ejercicio_nombre].extend(variaciones)
+    
     return ejercicios_por_musculo
 
 class MyBotonR(ft.Container):
@@ -186,15 +264,11 @@ class Boton_Guardar(ft.Container):
                              "Reps": reps, 
                              "Kg": kg,
                              "Musculo": musculo})
-        file_path = get_CSV_path()
 
-        if not csv_con_contenido():
-            data.to_csv(file_path, index=False)
+        if not csv_Datos_con_contenido():
+            set_df_datos(data, reemplazar=True)
         else:
-            df = get_Dataframe()
-
-            df = pd.concat([data, df], ignore_index=True)
-            df.to_csv(file_path, index=False)
+            set_df_datos(data)
         
         self.page.go(self.page.views[0].route)
 
@@ -227,8 +301,8 @@ class Estilo:
         self.text_align = ft.TextAlign.CENTER
         self.border_radius = 10
 
-class Input(ft.TextField):
-    def __init__(self, label):
+class MyInput(ft.TextField):
+    def __init__(self, label, text: bool = False, width: int = 180):
         super().__init__()
         style = Estilo()
         
@@ -238,15 +312,15 @@ class Input(ft.TextField):
         self.fill_color = style.fill_color
         self.color = style.color
         self.text_align = style.text_align
-        self.keyboard_type = ft.KeyboardType.NUMBER
+        self.keyboard_type = ft.KeyboardType.NUMBER if not text else ft.KeyboardType.TEXT
         self.border_radius = style.border_radius
-        self.width = 180
+        self.width = width
     
     def setear_hint_text(self, text):
         self.hint_text = text      
         self.update()
 
-class Series(Input):
+class Series(MyInput):
     def __init__(self):
         super().__init__("Series")
         self.visible = False
@@ -300,13 +374,13 @@ class Series(Input):
         return data
         
     def get_df_filtered(self):
-        df = get_Dataframe()
+        df = df_datos
 
         if df.empty:
             return
 
-        ejercicio: Selector_Principal = self.parent.parent.parent.controls[0].controls[0].controls[0]
-        variacion: Selector = self.parent.parent.parent.controls[0].controls[0].controls[1]
+        ejercicio: Selector_Ejercicio = self.parent.parent.parent.controls[0].controls[0].controls[0]
+        variacion: Selector_Variaciones = self.parent.parent.parent.controls[0].controls[0].controls[1]
 
         condiciones = [
             df["Ejercicio"] == ejercicio.value,
@@ -354,9 +428,9 @@ class Series(Input):
             self.setear_hint_text(text=None)
 
         self.modificar_inputs(None)
-    
+
 class Selector(ft.Dropdown):
-    def __init__(self, label, analisis: bool = False):
+    def __init__(self, label):
         super().__init__()
         style = Estilo()
         self.label = label
@@ -365,6 +439,10 @@ class Selector(ft.Dropdown):
         self.fill_color = style.fill_color
         self.color = style.color
         self.border_radius = style.border_radius
+
+class Selector_Variaciones(Selector):
+    def __init__(self, label, analisis: bool = False):
+        super().__init__(label)
         self.analisis = analisis
 
         if analisis:
@@ -382,17 +460,19 @@ class Selector(ft.Dropdown):
         lista_fechas : Fechas_analisis_especifico = self.parent.parent.parent.controls[1].controls[0]
         lista_fechas.set_datos()
 
-class Selector_Principal(Selector):
+class Selector_Ejercicio(Selector):
     def __init__(self, label, analisis: bool = False):
-        super().__init__(label, analisis)
+        super().__init__(label)
         self.on_change = self.cambiar_variaciones
         self.analisis = analisis
     
     def build(self):
         if self.analisis:
             musculo = self.page.route[10:].capitalize()
+            self.width = 180
         else:
             musculo = self.page.route[11:].capitalize()
+            self.width = 350
         
         self.ejercicios = get_diccionario()[musculo]
         self.options = [ft.dropdown.Option(i) for i in self.ejercicios.keys()]
@@ -401,9 +481,9 @@ class Selector_Principal(Selector):
         padre: ft.Column = self.parent
         
         if self.analisis:
-            variaciones_selector: Selector = padre.parent.controls[1].controls[0]
+            variaciones_selector: Selector_Variaciones = padre.parent.controls[1].controls[0]
         else:
-            variaciones_selector: Selector = padre.controls[1]   #Controles de la columna
+            variaciones_selector: Selector_Variaciones = padre.controls[1]   #Controles de la columna
         
         lista_variaciones = self.ejercicios[e.control.value]
         variaciones_selector.options = [ft.dropdown.Option(i) for i in lista_variaciones]
@@ -413,14 +493,14 @@ class Selector_Principal(Selector):
         variaciones_selector.update()
 
         if self.analisis:
-            self.cambiar_datos_grafico(None)
+            self.parent.parent.controls[1].controls[0].cambiar_datos_grafico(None)
         else:
             variaciones_selector.agregar_series(e=None)
 
 class MyDataTable(ft.DataTable):
     def __init__(self):
         super().__init__(columns=[ft.DataColumn(ft.Text(""))])
-        self.filtrar_tabla(get_Dataframe())
+        self.filtrar_tabla(df_datos[:50])
 
         self.bgcolor = "#23182E"
         self.heading_row_color = "#27C8B2"
@@ -453,12 +533,8 @@ class MyDataTable(ft.DataTable):
 
         #Filas
         self.original_Rows = []
-        repeticiones = file.shape[0]
-        
-        if repeticiones > 50:
-            repeticiones = 50
 
-        for i in range(repeticiones):
+        for i in range(file.shape[0]):
             celdas = []
 
             for a in file.iloc[i].tolist():
@@ -481,7 +557,7 @@ class Selector_Filtro(Selector):
     def __init__(self, label):
         super().__init__(label)
         self.width = 180
-        self.file = get_Dataframe()
+        self.file = df_datos
         self.enable_filter = True
 
         self.dic = get_diccionario()
@@ -503,8 +579,11 @@ class Selector_Filtro(Selector):
         condiciones = self.get_condiciones()
         df_filtered = self.file.copy()
 
-        for i in condiciones:
-            df_filtered = df_filtered[i]
+        all_conditions = pd.Series([True] * len(df_filtered))  # Initialize with all True
+        for key, value in condiciones.items():
+            all_conditions = all_conditions & (df_filtered[key] == value)
+
+        df_filtered = df_filtered[all_conditions]
 
         tabla.filtrar_tabla(df_filtered)
         tabla.update()
@@ -650,7 +729,7 @@ class Lista_Fechas(ft.Row):
     def __init__(self):
         super().__init__()
         self.scroll = ft.ScrollMode.HIDDEN
-        self.data: pd.DataFrame = get_Dataframe()
+        self.data: pd.DataFrame = df_datos
         self.spacing = 20
         self.height = 30
         self.width = 172
@@ -823,7 +902,7 @@ class Selector_Categoria(Selector_Tipo_Dato):
 
     def set_data(self, e):
         value = self.value
-        self.df = get_Dataframe()
+        self.df = df_datos
 
         if value == "Entrenamientos":
             data = self.get_data_Entrenamientos()
@@ -953,7 +1032,7 @@ class Opciones(ft.PopupMenuButton):
         self.cambiar_color()
         
     def get_musculos(self) -> list:
-        df = get_Dataframe()
+        df = df_datos
         return df["Musculo"].unique().tolist()
     
     def get_text(self, text):
@@ -1077,7 +1156,7 @@ class Fechas_analisis_especifico(Lista_Fechas):
 
     def get_df_Filtered(self):
         ejercicio, variacion = self.get_ejercicio()
-        df = get_Dataframe()
+        df = df_datos
 
         condicion_1 = df["Ejercicio"] == ejercicio
         condicion_2 = df["Variacion"] == variacion
@@ -1396,6 +1475,7 @@ class Informacion_Detallada(ft.Column):
         self.visible = visible
         self.update()
 
+#Boton de prueba
 class Setear_datos(ft.IconButton):
     def __init__(self):
         super().__init__()
@@ -1404,4 +1484,105 @@ class Setear_datos(ft.IconButton):
 
     def agregar(self, e):
         df = pd.read_csv(r"src\assets\test.csv")
-        df.to_csv(get_CSV_path(), index=False)
+        df.to_csv(get_Datos_CSV_path(), index=False)
+#Fin de Boton de prueba
+
+class Selector_Musculo(Selector):
+    def __init__(self):
+        super().__init__("Musculo")
+        self.width = 300
+        musculos = ["Biceps", "Pecho", "Triceps", "Espalda", "Hombros", "Piernas", "Mas de uno"]
+        self.options = [ft.dropdown.Option(i) for i in musculos]
+        self.on_change = self.modificar_visibilidad
+    
+    def did_mount(self):
+        self.campo_musculos: Tabla_Musculos_Checks = self.parent.controls[2]
+    
+    def modificar_visibilidad(self, e):
+        if self.value == "Mas de uno":
+            self.campo_musculos.set_visible(True)
+        else:
+            self.campo_musculos.set_visible(False)
+
+class Tabla_Musculos_Checks(ft.DataTable):
+    def __init__(self):
+        super().__init__([])
+        musculos = ["Biceps", "Pecho", "Triceps", "Espalda", "Hombros", "Piernas"]
+        self.visible = False
+        self.columns = [ft.DataColumn(ft.Text(i)) for i in musculos]
+        self.rows = [
+            ft.DataRow(
+                cells=[ft.DataCell(ft.Checkbox(data= i)) for i in musculos]
+            )
+        ]
+        self.column_spacing = 11
+        self.vertical_lines = ft.BorderSide(1, "#27C8B2")
+        self.horizontal_lines = ft.BorderSide(1, "#27C8B2")
+
+    def set_visible(self, visible: bool):
+        self.visible = visible
+        self.update()
+
+class Input_Variacion(MyInput):
+    def __init__(self):
+        super().__init__("Variaciones o elementos", True, 300)
+        self.helper_text = "Separar los elementos por comas (,)"
+
+class Boton_Guardar_Nuevo_Ejercicio(Boton_Guardar):
+    def __init__(self):
+        super().__init__("Guardar")
+        self.visible = True
+        self.on_animation_end = self.guardar_ejercicio
+
+    def todo_completo(self):
+        for i in self.parent.controls:
+            if i == self or i.visible == False:
+                continue
+            if type(i) == Tabla_Musculos_Checks:
+                alguno_completado = False
+                for a in i.rows[0].cells:
+                    if a.content.value == True:
+                        alguno_completado = True
+                        break
+
+                if alguno_completado:
+                    continue
+                else:
+                    return False
+            
+            if i.value == None or not i.value.strip():
+                return False
+            
+        return True
+
+    def extraer_datos(self):
+        datos = {
+            "Nombre": self.parent.controls[0].value,
+            "Variacion": self.parent.controls[3].value,
+            "Musculo": []
+        }
+        musculo = self.parent.controls[1].value
+
+        if musculo == "Mas de uno":
+            txt = ""
+            for i in self.parent.controls[2].rows[0].cells:
+                if i.content.value == True:
+                    txt += i.content.data + ", "
+            datos["Musculo"] = txt[:-2]
+        else:
+            datos["Musculo"] = musculo
+        
+        return pd.DataFrame(datos, index=[0])
+
+    def guardar_ejercicio(self, e):
+        if not self.todo_completo():
+            return None
+        
+        datos: pd.DataFrame = self.extraer_datos()
+        
+        if csv_ejercicios_perso_con_contenido():
+            set_df_ejercicios_perso(datos)
+        else:
+            set_df_ejercicios_perso(datos, True)
+        
+        self.page.go("/registrar")
