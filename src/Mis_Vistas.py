@@ -142,6 +142,7 @@ class VS_Registrar_Opciones(ft.View):
             )
         ]
         self.scroll = ft.ScrollMode.HIDDEN
+
     def build(self):
         self.route = self.page.route
         self.navigation_bar = self.page.navigation_bar
@@ -185,16 +186,20 @@ class VP_Formulario_Ejercicio(ft.View):         #Formulario para agregar un ejer
                             controls= [
                                 ft.Column(
                                     controls= [
-                                        mc.MyInput("Nombre del ejercicio", text= True, width= 300),
+                                        mc.MyInput("Nombre del ejercicio", text= True, width= 350),
+                                        ft.Column(height= 5),          #Espacio en blanco
                                         mc.Selector_Musculo(),
-                                        mc.Tabla_Musculos_Checks(),
+                                        ft.Row([mc.Tabla_Musculos_Checks()]),
+                                        ft.Column(height= 5),          #Espacio en blanco
                                         mc.Input_Variacion(),
+                                        ft.Column(height= 5),          #Espacio en blanco
+                                        mc.Boton_Guardar_Nuevo_Ejercicio(),
+                                        ft.Column(height= 8),          #Espacio en blanco
                                         ft.Text(
                                             width= 400,
                                             text_align= ft.TextAlign.CENTER,
                                             value= "Aclaraciones:\n1- Si el ejercicio existe, se añadira una variacion\n 2-Los musculos estan divididos en grupos musculares, no se carga el musculo individual",
-                                        ),
-                                        mc.Boton_Guardar_Nuevo_Ejercicio()
+                                        )
                                     ],
                                     horizontal_alignment= ft.CrossAxisAlignment.CENTER,
                                     expand= True,

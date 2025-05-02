@@ -15,6 +15,9 @@ def main(page: ft.Page):
     if not mc.existe_ejercicios_perso_Csv():
         mc.crear_ejercicios_perso_Csv()
 
+    #Cargar los datos
+    mc.cargar_csvs()
+
     def cambio_ruta(e):
         page.views.clear()
         

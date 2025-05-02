@@ -86,12 +86,11 @@ def cargar_csvs():
         df_datos = pd.read_csv(get_Datos_CSV_path())
         df_Ejer_Perso = pd.read_csv(get_ejercicios_perso_path())
     
-    thread = Thread(target=cargar_datos)
+    thread = Thread(target=cargar_datos())
     thread.start()
 
 df_datos = None
 df_Ejer_Perso = None
-cargar_csvs()
 
 def set_df_datos(df: pd.DataFrame, reemplazar: bool = False):
     global df_datos
@@ -163,10 +162,10 @@ def get_diccionario() -> dict:
             
             for i in range(len(nombre)):
                 ejercicio_nombre = nombre[i]
-                variaciones = variaciones_list[i].split(',')
-                variaciones = [v.strip() for v in variaciones]
+                variaciones: list = variaciones_list[i].split(',')
+                variaciones = [v.strip().capitalize() for v in variaciones]
                 
-                keys = ejercicios_por_musculo[musculo].keys()
+                keys = list(ejercicios_por_musculo[musculo].keys())
                 lowers = [b.lower() for b in keys]
                 
                 if ejercicio_nombre.lower() in lowers:
@@ -174,9 +173,11 @@ def get_diccionario() -> dict:
                     ejercicio_nombre = keys[ind]
 
                 if ejercicio_nombre not in ejercicios_por_musculo[musculo]:
-                    ejercicios_por_musculo[musculo][ejercicio_nombre] = variaciones
+                    ejercicios_por_musculo[musculo][ejercicio_nombre.capitalize()] = variaciones
                 else:
-                    ejercicios_por_musculo[musculo][ejercicio_nombre].extend(variaciones)
+                    variaciones_originales = ejercicios_por_musculo[musculo][ejercicio_nombre]
+                    nuevas_variaciones = list(filter(lambda x: x not in variaciones_originales, variaciones))
+                    variaciones_originales.extend(nuevas_variaciones)
     
     return ejercicios_por_musculo
 
@@ -1496,13 +1497,13 @@ class Setear_datos(ft.IconButton):
 class Selector_Musculo(Selector):
     def __init__(self):
         super().__init__("Musculo")
-        self.width = 300
+        self.width = 350
         musculos = ["Biceps", "Pecho", "Triceps", "Espalda", "Hombros", "Piernas", "Mas de uno"]
         self.options = [ft.dropdown.Option(i) for i in musculos]
         self.on_change = self.modificar_visibilidad
     
     def did_mount(self):
-        self.campo_musculos: Tabla_Musculos_Checks = self.parent.controls[2]
+        self.campo_musculos: Tabla_Musculos_Checks = self.parent.controls[3].controls[0]
     
     def modificar_visibilidad(self, e):
         if self.value == "Mas de uno":
@@ -1521,7 +1522,9 @@ class Tabla_Musculos_Checks(ft.DataTable):
                 cells=[ft.DataCell(ft.Checkbox(data= i)) for i in musculos]
             )
         ]
-        self.column_spacing = 11
+        self.column_spacing = 13
+        self.horizontal_margin = 5
+        self.expand = True
         self.vertical_lines = ft.BorderSide(1, "#27C8B2")
         self.horizontal_lines = ft.BorderSide(1, "#27C8B2")
 
@@ -1531,7 +1534,7 @@ class Tabla_Musculos_Checks(ft.DataTable):
 
 class Input_Variacion(MyInput):
     def __init__(self):
-        super().__init__("Variaciones o elementos", True, 300)
+        super().__init__("Variaciones o elementos", True, 350)
         self.helper_text = "Separar los elementos por comas (,)"
 
 class Boton_Guardar_Nuevo_Ejercicio(Boton_Guardar):
@@ -1542,9 +1545,13 @@ class Boton_Guardar_Nuevo_Ejercicio(Boton_Guardar):
 
     def todo_completo(self):
         for i in self.parent.controls:
-            if i == self or i.visible == False:
+            if i == self:
+                return True
+            
+            if type(i) == ft.Column:
                 continue
-            if type(i) == Tabla_Musculos_Checks:
+
+            if type(i) == Tabla_Musculos_Checks and i.visible == True:
                 alguno_completado = False
                 for a in i.rows[0].cells:
                     if a.content.value == True:
@@ -1558,20 +1565,18 @@ class Boton_Guardar_Nuevo_Ejercicio(Boton_Guardar):
             
             if i.value == None or not i.value.strip():
                 return False
-            
-        return True
 
     def extraer_datos(self):
         datos = {
             "Nombre": self.parent.controls[0].value,
-            "Variacion": self.parent.controls[3].value,
+            "Variacion": self.parent.controls[5].value,
             "Musculo": []
         }
-        musculo = self.parent.controls[1].value
+        musculo = self.parent.controls[2].value
 
         if musculo == "Mas de uno":
             txt = ""
-            for i in self.parent.controls[2].rows[0].cells:
+            for i in self.parent.controls[3].rows[0].cells:
                 if i.content.value == True:
                     txt += i.content.data + ", "
             datos["Musculo"] = txt[:-2]
