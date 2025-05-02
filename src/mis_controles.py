@@ -161,16 +161,22 @@ def get_diccionario() -> dict:
         for musculo in musculos:
             musculo = musculo.strip()
             
-            if musculo in ejercicios_por_musculo:
-                for i in range(len(nombre)):
-                    ejercicio_nombre = nombre[i]
-                    variaciones = variaciones_list[i].split(',')
-                    variaciones = [v.strip() for v in variaciones]
-                    
-                    if ejercicio_nombre not in ejercicios_por_musculo[musculo]:
-                        ejercicios_por_musculo[musculo][ejercicio_nombre] = variaciones
-                    else:
-                        ejercicios_por_musculo[musculo][ejercicio_nombre].extend(variaciones)
+            for i in range(len(nombre)):
+                ejercicio_nombre = nombre[i]
+                variaciones = variaciones_list[i].split(',')
+                variaciones = [v.strip() for v in variaciones]
+                
+                keys = ejercicios_por_musculo[musculo].keys()
+                lowers = [b.lower() for b in keys]
+                
+                if ejercicio_nombre.lower() in lowers:
+                    ind = lowers.index(ejercicio_nombre.lower())
+                    ejercicio_nombre = keys[ind]
+
+                if ejercicio_nombre not in ejercicios_por_musculo[musculo]:
+                    ejercicios_por_musculo[musculo][ejercicio_nombre] = variaciones
+                else:
+                    ejercicios_por_musculo[musculo][ejercicio_nombre].extend(variaciones)
     
     return ejercicios_por_musculo
 
