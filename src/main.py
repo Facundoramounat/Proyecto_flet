@@ -1,4 +1,5 @@
 import flet as ft
+import flet_audio as fa
 import Mis_Vistas as mv
 import mis_controles as mc
 
@@ -63,17 +64,8 @@ def main(page: ft.Page):
         ]
     )
     
-    #Audios
-    notificationSound = ft.Audio(
-        src=r"\assets\Notificador.mp3",
-        autoplay= False,
-        volume= 1,
-        balance= 0
-    )
-
     #Configuracion de la pagina
     page.navigation_bar = navigationBar
-    page.overlay.append(notificationSound)
     page.on_view_pop = view_pop
     page.fonts= {
         "Montserrat": "Montserrat-Medium.ttf"
@@ -83,5 +75,4 @@ def main(page: ft.Page):
     page.on_route_change = cambio_ruta
     page.go("/registrar")
 
-
-ft.app(main, name="Contador", assets_dir="assets")
+ft.app(main, name="Contador")

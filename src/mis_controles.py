@@ -5,6 +5,7 @@ import pandas as pd
 import datetime as dt
 import calendar
 import os
+from kivy.core.audio import SoundLoader, Sound
 
 ejercicios_Biceps = {
     "Curl biceps": ["Supino", "Neutro", "Concentrado", "Rotacion"],
@@ -1592,7 +1593,7 @@ class Contador(ft.Text):
         self.seg = segundos
 
     def did_mount(self):
-        self.audio: ft.Audio = self.page.overlay[0]
+        self.audio: Sound = SoundLoader.load("assets/sounds/audio.mp3")
         self.page.run_task(self.set_time)
 
     async def set_time(self):
@@ -1602,12 +1603,7 @@ class Contador(ft.Text):
             self.update()
             await asyncio.sleep(1)
             self.seg -= 1
-        
-        #espera = self.audio.get_duration()
+    
         for i in range(3):
-            print("Antes de sonar")
             self.audio.play()
-            self.audio.update()
-            print("Sonando")
-            await asyncio.sleep(1)
-            
+            await asyncio.sleep(1)    
