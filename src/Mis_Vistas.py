@@ -1,6 +1,7 @@
 import flet as ft
 import mis_controles as mc
 
+
 # VP = Vista principal
 # VS = Vista secundaria
 # VT = Vista terciaria
@@ -275,7 +276,8 @@ class VP_Entrenar(ft.View):
                 content=ft.Column(
                     expand=True,
                     controls=[
-                        ft.Column([ft.Text("")], height=30),  # Espacio en blanco
+                        ft.Column([ft.Text("")], height=30),
+                        mc.Contador(2)
                     ],
                 ),
             )

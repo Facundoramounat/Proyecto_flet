@@ -16,7 +16,7 @@ def main(page: ft.Page):
         mc.crear_ejercicios_perso_Csv()
 
     #Cargar los datos
-    mc.cargar_csvs()
+    page.run_task(mc.cargar_csvs)
 
     def cambio_ruta(e):
         page.views.clear()
@@ -63,8 +63,17 @@ def main(page: ft.Page):
         ]
     )
     
+    #Audios
+    notificationSound = ft.Audio(
+        src=r"\assets\Notificador.mp3",
+        autoplay= False,
+        volume= 1,
+        balance= 0
+    )
+
     #Configuracion de la pagina
     page.navigation_bar = navigationBar
+    page.overlay.append(notificationSound)
     page.on_view_pop = view_pop
     page.fonts= {
         "Montserrat": "Montserrat-Medium.ttf"

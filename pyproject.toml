@@ -9,7 +9,8 @@ authors = [
 ]
 dependencies = [
   "flet",
-  "pandas"
+  "pandas",
+  "flet-audio"
 ]
 
 [tool.flet.android.permission] # --android-permissions

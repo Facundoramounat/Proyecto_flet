@@ -5,7 +5,6 @@ import pandas as pd
 import datetime as dt
 import calendar
 import os
-from threading import Thread
 
 ejercicios_Biceps = {
     "Curl biceps": ["Supino", "Neutro", "Concentrado", "Rotacion"],
@@ -80,14 +79,10 @@ def get_ejercicios_perso_path():
 
     return file_path
 
-def cargar_csvs():
-    def cargar_datos():
-        global df_datos, df_Ejer_Perso
-        df_datos = pd.read_csv(get_Datos_CSV_path())
-        df_Ejer_Perso = pd.read_csv(get_ejercicios_perso_path())
-    
-    thread = Thread(target=cargar_datos())
-    thread.start()
+async def cargar_csvs():
+    global df_datos, df_Ejer_Perso
+    df_datos = pd.read_csv(get_Datos_CSV_path())
+    df_Ejer_Perso = pd.read_csv(get_ejercicios_perso_path())
 
 df_datos = None
 df_Ejer_Perso = None
@@ -583,11 +578,12 @@ class Selector_Filtro(Selector):
     
     def setear_tabla(self, e):
         tabla: MyDataTable = self.parent.parent.parent.parent.controls[1].controls[0].controls[0]
-        condiciones = self.get_condiciones()
+        filtros = self.get_filtros()
         df_filtered = self.file.copy()
 
         all_conditions = pd.Series([True] * len(df_filtered))  # Initialize with all True
-        for key, value in condiciones.items():
+        
+        for key, value in filtros.items():
             all_conditions = all_conditions & (df_filtered[key] == value)
 
         df_filtered = df_filtered[all_conditions]
@@ -607,17 +603,6 @@ class Selector_Filtro(Selector):
             
             i.options = options
             i.update()
-            
-    def get_condiciones(self):
-        df = self.file
-        filtros = self.get_filtros()
-        condiciones = []
-        
-        for i in filtros.keys():
-            condicion = df[i] == filtros[i]
-            condiciones.append(condicion)
-        
-        return condiciones
 
     def get_filtros(self):
         controles_columna_padre = self.parent.parent.controls
@@ -1597,3 +1582,32 @@ class Boton_Guardar_Nuevo_Ejercicio(Boton_Guardar):
             set_df_ejercicios_perso(datos, True)
         
         self.page.go("/registrar")
+
+class Contador(ft.Text):
+    def __init__(self, segundos):
+        super().__init__()
+        self.size = 20
+        self.color = "#27C8B2"
+        self.weight = "Bold"
+        self.seg = segundos
+
+    def did_mount(self):
+        self.audio: ft.Audio = self.page.overlay[0]
+        self.page.run_task(self.set_time)
+
+    async def set_time(self):
+        while self.seg >= 0:
+            min, seg = divmod(self.seg, 60)
+            self.value = "{:02d}:{:02d}".format(min, seg)
+            self.update()
+            await asyncio.sleep(1)
+            self.seg -= 1
+        
+        #espera = self.audio.get_duration()
+        for i in range(3):
+            print("Antes de sonar")
+            self.audio.play()
+            self.audio.update()
+            print("Sonando")
+            await asyncio.sleep(1)
+            
